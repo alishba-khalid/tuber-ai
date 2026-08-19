@@ -23,20 +23,20 @@ body {
 }
 
 /* ─── Animated Aurora Background (Cyber-Teal Refined) ───
-   A very slow, deep color-shifting gradient between dark teal,
-   emerald slate, and subtle oceanic hues. No generic dark purple. */
+   A slow, deep color-shifting gradient cycling between deep cyber-teal,
+   dark emerald-slate, and deep space-navy. */
 body {
   background: linear-gradient(
     -45deg,
-    #061216,
-    #0B1E24,
-    #05181C,
-    #061216,
-    #0E2A30,
-    #05151A
+    #030C0E,
+    #09262C,
+    #081226,
+    #03181D,
+    #0F2D30,
+    #041215
   );
   background-size: 400% 400%;
-  animation: aurora-shift 22s ease infinite;
+  animation: aurora-shift 20s ease infinite;
 }
 
 @keyframes aurora-shift {
