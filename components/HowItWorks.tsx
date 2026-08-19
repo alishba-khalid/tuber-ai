@@ -7,9 +7,9 @@ const stages = [
     desc: 'You give TuberAI a topic and a target runtime. It writes a chaptered narration script paced to actually fill that length — ten minutes or ten hours — in the tone you choose.',
     icon: FileText,
     colorStyle: {
-      cardBg: 'bg-[#17181F]',
-      border: 'border-[#2A2C35] hover:border-blue-500',
-      headerText: 'text-[#F3F4F6] group-hover:text-blue-400',
+      cardBg: 'bg-[#1E1D1A]',
+      border: 'border-[#2D2A26] hover:border-blue-500',
+      headerText: 'text-[#F9F9F8] group-hover:text-blue-400',
       iconBg: 'bg-blue-500/10',
       iconBorder: 'border-blue-500/20',
       iconColor: 'text-blue-400',
@@ -24,15 +24,15 @@ const stages = [
     desc: 'The script is narrated in a natural preset voice or your own cloned voice. The delivery stays consistent across the whole runtime — no drift between the first chapter and the last.',
     icon: Mic,
     colorStyle: {
-      cardBg: 'bg-[#17181F]',
-      border: 'border-[#2A2C35] hover:border-emerald-500',
-      headerText: 'text-[#F3F4F6] group-hover:text-emerald-400',
+      cardBg: 'bg-[#1E1D1A]',
+      border: 'border-[#2D2A26] hover:border-emerald-500',
+      headerText: 'text-[#F9F9F8] group-hover:text-[#141311]merald-400',
       iconBg: 'bg-emerald-500/10',
       iconBorder: 'border-emerald-500/20',
-      iconColor: 'text-emerald-400',
+      iconColor: 'text-[#141311]merald-400',
       badgeBg: 'bg-emerald-500/10',
       badgeBorder: 'border-emerald-500/20',
-      badgeText: 'text-emerald-400',
+      badgeText: 'text-[#141311]merald-400',
     }
   },
   {
@@ -41,9 +41,9 @@ const stages = [
     desc: 'TuberAI generates scene visuals that match the narration, in the style and aspect ratio you need — widescreen for YouTube, vertical for Shorts.',
     icon: Image,
     colorStyle: {
-      cardBg: 'bg-[#17181F]',
-      border: 'border-[#2A2C35] hover:border-amber-500',
-      headerText: 'text-[#F3F4F6] group-hover:text-amber-400',
+      cardBg: 'bg-[#1E1D1A]',
+      border: 'border-[#2D2A26] hover:border-amber-500',
+      headerText: 'text-[#F9F9F8] group-hover:text-amber-400',
       iconBg: 'bg-amber-500/10',
       iconBorder: 'border-amber-500/20',
       iconColor: 'text-amber-400',
@@ -58,9 +58,9 @@ const stages = [
     desc: 'Audio and visuals are assembled and encoded into a single finished file, checked all the way to the final second so there are no black frames or silent gaps at the tail.',
     icon: Film,
     colorStyle: {
-      cardBg: 'bg-[#17181F]',
-      border: 'border-[#2A2C35] hover:border-purple-500',
-      headerText: 'text-[#F3F4F6] group-hover:text-purple-400',
+      cardBg: 'bg-[#1E1D1A]',
+      border: 'border-[#2D2A26] hover:border-purple-500',
+      headerText: 'text-[#F9F9F8] group-hover:text-purple-400',
       iconBg: 'bg-purple-500/10',
       iconBorder: 'border-purple-500/20',
       iconColor: 'text-purple-400',
@@ -75,9 +75,9 @@ const stages = [
     desc: 'Download the finished video with a ready-to-paste title, description, chapter timestamps, tags, and a thumbnail — then upload on your terms.',
     icon: Upload,
     colorStyle: {
-      cardBg: 'bg-[#17181F]',
-      border: 'border-[#2A2C35] hover:border-teal-500',
-      headerText: 'text-[#F3F4F6] group-hover:text-teal-400',
+      cardBg: 'bg-[#1E1D1A]',
+      border: 'border-[#2D2A26] hover:border-teal-500',
+      headerText: 'text-[#F9F9F8] group-hover:text-teal-400',
       iconBg: 'bg-teal-500/10',
       iconBorder: 'border-teal-500/20',
       iconColor: 'text-teal-400',
@@ -90,7 +90,7 @@ const stages = [
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-20 bg-transparent border-t border-[#2A2C35]">
+    <section id="how-it-works" className="py-20 bg-transparent border-t border-[#2D2A26]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -98,13 +98,13 @@ export default function HowItWorks() {
           <div className="badge-indigo mb-4">
             <span>THE ENGINE</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif-heading text-[#F3F4F6] mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif-heading text-[#F9F9F8] mb-4">
             How it works
           </h2>
-          <p className="text-lg font-semibold text-[#F3F4F6] mb-2">
+          <p className="text-lg font-semibold text-[#F9F9F8] mb-2">
             One topic in. A finished video out.
           </p>
-          <p className="text-sm sm:text-base text-[#9CA3AF]">
+          <p className="text-sm sm:text-base text-[#A19E95]">
             Five stages run as a single automated job. You bring the idea — TuberAI handles the script, the voice, the visuals, and the render.
           </p>
         </div>
@@ -134,7 +134,7 @@ export default function HowItWorks() {
                       AUTOMATED
                     </span>
                   </div>
-                  <p className="text-sm sm:text-base text-[#9CA3AF] leading-relaxed">
+                  <p className="text-sm sm:text-base text-[#A19E95] leading-relaxed">
                     {stage.desc}
                   </p>
                 </div>
