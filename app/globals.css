@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #061216;
-  --bg-surface: #0B1E24;
-  --border-color: #133038;
-  --border-hover: #1C4955;
-  --text-primary: #E2F8FC;
-  --text-secondary: #678B94;
-  --text-muted: #4B656B;
-  --accent-indigo: #9FE8FA; /* Mapping primary action button to Ice-Cyan */
-  --accent-indigo-hover: #6CE0FC;
-  --accent-indigo-light: rgba(159, 232, 250, 0.1);
-  --accent-amber: #FB923C; /* Warm coral/orange accent */
+  --bg-primary: #060F12;      /* Cooler metallic slate-teal background */
+  --bg-surface: #0E1B20;      /* Clearer metallic card surface */
+  --border-color: #172B33;    /* Subtle steel-teal border */
+  --border-hover: #233E4A;    /* Clearer hover border state */
+  --text-primary: #E6F3F7;    /* Ice-white primary text */
+  --text-secondary: #7FA0AB;  /* Muted steel-teal subtitle text */
+  --text-muted: #4E6872;      /* Muted text details */
+  --accent-indigo: #8FE1F4;   /* Pristine Ice-Cyan accent */
+  --accent-indigo-hover: #60D6F1;
+  --accent-indigo-light: rgba(143, 225, 244, 0.08);
+  --accent-amber: #FB923C;    /* Warm copper/amber accent details */
 }
 
 body {
@@ -28,12 +28,12 @@ body {
 body {
   background: linear-gradient(
     -45deg,
-    #030C0E,
-    #09262C,
-    #081226,
-    #03181D,
-    #0F2D30,
-    #041215
+    #030A0C,
+    #091E24,
+    #071526,
+    #05242D,
+    #0E232B,
+    #040D10
   );
   background-size: 400% 400%;
   animation: aurora-shift 20s ease infinite;

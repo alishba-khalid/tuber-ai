@@ -30,7 +30,7 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="py-20 bg-transparent border-t border-[#133038]">
+    <section className="py-20 bg-transparent border-t border-[#172B33]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -38,10 +38,10 @@ export default function FAQ() {
           <div className="badge-indigo mb-4">
             <span>FAQ</span>
           </div>
-          <h2 className="text-3xl sm:text-[#9FE8FA]xl md:text-5xl font-bold font-serif-heading text-[#E2F8FC] mb-4">
+          <h2 className="text-3xl sm:text-[#8FE1F4]xl md:text-5xl font-bold font-serif-heading text-[#E6F3F7] mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="text-[#9FE8FA]ase text-[#678B94]">
+          <p className="text-[#8FE1F4]ase text-[#7FA0AB]">
             Everything you need to know about long-form AI video generation.
           </p>
         </div>
@@ -53,20 +53,20 @@ export default function FAQ() {
             return (
               <div
                 key={faq.q}
-                className="bg-[#0B1E24] border border-[#133038] rounded-2xl overflow-hidden shadow-2xs transition-all"
+                className="bg-[#0E1B20] border border-[#172B33] rounded-2xl overflow-hidden shadow-2xs transition-all"
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : index)}
-                  className="w-full p-6 text-left flex items-center justify-between gap-4 font-bold font-serif-heading text-lg text-[#E2F8FC] hover:text-[#9FE8FA] transition-colors"
+                  className="w-full p-6 text-left flex items-center justify-between gap-4 font-bold font-serif-heading text-lg text-[#E6F3F7] hover:text-[#8FE1F4] transition-colors"
                 >
                   <span>{faq.q}</span>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-transform ${isOpen ? 'bg-[#9FE8FA] text-white rotate-180' : 'bg-[#9FE8FA]/10 text-[#9FE8FA]'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-transform ${isOpen ? 'bg-[#8FE1F4] text-white rotate-180' : 'bg-[#8FE1F4]/10 text-[#8FE1F4]'}`}>
                     <ChevronDown className="w-4 h-4" />
                   </div>
                 </button>
 
                 {isOpen && (
-                  <div className="px-6 pb-6 pt-0 text-sm text-[#678B94] leading-relaxed border-t border-[#061216]">
+                  <div className="px-6 pb-6 pt-0 text-sm text-[#7FA0AB] leading-relaxed border-t border-[#060F12]">
                     {faq.a}
                   </div>
                 )}
