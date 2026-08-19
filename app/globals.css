@@ -28,15 +28,15 @@ body {
 body {
   background: linear-gradient(
     -45deg,
-    #C0D3D9,
-    #D0DFE3,
-    #B4CBD1,
-    #C0D3D9,
-    #A9C2C9,
-    #E1EAEB
+    #A3C6D0,   /* Soft sky-teal */
+    #CDE7DC,   /* Soft sage-green */
+    #E5CBEA,   /* Soft lavender-rose */
+    #B9CFE3,   /* Soft slate-blue */
+    #D5E4E8,   /* Soft grey-teal */
+    #EAF0F2    /* Cool ice-white */
   );
   background-size: 400% 400%;
-  animation: aurora-shift 20s ease infinite;
+  animation: aurora-shift 15s ease infinite; /* Speed up slightly to 15s for better visibility */
 }
 
 @keyframes aurora-shift {
