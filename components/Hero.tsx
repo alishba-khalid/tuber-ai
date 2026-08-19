@@ -41,8 +41,8 @@ export default function Hero() {
             </div>
 
             {/* Main Sans Headline */}
-            <h1 className="text-4xl sm:text-whitexl lg:text-whitexl font-bold font-serif-heading text-[#0A1C20] leading-[1.12] tracking-tight">
-              The ten-hour AI video generator. <span className="text-[#0F6F8A] block mt-1">Published straight to YouTube.</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-serif-heading text-[#0A1C20] leading-[1.12] tracking-normal uppercase">
+              The ten-hour AI video generator. <span className="text-[#0F6F8A] block mt-1 uppercase">Published straight to YouTube.</span>
             </h1>
 
             {/* Subheadline */}

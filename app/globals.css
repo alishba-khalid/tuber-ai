@@ -22,15 +22,15 @@ body {
   line-height: 1.5;
 }
 
-/* ─── Animated Aurora Background (Lighter Mint Cyber-Teal) ───
-   A slow, soft color-shifting gradient cycling between light ice-mint,
-   mint-white, and soft cyan-grey. */
+/* ─── Animated Aurora Background (Lighter Ice-Teal) ───
+   A slow, soft color-shifting gradient cycling between light ice-teal,
+   cool grey-mint, and bright ice-white (no green/mint tints). */
 body {
   background: linear-gradient(
     -45deg,
     #E6F2F5,
     #F0F7F9,
-    #DCEFC0, /* Subtle warm mint tint */
+    #D9E8EB,   /* Replaced the light green tint with a cool ice-blue tint */
     #DCECF0,
     #EAF3F5,
     #D2E5EB
@@ -114,12 +114,12 @@ body > * {
   z-index: 2;
 }
 
-/* ─── Typography (Plus Jakarta Sans Geometric Italic Headings) ─── */
+/* ─── Typography (Times New Roman Italic Headings) ─── */
 .font-serif-heading {
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-family: 'Times New Roman', Times, Georgia, serif;
   font-style: italic;
-  font-weight: 800;
-  letter-spacing: -0.025em;
+  font-weight: 700;
+  letter-spacing: 0.03em;
 }
 
 .font-mono-label {
