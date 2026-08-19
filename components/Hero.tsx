@@ -42,22 +42,21 @@ export default function Hero() {
 
             {/* Main Sans Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-serif-heading text-[#E2F8FC] leading-[1.12] tracking-tight">
-              The <span className="text-[#9FE8FA]">Ten-Hour</span> AI Video Generator.
+              The ten-hour AI video generator. <span className="text-[#9FE8FA] block mt-1">Published straight to YouTube.</span>
             </h1>
 
             {/* Subheadline */}
             <p className="text-sm sm:text-base md:text-lg text-[#678B94] max-w-2xl font-normal leading-relaxed">
-              TuberAI writes, voices, and renders hours of chaptered YouTube content in a single job. No camera, no voice drift — just your topic, automatically packaged to publish.
+              Most AI long video generators cap out at a minute or two — some stretch to 50 minutes. TuberAI doesn't. One topic in, and it writes the script, narrates it in a natural or cloned voice, generates scene-matched visuals, and renders a finished long-form video up to 10 hours — with no per-video cap on how many you make, auto-published straight to YouTube.
             </p>
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2">
               <Link
                 href="/dashboard/create"
-                className="btn-indigo-pill text-sm px-6 py-3.5 flex items-center justify-center gap-2 group"
+                className="btn-indigo-pill text-sm px-6 py-3.5 flex items-center justify-center gap-2 group font-mono-label"
               >
-                Create your first video
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                Get Started &gt;&gt;&gt;
               </Link>
               <Link
                 href="/how-it-works"
