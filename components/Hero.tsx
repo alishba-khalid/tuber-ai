@@ -120,14 +120,19 @@ export default function Hero() {
                 
                 {/* Visual Thumbnail */}
                 <div className="relative aspect-video rounded-xl overflow-hidden bg-[#E6F2F5] border border-[#CADCE0] group">
+                  <img
+                    src="/roman_forum_doc.jpg"
+                    alt="Roman Forum Documentary Scene Preview"
+                    className="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-700"
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
                   
                   <button
                     onClick={() => setIsPlaying(!isPlaying)}
-                    className="absolute inset-0 z-20 flex items-center justify-center group-hover:scale-105 transition-transform"
+                    className="absolute inset-0 z-20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                   >
-                    <div className="w-10 h-10 rounded-full bg-[#0F6F8A] text-[#E6F2F5] flex items-center justify-center shadow-md">
-                      <Play className="w-4 h-4 fill-current ml-0.5" />
+                    <div className="w-12 h-12 rounded-full bg-[#0F6F8A] text-[#E6F2F5] flex items-center justify-center shadow-lg hover:bg-[#0B576C] transition-colors">
+                      <Play className="w-5 h-5 fill-current ml-0.5" />
                     </div>
                   </button>
 

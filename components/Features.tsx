@@ -65,24 +65,33 @@ export default function Features() {
               <div className="bg-white/40 border border-[#CADCE0] rounded-2xl p-6 shadow-inner relative">
                 
                 {/* Book Mockup Cover */}
-                <div className="bg-[#E6F2F5] text-[#E6F2F5] p-6 rounded-xl shadow-md border border-[#CADCE0] aspect-[3/4] flex flex-col justify-between">
-                  <div>
-                    <div className="text-[10px] font-mono-label text-[#0F6F8A] mb-2 uppercase tracking-widest">
-                      HISTORICAL DOCUMENTARY SERIES
+                <div className="relative rounded-xl overflow-hidden shadow-xl border border-[#CADCE0] aspect-[3/4] group">
+                  <img
+                    src="/fall_of_rome_cover.jpg"
+                    alt="The Fall of Rome Illustrated Book Cover"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/10 z-10" />
+                  
+                  <div className="relative h-full flex flex-col justify-between p-6 z-20">
+                    <div>
+                      <div className="text-[9px] font-mono-label text-[#FB923C] mb-1.5 uppercase tracking-widest font-bold">
+                        HISTORICAL DOCUMENTARY SERIES
+                      </div>
+                      <h4 className="text-lg font-bold font-serif-heading text-white leading-tight uppercase">
+                        The Fall of Rome
+                      </h4>
+                      <p className="text-[11px] text-zinc-300 mt-1 italic leading-snug">
+                        A Complete 10-Hour Written & Visual Chronicle
+                      </p>
                     </div>
-                    <h4 className="text-xl font-bold font-serif-heading text-[#E6F2F5] leading-tight">
-                      The Fall of Rome
-                    </h4>
-                    <p className="text-xs text-[#486E78] mt-1 italic">
-                      A Complete 10-Hour Written & Visual Chronicle
-                    </p>
-                  </div>
 
-                  <div className="border-t border-[#AEC8CC] pt-4 flex items-center justify-between">
-                    <span className="text-[10px] font-mono-label text-[#486E78]">TUBERAI PUBLISHING</span>
-                    <span className="text-[10px] font-mono-label text-[#0F6F8A] bg-[#0F6F8A]/10 px-2 py-0.5 rounded font-bold border border-[#0F6F8A]/20">
-                      PDF READY
-                    </span>
+                    <div className="border-t border-white/20 pt-3 flex items-center justify-between">
+                      <span className="text-[9px] font-mono-label text-zinc-400">TUBERAI PUBLISHING</span>
+                      <span className="text-[9px] font-mono-label text-white bg-[#0F6F8A] px-2 py-0.5 rounded font-bold border border-white/10 shadow-xs">
+                        PDF READY
+                      </span>
+                    </div>
                   </div>
                 </div>
 
