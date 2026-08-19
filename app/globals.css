@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #0B0F19;
-  --bg-surface: #151B26;
-  --border-color: #222B3C;
-  --border-hover: #333F56;
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
-  --accent-indigo: #6366F1;
-  --accent-indigo-hover: #4F46E5;
-  --accent-indigo-light: rgba(99, 102, 241, 0.1);
-  --accent-amber: #F59E0B;
+  --bg-primary: #061216;
+  --bg-surface: #0B1E24;
+  --border-color: #133038;
+  --border-hover: #1C4955;
+  --text-primary: #E2F8FC;
+  --text-secondary: #678B94;
+  --text-muted: #4B656B;
+  --accent-indigo: #9FE8FA; /* Mapping primary action button to Ice-Cyan */
+  --accent-indigo-hover: #6CE0FC;
+  --accent-indigo-light: rgba(159, 232, 250, 0.1);
+  --accent-amber: #FB923C; /* Warm coral/orange accent */
 }
 
 body {
@@ -22,18 +22,18 @@ body {
   line-height: 1.5;
 }
 
-/* ─── Animated Aurora Background (Dark Mode Refined) ───
-   A very slow, deep color-shifting gradient between dark charcoal,
-   deep slate, and subtle indigo/violet hues. No bright neon orbs. */
+/* ─── Animated Aurora Background (Cyber-Teal Refined) ───
+   A very slow, deep color-shifting gradient between dark teal,
+   emerald slate, and subtle oceanic hues. No generic dark purple. */
 body {
   background: linear-gradient(
     -45deg,
-    #0B0F19,
-    #0F172A,
-    #18152D,
-    #0B0F19,
-    #0F1E2D,
-    #131024
+    #061216,
+    #0B1E24,
+    #05181C,
+    #061216,
+    #0E2A30,
+    #05151A
   );
   background-size: 400% 400%;
   animation: aurora-shift 22s ease infinite;
@@ -58,12 +58,12 @@ body::before {
     112deg,
     transparent 0px,
     transparent 55px,
-    rgba(255, 255, 255, 0.03) 56px,
-    rgba(255, 255, 255, 0.03) 59px,
+    rgba(159, 232, 250, 0.04) 56px,
+    rgba(159, 232, 250, 0.04) 59px,
     transparent 60px,
     transparent 120px,
-    rgba(255, 255, 255, 0.015) 121px,
-    rgba(255, 255, 255, 0.015) 123px,
+    rgba(159, 232, 250, 0.02) 121px,
+    rgba(159, 232, 250, 0.02) 123px,
     transparent 124px,
     transparent 180px
   );
@@ -87,8 +87,8 @@ body::after {
     22deg,
     transparent 0px,
     transparent 70px,
-    rgba(99, 102, 241, 0.03) 71px,
-    rgba(99, 102, 241, 0.03) 74px,
+    rgba(159, 232, 250, 0.03) 71px,
+    rgba(159, 232, 250, 0.03) 74px,
     transparent 75px,
     transparent 145px
   );
@@ -114,7 +114,7 @@ body > * {
   z-index: 2;
 }
 
-/* ─── Typography (Modern sans-serif headings) ─── */
+/* ─── Typography ─── */
 .font-serif-heading {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   letter-spacing: -0.025em;
@@ -126,12 +126,12 @@ body > * {
   letter-spacing: 0.06em;
 }
 
-/* ─── Primary Indigo Pill Button ─── */
+/* ─── Primary Ice-Cyan Pill Button ─── */
 .btn-indigo-pill {
-  background-color: #6366F1;
-  color: #FFFFFF;
+  background-color: #9FE8FA;
+  color: #061216;
   border-radius: 9999px;
-  font-weight: 600;
+  font-weight: 700;
   padding: 0.625rem 1.375rem;
   font-size: 0.875rem;
   transition: all 0.2s ease;
@@ -140,20 +140,20 @@ body > * {
   justify-content: center;
   gap: 0.5rem;
   text-decoration: none;
-  box-shadow: 0 1px 3px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 1px 3px rgba(159, 232, 250, 0.2);
 }
 
 .btn-indigo-pill:hover {
-  background-color: #4F46E5;
+  background-color: #6CE0FC;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+  box-shadow: 0 4px 12px rgba(159, 232, 250, 0.45);
 }
 
 /* ─── Secondary Outline Pill Button ─── */
 .btn-outline-pill {
-  background-color: rgba(255, 255, 255, 0.03);
-  color: #F8FAFC;
-  border: 1px solid #222B3C;
+  background-color: rgba(255, 255, 255, 0.02);
+  color: #E2F8FC;
+  border: 1px solid #133038;
   border-radius: 9999px;
   font-weight: 500;
   padding: 0.625rem 1.375rem;
@@ -167,8 +167,8 @@ body > * {
 }
 
 .btn-outline-pill:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-color: #333F56;
+  background-color: rgba(255, 255, 255, 0.06);
+  border-color: #1C4955;
 }
 
 /* ─── Badge ─── */
@@ -181,27 +181,27 @@ body > * {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #818CF8;
-  background-color: rgba(99, 102, 241, 0.15);
+  color: #9FE8FA;
+  background-color: rgba(159, 232, 250, 0.12);
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  border: 1px solid rgba(159, 232, 250, 0.25);
 }
 
 /* ─── Clean Card ─── */
 .card-clean {
-  background-color: #151B26;
-  border: 1px solid #222B3C;
+  background-color: #0B1E24;
+  border: 1px solid #133038;
   border-radius: 1rem;
   transition: all 0.2s ease;
 }
 
 .card-clean:hover {
-  border-color: #333F56;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+  border-color: #1C4955;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
 }
 
 /* ─── Scrollbar ─── */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #0B0F19; }
-::-webkit-scrollbar-thumb { background: #222B3C; border-radius: 3px; }
+::-webkit-scrollbar-track { background: #061216; }
+::-webkit-scrollbar-thumb { background: #133038; border-radius: 3px; }

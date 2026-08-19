@@ -36,7 +36,7 @@ export default function ExamplesPage() {
           <h1 className="text-5xl sm:text-6xl font-black text-white mb-4">
             See what <span className="gradient-text">TuberAI creates</span>
           </h1>
-          <p className="text-[#94A3B8] text-lg">
+          <p className="text-[#678B94] text-lg">
             Every video below was created from a single prompt — no scripting, no editing, no filming.
           </p>
         </div>
@@ -49,7 +49,7 @@ export default function ExamplesPage() {
                 {/* Thumbnail */}
                 <div className={`h-44 bg-gradient-to-br ${ex.thumbnail_color} flex items-center justify-center relative`}>
                   <div className="absolute inset-0 bg-black/30" />
-                  <div className="relative z-10 w-14 h-14 rounded-full bg-[#151B26]/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <div className="relative z-10 w-14 h-14 rounded-full bg-[#0B1E24]/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
                     <Play className="w-6 h-6 text-white fill-white ml-0.5" />
                   </div>
                   {/* Duration badge */}
@@ -65,8 +65,8 @@ export default function ExamplesPage() {
                 {/* Info */}
                 <div className="p-4">
                   <h3 className="text-sm font-bold text-white mb-2 line-clamp-2">{ex.title}</h3>
-                  <p className="text-xs text-[#64748B] leading-relaxed mb-3 line-clamp-2">{ex.description}</p>
-                  <div className="flex items-center gap-3 text-xs text-[#64748B]">
+                  <p className="text-xs text-[#4B656B] leading-relaxed mb-3 line-clamp-2">{ex.description}</p>
+                  <div className="flex items-center gap-3 text-xs text-[#4B656B]">
                     <span className="flex items-center gap-1"><Eye className="w-3 h-3" /> {ex.views} views</span>
                     <span className="flex items-center gap-1"><Zap className="w-3 h-3" /> AI Generated</span>
                   </div>
@@ -76,10 +76,10 @@ export default function ExamplesPage() {
           </div>
 
           <div className="text-center mt-12">
-            <Link href="/auth/signup" className="btn-primary px-8 py-4 text-[#818CF8]ase inline-flex items-center gap-2">
+            <Link href="/auth/signup" className="btn-primary px-8 py-4 text-[#9FE8FA]ase inline-flex items-center gap-2">
               Start Creating Your Videos →
             </Link>
-            <p className="text-[#64748B] text-sm mt-3">No credit card required. Free to get started.</p>
+            <p className="text-[#4B656B] text-sm mt-3">No credit card required. Free to get started.</p>
           </div>
         </div>
 

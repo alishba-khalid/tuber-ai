@@ -22,7 +22,7 @@ export default function HowItWorksPage() {
           <h1 className="text-5xl sm:text-6xl font-black text-white mb-4">
             How <span className="gradient-text">TuberAI</span> works
           </h1>
-          <p className="text-[#94A3B8] text-lg">
+          <p className="text-[#678B94] text-lg">
             A 5-stage automated pipeline that takes you from idea to a fully produced,
             ready-to-publish YouTube video — without any manual work.
           </p>
