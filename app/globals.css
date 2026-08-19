@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #142F38;      /* Rich medium-dark slate-teal background (midpoint) */
-  --bg-surface: #0D2229;      /* Slightly darker slate-teal card surface for contrast */
-  --border-color: #1E434F;    /* Luminous slate-teal border */
-  --border-hover: #2B5E6E;    /* Active/hover border state */
-  --text-primary: #E6F3F7;    /* High-contrast Ice-white text */
-  --text-secondary: #92B5C0;  /* Bright slate-teal subtitle text */
-  --text-muted: #5D8390;      /* Muted text details */
-  --accent-indigo: #8FE1F4;   /* Vivid Ice-Cyan for primary buttons (high contrast) */
-  --accent-indigo-hover: #60D6F1;
-  --accent-indigo-light: rgba(143, 225, 244, 0.12);
-  --accent-amber: #FB923C;    /* Warm copper/amber details */
+  --bg-primary: #C0D3D9;      /* Lighter soft metallic steel-teal background */
+  --bg-surface: #FFFFFF;      /* Pristine white surface cards for high contrast */
+  --border-color: #9CB4BD;    /* Subtle teal-slate border */
+  --border-hover: #7E9BA6;    /* Hover border state */
+  --text-primary: #06151A;    /* Clear dark teal-black text */
+  --text-secondary: #425E67;  /* Medium steel-teal subtitle text */
+  --text-muted: #68858E;      /* Muted text details */
+  --accent-indigo: #0F6F8A;   /* Saturated Teal-Cyan for action buttons (high contrast) */
+  --accent-indigo-hover: #0B576C;
+  --accent-indigo-light: rgba(15, 111, 138, 0.08);
+  --accent-amber: #EA580C;    /* Warm copper/orange details */
 }
 
 body {
@@ -22,18 +22,18 @@ body {
   line-height: 1.5;
 }
 
-/* ─── Animated Aurora Background (Medium Cyber-Teal) ───
-   A slow, deep color-shifting gradient cycling between medium-dark teals,
-   deep oceanic shades, and subtle twilight-blue tints. */
+/* ─── Animated Aurora Background (Lighter Cyber-Teal) ───
+   A slow, soft color-shifting gradient cycling between light steel-teal,
+   cool oceanic slate, and bright ice-white. */
 body {
   background: linear-gradient(
     -45deg,
-    #142F38,
-    #1A3E4A,
-    #0E232A,
-    #142F38,
-    #1D4754,
-    #0B1B21
+    #C0D3D9,
+    #D0DFE3,
+    #B4CBD1,
+    #C0D3D9,
+    #A9C2C9,
+    #E1EAEB
   );
   background-size: 400% 400%;
   animation: aurora-shift 20s ease infinite;
@@ -58,12 +58,12 @@ body::before {
     112deg,
     transparent 0px,
     transparent 55px,
-    rgba(143, 225, 244, 0.04) 56px,
-    rgba(143, 225, 244, 0.04) 59px,
+    rgba(15, 111, 138, 0.04) 56px,
+    rgba(15, 111, 138, 0.04) 59px,
     transparent 60px,
     transparent 120px,
-    rgba(143, 225, 244, 0.02) 121px,
-    rgba(143, 225, 244, 0.02) 123px,
+    rgba(15, 111, 138, 0.02) 121px,
+    rgba(15, 111, 138, 0.02) 123px,
     transparent 124px,
     transparent 180px
   );
@@ -87,8 +87,8 @@ body::after {
     22deg,
     transparent 0px,
     transparent 70px,
-    rgba(143, 225, 244, 0.03) 71px,
-    rgba(143, 225, 244, 0.03) 74px,
+    rgba(15, 111, 138, 0.03) 71px,
+    rgba(15, 111, 138, 0.03) 74px,
     transparent 75px,
     transparent 145px
   );
@@ -127,10 +127,10 @@ body > * {
   letter-spacing: 0.06em;
 }
 
-/* ─── Primary Ice-Cyan Pill Button ─── */
+/* ─── Primary Teal-Cyan Pill Button ─── */
 .btn-indigo-pill {
-  background-color: #8FE1F4;
-  color: #0D2229;
+  background-color: #0F6F8A;
+  color: #FFFFFF;
   border-radius: 9999px;
   font-weight: 700;
   padding: 0.625rem 1.375rem;
@@ -141,20 +141,20 @@ body > * {
   justify-content: center;
   gap: 0.5rem;
   text-decoration: none;
-  box-shadow: 0 1px 3px rgba(143, 225, 244, 0.25);
+  box-shadow: 0 1px 3px rgba(15, 111, 138, 0.25);
 }
 
 .btn-indigo-pill:hover {
-  background-color: #60D6F1;
+  background-color: #0B576C;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(143, 225, 244, 0.45);
+  box-shadow: 0 4px 12px rgba(15, 111, 138, 0.45);
 }
 
 /* ─── Secondary Outline Pill Button ─── */
 .btn-outline-pill {
-  background-color: rgba(255, 255, 255, 0.03);
-  color: #E6F3F7;
-  border: 1px solid #1E434F;
+  background-color: #FFFFFF;
+  color: #06151A;
+  border: 1px solid #9CB4BD;
   border-radius: 9999px;
   font-weight: 500;
   padding: 0.625rem 1.375rem;
@@ -168,8 +168,8 @@ body > * {
 }
 
 .btn-outline-pill:hover {
-  background-color: rgba(255, 255, 255, 0.06);
-  border-color: #2B5E6E;
+  background-color: #FAFBFB;
+  border-color: #7E9BA6;
 }
 
 /* ─── Badge ─── */
@@ -182,30 +182,30 @@ body > * {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #8FE1F4;
-  background-color: rgba(143, 225, 244, 0.12);
+  color: #0F6F8A;
+  background-color: rgba(15, 111, 138, 0.08);
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
-  border: 1px solid rgba(143, 225, 244, 0.25);
+  border: 1px solid rgba(15, 111, 138, 0.2);
 }
 
 /* ─── Clean Card ─── */
 .card-clean {
-  background-color: #0D2229;
-  border: 1px solid #1E434F;
+  background-color: #FFFFFF;
+  border: 1px solid #9CB4BD;
   border-radius: 1rem;
   transition: all 0.2s ease;
 }
 
 .card-clean:hover {
-  border-color: #2B5E6E;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+  border-color: #7E9BA6;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
 }
 
 /* ─── Scrollbar ─── */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #142F38; }
-::-webkit-scrollbar-thumb { background: #1E434F; border-radius: 3px; }
+::-webkit-scrollbar-track { background: #C0D3D9; }
+::-webkit-scrollbar-thumb { background: #9CB4BD; border-radius: 3px; }
 
 /* ─── Audio Equalizer Waveform Animation ─── */
 @keyframes equalizer-bounce {

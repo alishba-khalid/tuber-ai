@@ -11,30 +11,30 @@ export default function Features() {
           <div className="badge-indigo mb-4">
             <span>BEYOND VIDEO</span>
           </div>
-          <h2 className="text-3xl sm:text-[#8FE1F4]xl md:text-5xl font-bold font-serif-heading text-[#E6F3F7] mb-4">
+          <h2 className="text-3xl sm:text-[#0F6F8A]xl md:text-5xl font-bold font-serif-heading text-[#06151A] mb-4">
             An AI story generator, not just an AI video generator
           </h2>
-          <p className="text-[#8FE1F4]ase sm:text-lg text-[#92B5C0] leading-relaxed">
+          <p className="text-[#0F6F8A]ase sm:text-lg text-[#425E67] leading-relaxed">
             The same topic prompt that renders your video can also become an AI-written story. TuberAI's engine plans a chaptered outline, drafts the prose, and typesets it into a print-ready illustrated book.
           </p>
         </div>
 
         {/* Highlight Banner Card */}
-        <div className="bg-[#0D2229] border border-[#1E434F] rounded-3xl p-8 sm:p-12 shadow-2xs relative overflow-hidden">
+        <div className="bg-white border border-[#9CB4BD] rounded-3xl p-8 sm:p-12 shadow-2xs relative overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Description Column */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#8FE1F4]/10 border border-[#8FE1F4]/20 text-[#8FE1F4] text-xs font-mono-label font-semibold">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0F6F8A]/10 border border-[#0F6F8A]/20 text-[#0F6F8A] text-xs font-mono-label font-semibold">
                 <BookOpen className="w-3.5 h-3.5" />
                 PRINT-READY E-BOOK & NOVEL PUBLISHING
               </div>
 
-              <h3 className="text-whitexl sm:text-3xl font-bold font-serif-heading text-[#E6F3F7]">
+              <h3 className="text-whitexl sm:text-3xl font-bold font-serif-heading text-[#06151A]">
                 Publish Illustrated E-books & PDFs Alongside Your Videos
               </h3>
 
-              <p className="text-[#92B5C0] leading-relaxed text-sm sm:text-[#8FE1F4]ase">
+              <p className="text-[#425E67] leading-relaxed text-sm sm:text-[#0F6F8A]ase">
                 Monetize your YouTube channel further by turning every long-form video script into an e-book for Amazon KDP or Gumroad. TuberAI automatically typesets chapter headers, inserts scene art, and exports a print-ready PDF in one click.
               </p>
 
@@ -45,8 +45,8 @@ export default function Features() {
                   'Print-ready PDF & EPUB export format',
                   'Dual revenue stream: YouTube ad revenue + E-book sales',
                 ].map((item) => (
-                  <div key={item} className="flex items-center gap-3 text-sm text-[#E6F3F7]">
-                    <CheckCircle2 className="w-4 h-4 text-[#8FE1F4] flex-shrink-0" />
+                  <div key={item} className="flex items-center gap-3 text-sm text-[#06151A]">
+                    <CheckCircle2 className="w-4 h-4 text-[#0F6F8A] flex-shrink-0" />
                     <span>{item}</span>
                   </div>
                 ))}
@@ -62,10 +62,10 @@ export default function Features() {
 
             {/* Book Preview Visual Column */}
             <div className="lg:col-span-5 relative">
-              <div className="bg-transparent border border-[#1E434F] rounded-2xl p-6 shadow-inner relative">
+              <div className="bg-transparent border border-[#9CB4BD] rounded-2xl p-6 shadow-inner relative">
                 
                 {/* Book Mockup Cover */}
-                <div className="bg-[#E6F3F7] text-white p-6 rounded-xl shadow-md border border-[#27272A] aspect-[3/4] flex flex-col justify-between">
+                <div className="bg-[#06151A] text-white p-6 rounded-xl shadow-md border border-[#27272A] aspect-[3/4] flex flex-col justify-between">
                   <div>
                     <div className="text-[10px] font-mono-label text-[#D97706] mb-2 uppercase tracking-widest">
                       HISTORICAL DOCUMENTARY SERIES
@@ -80,7 +80,7 @@ export default function Features() {
 
                   <div className="border-t border-[#3F3F46] pt-4 flex items-center justify-between">
                     <span className="text-[10px] font-mono-label text-[#A1A1AA]">TUBERAI PUBLISHING</span>
-                    <span className="text-[10px] font-mono-label text-[#8FE1F4] bg-[#8FE1F4]/10 px-2 py-0.5 rounded font-bold border border-[#8FE1F4]/20">
+                    <span className="text-[10px] font-mono-label text-[#0F6F8A] bg-[#0F6F8A]/10 px-2 py-0.5 rounded font-bold border border-[#0F6F8A]/20">
                       PDF READY
                     </span>
                   </div>

@@ -63,7 +63,7 @@ export default function BlogPage() {
             <h1 className="text-5xl font-black text-white mb-4">
               The <span className="gradient-text">TuberAI</span> Blog
             </h1>
-            <p className="text-[#92B5C0] text-lg max-w-xl mx-auto">
+            <p className="text-[#425E67] text-lg max-w-xl mx-auto">
               Tips, tutorials, and insights for AI YouTube content creators.
             </p>
           </div>
@@ -84,15 +84,15 @@ export default function BlogPage() {
                     <h2 className="text-lg font-bold text-white mb-2 hover:text-[#A855F7] transition-colors">
                       {post.title}
                     </h2>
-                    <p className="text-[#92B5C0] text-sm leading-relaxed mb-4">{post.excerpt}</p>
-                    <div className="flex items-center gap-4 text-xs text-[#5D8390]">
+                    <p className="text-[#425E67] text-sm leading-relaxed mb-4">{post.excerpt}</p>
+                    <div className="flex items-center gap-4 text-xs text-[#68858E]">
                       <span className="flex items-center gap-1"><User className="w-3 h-3" /> {post.author}</span>
                       <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {post.date}</span>
                       <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {post.readTime}</span>
                     </div>
                   </div>
                   
-                  <ArrowRight className="w-5 h-5 text-[#5D8390] flex-shrink-0 self-center hidden sm:block" />
+                  <ArrowRight className="w-5 h-5 text-[#68858E] flex-shrink-0 self-center hidden sm:block" />
                 </div>
               </Link>
             ))}
