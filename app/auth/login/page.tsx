@@ -45,23 +45,23 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#060B08] px-4 sm:px-6">
-      <div className="max-w-md w-full bg-[#0D1410] border border-[#1A241F] rounded-2xl p-8 shadow-xs">
+    <div className="min-h-screen flex items-center justify-center bg-[#09090B] px-4 sm:px-6">
+      <div className="max-w-md w-full bg-[#18181B] border border-[#27272A] rounded-2xl p-8 shadow-xs">
         
         {/* Header / Logo */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 rounded-lg bg-[#D4AF37] flex items-center justify-center text-[#060B08]">
-              <Sparkles className="w-4 h-4 text-[#060B08]" />
+            <div className="w-8 h-8 rounded-lg bg-[#FFFFFF] flex items-center justify-center text-[#09090B]">
+              <Sparkles className="w-4 h-4 text-[#09090B]" />
             </div>
-            <span className="text-xl font-bold font-serif-heading text-[#EBF5F0]">
-              Tuber<span className="text-[#D4AF37]">AI</span>
+            <span className="text-xl font-bold font-serif-heading text-[#FAFAFA]">
+              Tuber<span className="text-[#FFFFFF]">AI</span>
             </span>
           </Link>
-          <h2 className="text-[#060B08]xl font-bold font-serif-heading text-[#EBF5F0]">
+          <h2 className="text-[#09090B]xl font-bold font-serif-heading text-[#FAFAFA]">
             Welcome back
           </h2>
-          <p className="text-xs text-[#92A89C] mt-1">
+          <p className="text-xs text-[#A1A1AA] mt-1">
             Log in to manage and generate long-form AI videos
           </p>
         </div>
@@ -75,7 +75,7 @@ export default function LoginPage() {
         {/* Email & Password Form */}
         <form onSubmit={handleEmailLogin} className="space-y-4">
           <div>
-            <label className="text-xs font-mono-label font-bold text-[#92A89C] block mb-1">
+            <label className="text-xs font-mono-label font-bold text-[#A1A1AA] block mb-1">
               EMAIL ADDRESS
             </label>
             <input
@@ -84,16 +84,16 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="w-full bg-[#0D1410] border border-[#1A241F] rounded-xl px-4 py-2.5 text-sm text-[#EBF5F0] placeholder-[#A1A1AA] focus:outline-none focus:border-[#283830]"
+              className="w-full bg-[#18181B] border border-[#27272A] rounded-xl px-4 py-2.5 text-sm text-[#FAFAFA] placeholder-[#A1A1AA] focus:outline-none focus:border-[#3F3F46]"
             />
           </div>
 
           <div>
             <div className="flex justify-between items-center mb-1">
-              <label className="text-xs font-mono-label font-bold text-[#92A89C]">
+              <label className="text-xs font-mono-label font-bold text-[#A1A1AA]">
                 PASSWORD
               </label>
-              <Link href="#" className="text-[11px] text-[#D4AF37] font-semibold hover:underline">
+              <Link href="#" className="text-[11px] text-[#FFFFFF] font-semibold hover:underline">
                 Forgot password?
               </Link>
             </div>
@@ -103,7 +103,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full bg-[#0D1410] border border-[#1A241F] rounded-xl px-4 py-2.5 text-sm text-[#EBF5F0] placeholder-[#A1A1AA] focus:outline-none focus:border-[#283830]"
+              className="w-full bg-[#18181B] border border-[#27272A] rounded-xl px-4 py-2.5 text-sm text-[#FAFAFA] placeholder-[#A1A1AA] focus:outline-none focus:border-[#3F3F46]"
             />
           </div>
 
@@ -118,10 +118,10 @@ export default function LoginPage() {
 
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-[#1A241F]"></div>
+            <div className="w-full border-t border-[#27272A]"></div>
           </div>
           <div className="relative flex justify-center text-xs">
-            <span className="bg-[#0D1410] px-3 text-[#5F7368] font-medium">Or continue with</span>
+            <span className="bg-[#18181B] px-3 text-[#71717A] font-medium">Or continue with</span>
           </div>
         </div>
 
@@ -129,7 +129,7 @@ export default function LoginPage() {
         <button
           onClick={handleGoogleLogin}
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 bg-[#0D1410] border border-[#1A241F] hover:border-[#283830] rounded-xl py-2.5 text-sm font-semibold text-[#EBF5F0] transition-colors"
+          className="w-full flex items-center justify-center gap-2 bg-[#18181B] border border-[#27272A] hover:border-[#3F3F46] rounded-xl py-2.5 text-sm font-semibold text-[#FAFAFA] transition-colors"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24">
             <path
@@ -141,9 +141,9 @@ export default function LoginPage() {
         </button>
 
         {/* Footer Link */}
-        <div className="text-center mt-6 text-xs text-[#92A89C]">
+        <div className="text-center mt-6 text-xs text-[#A1A1AA]">
           Don't have an account?{' '}
-          <Link href="/auth/signup" className="text-[#D4AF37] font-semibold hover:underline">
+          <Link href="/auth/signup" className="text-[#FFFFFF] font-semibold hover:underline">
             Sign up
           </Link>
         </div>

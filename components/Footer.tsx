@@ -3,7 +3,7 @@ import { Sparkles } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="bg-transparent border-t border-[#1A241F] py-16 text-[#92A89C]">
+    <footer className="bg-transparent border-t border-[#27272A] py-16 text-[#A1A1AA]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-12">
@@ -11,61 +11,61 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="md:col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-[#D4AF37] flex items-center justify-center text-[#060B08]">
-                <Sparkles className="w-3.5 h-3.5 text-[#060B08]" />
+              <div className="w-7 h-7 rounded-lg bg-[#FFFFFF] flex items-center justify-center text-[#09090B]">
+                <Sparkles className="w-3.5 h-3.5 text-[#09090B]" />
               </div>
-              <span className="text-lg font-bold font-serif-heading text-[#EBF5F0]">
-                Tuber<span className="text-[#D4AF37]">AI</span>
+              <span className="text-lg font-bold font-serif-heading text-[#FAFAFA]">
+                Tuber<span className="text-[#FFFFFF]">AI</span>
               </span>
             </Link>
 
-            <p className="text-xs text-[#5F7368] max-w-sm leading-relaxed">
+            <p className="text-xs text-[#71717A] max-w-sm leading-relaxed">
               TuberAI is an automated long-form AI video generator that scripts, voices, renders, and packages 10-minute to 10-hour YouTube content from a single prompt.
             </p>
           </div>
 
           {/* Navigation Links */}
           <div>
-            <h4 className="text-xs font-mono-label font-bold text-[#EBF5F0] uppercase tracking-wider mb-4">
+            <h4 className="text-xs font-mono-label font-bold text-[#FAFAFA] uppercase tracking-wider mb-4">
               Product
             </h4>
             <ul className="space-y-2.5 text-xs">
-              <li><Link href="/how-it-works" className="hover:text-[#EBF5F0] transition-colors">How it works</Link></li>
-              <li><Link href="/examples" className="hover:text-[#EBF5F0] transition-colors">Examples</Link></li>
-              <li><Link href="/pricing" className="hover:text-[#EBF5F0] transition-colors">Pricing</Link></li>
-              <li><Link href="/blog" className="hover:text-[#EBF5F0] transition-colors">Blog</Link></li>
+              <li><Link href="/how-it-works" className="hover:text-[#FAFAFA] transition-colors">How it works</Link></li>
+              <li><Link href="/examples" className="hover:text-[#FAFAFA] transition-colors">Examples</Link></li>
+              <li><Link href="/pricing" className="hover:text-[#FAFAFA] transition-colors">Pricing</Link></li>
+              <li><Link href="/blog" className="hover:text-[#FAFAFA] transition-colors">Blog</Link></li>
             </ul>
           </div>
 
           {/* Comparisons */}
           <div>
-            <h4 className="text-xs font-mono-label font-bold text-[#EBF5F0] uppercase tracking-wider mb-4">
+            <h4 className="text-xs font-mono-label font-bold text-[#FAFAFA] uppercase tracking-wider mb-4">
               Comparisons
             </h4>
             <ul className="space-y-2.5 text-xs">
-              <li><span className="text-[#5F7368]">vs. StoryShort</span></li>
-              <li><span className="text-[#5F7368]">vs. Mootion</span></li>
-              <li><span className="text-[#5F7368]">vs. MagicLight</span></li>
-              <li><span className="text-[#5F7368]">vs. InVideo AI</span></li>
+              <li><span className="text-[#71717A]">vs. StoryShort</span></li>
+              <li><span className="text-[#71717A]">vs. Mootion</span></li>
+              <li><span className="text-[#71717A]">vs. MagicLight</span></li>
+              <li><span className="text-[#71717A]">vs. InVideo AI</span></li>
             </ul>
           </div>
 
           {/* Legal */}
           <div>
-            <h4 className="text-xs font-mono-label font-bold text-[#EBF5F0] uppercase tracking-wider mb-4">
+            <h4 className="text-xs font-mono-label font-bold text-[#FAFAFA] uppercase tracking-wider mb-4">
               Legal
             </h4>
             <ul className="space-y-2.5 text-xs">
-              <li><span className="text-[#5F7368]">Terms of Service</span></li>
-              <li><span className="text-[#5F7368]">Privacy Policy</span></li>
-              <li><span className="text-[#5F7368]">Cookie Policy</span></li>
+              <li><span className="text-[#71717A]">Terms of Service</span></li>
+              <li><span className="text-[#71717A]">Privacy Policy</span></li>
+              <li><span className="text-[#71717A]">Cookie Policy</span></li>
             </ul>
           </div>
 
         </div>
 
         {/* Copyright Bar */}
-        <div className="pt-8 border-t border-[#1A241F] flex flex-col sm:flex-row items-center justify-between text-xs text-[#5F7368] gap-4">
+        <div className="pt-8 border-t border-[#27272A] flex flex-col sm:flex-row items-center justify-between text-xs text-[#71717A] gap-4">
           <p>© {new Date().getFullYear()} TuberAI Inc. All rights reserved.</p>
           <p className="font-mono-label text-[11px]">THE TEN-HOUR AI VIDEO GENERATOR</p>
         </div>

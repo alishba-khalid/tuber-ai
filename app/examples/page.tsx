@@ -33,10 +33,10 @@ export default function ExamplesPage() {
             <Eye className="w-3 h-3" />
             <span>Real AI-Generated Videos</span>
           </div>
-          <h1 className="text-[#060B08]xl sm:text-[#060B08]xl font-black text-[#060B08] mb-4">
+          <h1 className="text-[#09090B]xl sm:text-[#09090B]xl font-black text-[#09090B] mb-4">
             See what <span className="gradient-text">TuberAI creates</span>
           </h1>
-          <p className="text-[#92A89C] text-lg">
+          <p className="text-[#A1A1AA] text-lg">
             Every video below was created from a single prompt — no scripting, no editing, no filming.
           </p>
         </div>
@@ -49,24 +49,24 @@ export default function ExamplesPage() {
                 {/* Thumbnail */}
                 <div className={`h-44 bg-gradient-to-br ${ex.thumbnail_color} flex items-center justify-center relative`}>
                   <div className="absolute inset-0 bg-black/30" />
-                  <div className="relative z-10 w-14 h-14 rounded-full bg-[#0D1410]/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Play className="w-6 h-6 text-[#060B08] fill-white ml-0.5" />
+                  <div className="relative z-10 w-14 h-14 rounded-full bg-[#18181B]/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Play className="w-6 h-6 text-[#09090B] fill-white ml-0.5" />
                   </div>
                   {/* Duration badge */}
-                  <div className="absolute bottom-3 right-3 bg-black/70 text-[#060B08] text-xs font-medium px-2 py-1 rounded-md">
+                  <div className="absolute bottom-3 right-3 bg-black/70 text-[#09090B] text-xs font-medium px-2 py-1 rounded-md">
                     {ex.duration}
                   </div>
                   {/* Format badge */}
-                  <div className="absolute top-3 left-3 bg-[#6C3DFF]/80 text-[#060B08] text-xs font-medium px-2 py-1 rounded-md">
+                  <div className="absolute top-3 left-3 bg-[#6C3DFF]/80 text-[#09090B] text-xs font-medium px-2 py-1 rounded-md">
                     {ex.format}
                   </div>
                 </div>
 
                 {/* Info */}
                 <div className="p-4">
-                  <h3 className="text-sm font-bold text-[#060B08] mb-2 line-clamp-2">{ex.title}</h3>
-                  <p className="text-xs text-[#5F7368] leading-relaxed mb-3 line-clamp-2">{ex.description}</p>
-                  <div className="flex items-center gap-3 text-xs text-[#5F7368]">
+                  <h3 className="text-sm font-bold text-[#09090B] mb-2 line-clamp-2">{ex.title}</h3>
+                  <p className="text-xs text-[#71717A] leading-relaxed mb-3 line-clamp-2">{ex.description}</p>
+                  <div className="flex items-center gap-3 text-xs text-[#71717A]">
                     <span className="flex items-center gap-1"><Eye className="w-3 h-3" /> {ex.views} views</span>
                     <span className="flex items-center gap-1"><Zap className="w-3 h-3" /> AI Generated</span>
                   </div>
@@ -76,10 +76,10 @@ export default function ExamplesPage() {
           </div>
 
           <div className="text-center mt-12">
-            <Link href="/auth/signup" className="btn-primary px-8 py-4 text-[#D4AF37]ase inline-flex items-center gap-2">
+            <Link href="/auth/signup" className="btn-primary px-8 py-4 text-[#FFFFFF]ase inline-flex items-center gap-2">
               Start Creating Your Videos →
             </Link>
-            <p className="text-[#5F7368] text-sm mt-3">No credit card required. Free to get started.</p>
+            <p className="text-[#71717A] text-sm mt-3">No credit card required. Free to get started.</p>
           </div>
         </div>
 

@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #060B08;      /* Midnight Forest Black background */
-  --bg-surface: #0D1410;      /* Dark Forest Slate card surface */
-  --border-color: #1A241F;    /* Subtle dark forest border */
-  --border-hover: #283830;    /* Hover border state */
-  --text-primary: #EBF5F0;    /* Crisp forest-white primary text */
-  --text-secondary: #92A89C;  /* Muted sage-gray subtitle text */
-  --text-muted: #5F7368;      /* Muted text details */
-  --accent-indigo: #D4AF37;   /* Brushed Metallic Gold for actions */
-  --accent-indigo-hover: #BCA033;
-  --accent-indigo-light: rgba(212, 175, 55, 0.08);
-  --accent-amber: #10B981;    /* Luminous Emerald Green for highlights */
+  --bg-primary: #09090B;      /* Premium Zinc Black background (Vercel style) */
+  --bg-surface: #18181B;      /* Sleek Zinc Card surface */
+  --border-color: #27272A;    /* Subtle zinc border */
+  --border-hover: #3F3F46;    /* Hover border state */
+  --text-primary: #FAFAFA;    /* Warm crisp white primary text */
+  --text-secondary: #A1A1AA;  /* Muted zinc-gray subtitle text */
+  --text-muted: #71717A;      /* Muted text details */
+  --accent-indigo: #FFFFFF;   /* Pure White for action buttons */
+  --accent-indigo-hover: #F4F4F5;
+  --accent-indigo-light: rgba(255, 255, 255, 0.08);
+  --accent-amber: #10B981;    /* Luminous Emerald Green for active checks */
 }
 
 body {
@@ -22,18 +22,18 @@ body {
   line-height: 1.5;
 }
 
-/* ─── Animated Aurora Background (Midnight Forest & Gold Tint) ───
-   A very slow, deep color-shifting gradient cycling between midnight forest,
-   deep emerald-slate, and subtle warm metallic gold-charcoal. */
+/* ─── Animated Aurora Background (Sleek Obsidian/Zinc) ───
+   A slow, clean color-shifting gradient cycling between deep zinc black,
+   midnight slate-black, and dark carbon highlights. */
 body {
   background: linear-gradient(
     -45deg,
-    #060B08,
-    #0E1B15,
-    #1A160E,
-    #060B08,
-    #13241D,
-    #1B170F
+    #09090B,
+    #121215,
+    #050507,
+    #09090B,
+    #141419,
+    #0B0B0E
   );
   background-size: 400% 400%;
   animation: aurora-shift 22s ease infinite;
@@ -58,12 +58,12 @@ body::before {
     112deg,
     transparent 0px,
     transparent 55px,
-    rgba(212, 175, 55, 0.03) 56px,
-    rgba(212, 175, 55, 0.03) 59px,
+    rgba(255, 255, 255, 0.02) 56px,
+    rgba(255, 255, 255, 0.02) 59px,
     transparent 60px,
     transparent 120px,
-    rgba(212, 175, 55, 0.01) 121px,
-    rgba(212, 175, 55, 0.01) 123px,
+    rgba(255, 255, 255, 0.01) 121px,
+    rgba(255, 255, 255, 0.01) 123px,
     transparent 124px,
     transparent 180px
   );
@@ -87,8 +87,8 @@ body::after {
     22deg,
     transparent 0px,
     transparent 70px,
-    rgba(212, 175, 55, 0.02) 71px,
-    rgba(212, 175, 55, 0.02) 74px,
+    rgba(255, 255, 255, 0.01) 71px,
+    rgba(255, 255, 255, 0.01) 74px,
     transparent 75px,
     transparent 145px
   );
@@ -114,9 +114,9 @@ body > * {
   z-index: 2;
 }
 
-/* ─── Typography (Premium Sans-Serif Headings) ─── */
+/* ─── Typography (Plus Jakarta Sans Geometric Headings) ─── */
 .font-serif-heading {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   font-weight: 800;
   letter-spacing: -0.025em;
 }
@@ -126,10 +126,10 @@ body > * {
   letter-spacing: 0.06em;
 }
 
-/* ─── Primary Metallic Gold Pill Button ─── */
+/* ─── Primary White Pill Button ─── */
 .btn-indigo-pill {
-  background-color: #D4AF37;
-  color: #060B08;
+  background-color: #FFFFFF;
+  color: #09090B;
   border-radius: 9999px;
   font-weight: 700;
   padding: 0.625rem 1.375rem;
@@ -140,20 +140,20 @@ body > * {
   justify-content: center;
   gap: 0.5rem;
   text-decoration: none;
-  box-shadow: 0 1px 3px rgba(212, 175, 55, 0.25);
+  box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1);
 }
 
 .btn-indigo-pill:hover {
-  background-color: #BCA033;
+  background-color: #F4F4F5;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.45);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
 }
 
 /* ─── Secondary Outline Pill Button ─── */
 .btn-outline-pill {
   background-color: rgba(255, 255, 255, 0.02);
-  color: #EBF5F0;
-  border: 1px solid #1A241F;
+  color: #FAFAFA;
+  border: 1px solid #27272A;
   border-radius: 9999px;
   font-weight: 500;
   padding: 0.625rem 1.375rem;
@@ -168,7 +168,7 @@ body > * {
 
 .btn-outline-pill:hover {
   background-color: rgba(255, 255, 255, 0.05);
-  border-color: #283830;
+  border-color: #3F3F46;
 }
 
 /* ─── Badge ─── */
@@ -181,30 +181,30 @@ body > * {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #D4AF37;
-  background-color: rgba(212, 175, 55, 0.08);
+  color: #FAFAFA;
+  background-color: rgba(255, 255, 255, 0.06);
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 /* ─── Clean Card ─── */
 .card-clean {
-  background-color: #0D1410;
-  border: 1px solid #1A241F;
+  background-color: #18181B;
+  border: 1px solid #27272A;
   border-radius: 1rem;
   transition: all 0.2s ease;
 }
 
 .card-clean:hover {
-  border-color: #283830;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  border-color: #3F3F46;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
 }
 
 /* ─── Scrollbar ─── */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #060B08; }
-::-webkit-scrollbar-thumb { background: #1A241F; border-radius: 3px; }
+::-webkit-scrollbar-track { background: #09090B; }
+::-webkit-scrollbar-thumb { background: #27272A; border-radius: 3px; }
 
 /* ─── Audio Equalizer Waveform Animation ─── */
 @keyframes equalizer-bounce {
