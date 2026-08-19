@@ -57,27 +57,27 @@ export default function CreditsPage() {
       
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold font-serif-heading text-[#E6F3F7]">Credits & Billing</h1>
-        <p className="text-[#7FA0AB] text-sm mt-0.5">Manage your video generation credits and top up your account balance</p>
+        <h1 className="text-whitexl font-bold font-serif-heading text-[#0C1D24]">Credits & Billing</h1>
+        <p className="text-[#4B6E7A] text-sm mt-0.5">Manage your video generation credits and top up your account balance</p>
       </div>
 
       {/* Balance Card */}
-      <div className="bg-[#0E1B20] border border-[#172B33] rounded-2xl p-6 shadow-2xs relative overflow-hidden">
+      <div className="bg-[#FFFFFF] border border-[#CADAE0] rounded-2xl p-6 shadow-2xs relative overflow-hidden">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-1.5 text-[#7FA0AB] text-xs font-mono-label mb-1">
-              <Zap className="w-4 h-4 text-[#8FE1F4]" />
+            <div className="flex items-center gap-1.5 text-[#4B6E7A] text-xs font-mono-label mb-1">
+              <Zap className="w-4 h-4 text-[#0F6F8A]" />
               CURRENT BALANCE
             </div>
-            <div className="text-5xl font-bold font-serif-heading text-[#E6F3F7]">{credits}</div>
-            <div className="text-xs text-[#4E6872] mt-2">
+            <div className="text-5xl font-bold font-serif-heading text-[#0C1D24]">{credits}</div>
+            <div className="text-xs text-[#7A9CA8] mt-2">
               Founding member tier — active balance
             </div>
           </div>
           <div className="sm:text-right">
-            <div className="text-[10px] font-mono-label text-[#4E6872] uppercase">Active Plan</div>
-            <div className="text-lg font-bold font-serif-heading text-[#E6F3F7]">Free Tier</div>
-            <div className="text-xs text-[#8FE1F4] font-semibold mt-0.5">300 free setup credits</div>
+            <div className="text-[10px] font-mono-label text-[#7A9CA8] uppercase">Active Plan</div>
+            <div className="text-lg font-bold font-serif-heading text-[#0C1D24]">Free Tier</div>
+            <div className="text-xs text-[#0F6F8A] font-semibold mt-0.5">300 free setup credits</div>
           </div>
         </div>
       </div>
@@ -89,8 +89,8 @@ export default function CreditsPage() {
       )}
 
       {/* Upgrade / Top-up Option */}
-      <div className="bg-[#0E1B20] border border-[#172B33] rounded-2xl p-6 shadow-2xs">
-        <h2 className="text-lg font-bold font-serif-heading text-[#E6F3F7] mb-4">Choose a Plan to Upgrade</h2>
+      <div className="bg-[#FFFFFF] border border-[#CADAE0] rounded-2xl p-6 shadow-2xs">
+        <h2 className="text-lg font-bold font-serif-heading text-[#0C1D24] mb-4">Choose a Plan to Upgrade</h2>
         
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
           {plans.map((plan) => (
@@ -99,16 +99,16 @@ export default function CreditsPage() {
               onClick={() => setSelectedPlan(plan.id)}
               className={`p-4 rounded-xl border text-center transition-all ${
                 selectedPlan === plan.id
-                  ? 'border-2 border-[#1E1B4B] bg-[#8FE1F4]/10'
-                  : 'border-[#172B33] hover:border-[#233E4A] bg-[#0E1B20]'
+                  ? 'border-2 border-[#0F6F8A] bg-[#0F6F8A]/10'
+                  : 'border-[#CADAE0] hover:border-[#AEC4CC] bg-[#FFFFFF]'
               }`}
             >
-              <div className="text-sm font-bold text-[#E6F3F7]">{plan.name}</div>
-              <div className="text-[#8FE1F4]ase font-extrabold text-[#8FE1F4] mt-1">${plan.price}</div>
-              <div className="text-[10px] text-[#4E6872] mt-2 font-mono-label font-semibold">
+              <div className="text-sm font-bold text-[#0C1D24]">{plan.name}</div>
+              <div className="text-[#0F6F8A]ase font-extrabold text-[#0F6F8A] mt-1">${plan.price}</div>
+              <div className="text-[10px] text-[#7A9CA8] mt-2 font-mono-label font-semibold">
                 {plan.credits.toLocaleString()} Credits
               </div>
-              <div className="text-[9px] text-[#4E6872] mt-0.5 italic">
+              <div className="text-[9px] text-[#7A9CA8] mt-0.5 italic">
                 {plan.desc}
               </div>
             </button>
@@ -126,17 +126,17 @@ export default function CreditsPage() {
       </div>
 
       {/* Transaction History */}
-      <div className="bg-[#0E1B20] border border-[#172B33] rounded-2xl p-6 shadow-2xs">
-        <h2 className="text-[#8FE1F4]ase font-bold font-serif-heading text-[#E6F3F7] mb-4 flex items-center gap-2">
-          <History className="w-4 h-4 text-[#8FE1F4]" />
+      <div className="bg-[#FFFFFF] border border-[#CADAE0] rounded-2xl p-6 shadow-2xs">
+        <h2 className="text-[#0F6F8A]ase font-bold font-serif-heading text-[#0C1D24] mb-4 flex items-center gap-2">
+          <History className="w-4 h-4 text-[#0F6F8A]" />
           Credit History
         </h2>
         <div className="space-y-3">
           {transactions.map((tx) => (
-            <div key={tx.id} className="flex items-center justify-between py-2 border-b border-[#0E1B20] last:border-0">
+            <div key={tx.id} className="flex items-center justify-between py-2 border-b border-[#FFFFFF] last:border-0">
               <div>
-                <div className="text-sm font-medium text-[#E6F3F7]">{tx.desc}</div>
-                <div className="text-xs text-[#4E6872]">{tx.date}</div>
+                <div className="text-sm font-medium text-[#0C1D24]">{tx.desc}</div>
+                <div className="text-xs text-[#7A9CA8]">{tx.date}</div>
               </div>
               <span className={`text-sm font-bold text-green-600`}>
                 +{tx.credits}

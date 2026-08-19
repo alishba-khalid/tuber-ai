@@ -35,7 +35,7 @@ const stages = [
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-20 bg-transparent border-t border-[#172B33]">
+    <section id="how-it-works" className="py-20 bg-transparent border-t border-[#CADAE0]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -43,13 +43,13 @@ export default function HowItWorks() {
           <div className="badge-indigo mb-4">
             <span>THE ENGINE</span>
           </div>
-          <h2 className="text-3xl sm:text-[#8FE1F4]xl md:text-5xl font-bold font-serif-heading text-[#E6F3F7] mb-4">
+          <h2 className="text-3xl sm:text-[#0F6F8A]xl md:text-5xl font-bold font-serif-heading text-[#0C1D24] mb-4">
             How it works
           </h2>
-          <p className="text-lg font-semibold text-[#E6F3F7] mb-2">
+          <p className="text-lg font-semibold text-[#0C1D24] mb-2">
             One topic in. A finished video out.
           </p>
-          <p className="text-sm sm:text-[#8FE1F4]ase text-[#7FA0AB]">
+          <p className="text-sm sm:text-[#0F6F8A]ase text-[#4B6E7A]">
             Five stages run as a single automated job. You bring the idea — TuberAI handles the script, the voice, the visuals, and the render.
           </p>
         </div>
@@ -61,24 +61,24 @@ export default function HowItWorks() {
             return (
               <div
                 key={stage.num}
-                className="card-clean p-6 sm:p-8 flex flex-col sm:flex-row gap-6 items-start hover:border-[#1E1B4B] transition-all"
+                className="card-clean p-6 sm:p-8 flex flex-col sm:flex-row gap-6 items-start hover:border-[#0F6F8A] transition-all"
               >
                 {/* Number / Icon Badge */}
-                <div className="w-12 h-12 rounded-2xl bg-[#8FE1F4]/10 border border-[#8FE1F4]/20 flex items-center justify-center text-[#8FE1F4] font-mono-label font-bold text-[#8FE1F4]ase flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-[#0F6F8A]/10 border border-[#0F6F8A]/20 flex items-center justify-center text-[#0F6F8A] font-mono-label font-bold text-[#0F6F8A]ase flex-shrink-0">
                   <Icon className="w-6 h-6" />
                 </div>
 
                 {/* Stage Detail */}
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-xl font-bold font-serif-heading text-[#E6F3F7]">
+                    <h3 className="text-xl font-bold font-serif-heading text-[#0C1D24]">
                       {stage.title}
                     </h3>
-                    <span className="text-xs font-mono-label font-bold text-[#8FE1F4] bg-[#8FE1F4]/10 px-2.5 py-1 rounded-full border border-[#8FE1F4]/20">
+                    <span className="text-xs font-mono-label font-bold text-[#0F6F8A] bg-[#0F6F8A]/10 px-2.5 py-1 rounded-full border border-[#0F6F8A]/20">
                       AUTOMATED
                     </span>
                   </div>
-                  <p className="text-sm sm:text-[#8FE1F4]ase text-[#7FA0AB] leading-relaxed">
+                  <p className="text-sm sm:text-[#0F6F8A]ase text-[#4B6E7A] leading-relaxed">
                     {stage.desc}
                   </p>
                 </div>

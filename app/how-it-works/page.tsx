@@ -19,10 +19,10 @@ export default function HowItWorksPage() {
           <div className="badge badge-purple inline-flex mb-4">
             <span>The Technology</span>
           </div>
-          <h1 className="text-5xl sm:text-6xl font-black text-white mb-4">
+          <h1 className="text-5xl sm:text-whitexl font-black text-white mb-4">
             How <span className="gradient-text">TuberAI</span> works
           </h1>
-          <p className="text-[#7FA0AB] text-lg">
+          <p className="text-[#4B6E7A] text-lg">
             A 5-stage automated pipeline that takes you from idea to a fully produced,
             ready-to-publish YouTube video — without any manual work.
           </p>

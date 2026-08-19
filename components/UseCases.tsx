@@ -35,7 +35,7 @@ const niches = [
 
 export default function UseCases() {
   return (
-    <section className="py-20 bg-transparent border-y border-[#172B33]">
+    <section className="py-20 bg-transparent border-y border-[#CADAE0]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -43,10 +43,10 @@ export default function UseCases() {
           <div className="badge-indigo mb-4">
             <span>WHO IT'S FOR</span>
           </div>
-          <h2 className="text-3xl sm:text-[#8FE1F4]xl md:text-5xl font-bold font-serif-heading text-[#E6F3F7] mb-4">
+          <h2 className="text-3xl sm:text-[#0F6F8A]xl md:text-5xl font-bold font-serif-heading text-[#0C1D24] mb-4">
             Built for long-form, faceless channels
           </h2>
-          <p className="text-[#8FE1F4]ase sm:text-lg text-[#7FA0AB]">
+          <p className="text-[#0F6F8A]ase sm:text-lg text-[#4B6E7A]">
             The niches where hours of watch time turn into real revenue — the ones short-video tools can't serve.
           </p>
         </div>
@@ -58,16 +58,16 @@ export default function UseCases() {
             return (
               <div
                 key={niche.title}
-                className="card-clean p-7 flex flex-col justify-between group hover:border-[#1E1B4B]"
+                className="card-clean p-7 flex flex-col justify-between group hover:border-[#0F6F8A]"
               >
                 <div>
-                  <div className="w-10 h-10 rounded-xl bg-[#8FE1F4]/10 border border-[#8FE1F4]/20 flex items-center justify-center text-[#8FE1F4] mb-5 group-hover:bg-[#8FE1F4] group-hover:text-white transition-colors">
+                  <div className="w-10 h-10 rounded-xl bg-[#0F6F8A]/10 border border-[#0F6F8A]/20 flex items-center justify-center text-[#0F6F8A] mb-5 group-hover:bg-[#0F6F8A] group-hover:text-white transition-colors">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <h3 className="text-xl font-bold font-serif-heading text-[#E6F3F7] mb-2">
+                  <h3 className="text-xl font-bold font-serif-heading text-[#0C1D24] mb-2">
                     {niche.title}
                   </h3>
-                  <p className="text-sm text-[#7FA0AB] leading-relaxed">
+                  <p className="text-sm text-[#4B6E7A] leading-relaxed">
                     {niche.desc}
                   </p>
                 </div>
