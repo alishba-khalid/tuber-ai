@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { useAuth } from '@/components/AuthProvider';
 import { PlusCircle, TrendingUp, Video, Clock, Zap, BarChart3, ArrowRight, Play } from 'lucide-react';
 
 const recentProjects = [
@@ -23,89 +26,68 @@ const recentProjects = [
     progress: 67,
     stage: 'Visuals',
   },
-  {
-    id: '3',
-    title: 'A Quiet Night in the Amazon Rainforest',
-    status: 'completed',
-    duration: '8h 00m',
-    format: 'Sleep Story',
-    credits: 2400,
-    date: 'Yesterday',
-    progress: 100,
-  },
-  {
-    id: '4',
-    title: 'The Rise and Fall of the Roman Empire',
-    status: 'queued',
-    duration: '3h 30m',
-    format: 'Documentary',
-    credits: 630,
-    date: '3 hours ago',
-    progress: 0,
-  },
-];
-
-const stats = [
-  { label: 'Videos Created', value: '24', icon: Video, change: '+8 this month', color: '#6C3DFF' },
-  { label: 'Hours Generated', value: '47h', icon: Clock, change: '+12h this month', color: '#A855F7' },
-  { label: 'Credits Used', value: '660', icon: Zap, change: '840 remaining', color: '#00D4FF' },
-  { label: 'Avg Watch Time', value: '68%', icon: TrendingUp, change: '+5% vs last month', color: '#10B981' },
 ];
 
 const statusConfig = {
-  completed: { label: 'Completed', color: 'text-green-400', bg: 'bg-green-400/10 border-green-400/20' },
-  generating: { label: 'Generating', color: 'text-[#A855F7]', bg: 'bg-[#A855F7]/10 border-[#A855F7]/20' },
-  queued: { label: 'Queued', color: 'text-[#F59E0B]', bg: 'bg-[#F59E0B]/10 border-[#F59E0B]/20' },
-  failed: { label: 'Failed', color: 'text-red-400', bg: 'bg-red-400/10 border-red-400/20' },
+  completed: { label: 'Completed', color: 'text-green-700', bg: 'bg-green-50 border-green-200' },
+  generating: { label: 'Generating', color: 'text-[#1E1B4B]', bg: 'bg-[#EEF2FF] border-[#C7D2FE]' },
+  queued: { label: 'Queued', color: 'text-amber-700', bg: 'bg-amber-50 border-amber-200' },
+  failed: { label: 'Failed', color: 'text-red-700', bg: 'bg-red-50 border-red-200' },
 };
 
 export default function DashboardPage() {
+  const { user } = useAuth();
+  const displayName = user?.email ? user.email.split('@')[0] : 'Creator';
+
+  const stats = [
+    { label: 'Videos Created', value: '2', icon: Video, change: '+2 this month', color: '#1E1B4B' },
+    { label: 'Hours Generated', value: '3h', icon: Clock, change: '+3h this month', color: '#1E1B4B' },
+    { label: 'Avg Watch Time', value: '68%', icon: TrendingUp, change: 'Optimal performance', color: '#1E1B4B' },
+  ];
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-5xl">
+      
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-          <p className="text-[#94A3B8] text-sm mt-0.5">Welcome back, John. Ready to create?</p>
+          <h1 className="text-2xl font-bold font-serif-heading text-[#18181B]">Dashboard</h1>
+          <p className="text-[#52525B] text-sm mt-0.5 capitalize">Welcome back, {displayName}. Ready to create?</p>
         </div>
-        <Link href="/dashboard/create" className="btn-primary px-5 py-2.5 text-sm flex items-center gap-2">
-          <PlusCircle className="w-4 h-4" />
+        <Link href="/dashboard/create" className="btn-indigo-pill text-xs px-4 py-2 flex items-center gap-1.5">
+          <PlusCircle className="w-3.5 h-3.5" />
           New Video
         </Link>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <div key={stat.label} className="glass-card p-4">
+            <div key={stat.label} className="bg-white border border-[#E5E2D8] p-4 rounded-xl shadow-2xs">
               <div className="flex items-start justify-between mb-3">
-                <div
-                  className="w-9 h-9 rounded-xl flex items-center justify-center"
-                  style={{ background: `${stat.color}20`, border: `1px solid ${stat.color}30` }}
-                >
-                  <Icon className="w-4 h-4" style={{ color: stat.color }} />
+                <div className="w-8 h-8 rounded-lg bg-[#EEF2FF] border border-[#C7D2FE] flex items-center justify-center text-[#1E1B4B]">
+                  <Icon className="w-4 h-4" />
                 </div>
-                <BarChart3 className="w-3.5 h-3.5 text-[#64748B]" />
+                <BarChart3 className="w-3.5 h-3.5 text-[#71717A]" />
               </div>
-              <div className="text-2xl font-bold text-white mb-0.5">{stat.value}</div>
-              <div className="text-xs text-[#64748B]">{stat.label}</div>
-              <div className="text-xs mt-1" style={{ color: stat.color }}>{stat.change}</div>
+              <div className="text-2xl font-bold font-serif-heading text-[#18181B] mb-0.5">{stat.value}</div>
+              <div className="text-xs text-[#52525B]">{stat.label}</div>
+              <div className="text-[10px] font-mono-label font-bold text-[#1E1B4B] mt-1">{stat.change}</div>
             </div>
           );
         })}
       </div>
 
-      {/* Quick create banner */}
-      <div className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-[#6C3DFF]/20 to-[#A855F7]/10 border border-[#6C3DFF]/30 p-6">
-        <div className="absolute top-0 right-0 w-64 h-full bg-gradient-to-l from-[#00D4FF]/5 to-transparent" />
-        <div className="relative z-10 flex items-center justify-between gap-4">
+      {/* Quick Create Banner */}
+      <div className="relative rounded-2xl bg-white border border-[#E5E2D8] p-6 shadow-2xs overflow-hidden">
+        <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h3 className="text-lg font-bold text-white mb-1">Start a new project</h3>
-            <p className="text-[#94A3B8] text-sm">Enter a topic and generate a full-length YouTube video in minutes.</p>
+            <h3 className="text-lg font-bold font-serif-heading text-[#18181B] mb-1">Start a new project</h3>
+            <p className="text-[#52525B] text-sm">Enter a topic and generate a full-length YouTube video in minutes.</p>
           </div>
-          <Link href="/dashboard/create" className="btn-primary px-5 py-2.5 text-sm flex items-center gap-2 flex-shrink-0">
+          <Link href="/dashboard/create" className="btn-indigo-pill text-xs px-5 py-2.5 flex items-center gap-2 flex-shrink-0">
             Create Now
             <ArrowRight className="w-4 h-4" />
           </Link>
@@ -115,9 +97,9 @@ export default function DashboardPage() {
       {/* Recent Projects */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-white">Recent Projects</h2>
-          <Link href="/dashboard/projects" className="text-sm text-[#A855F7] hover:text-[#6C3DFF] flex items-center gap-1">
-            View all <ArrowRight className="w-3.5 h-3.5" />
+          <h2 className="text-lg font-bold font-serif-heading text-[#18181B]">Recent Projects</h2>
+          <Link href="/dashboard/projects" className="text-xs text-[#1E1B4B] font-semibold hover:underline flex items-center gap-1">
+            View all <ArrowRight className="w-3 h-3" />
           </Link>
         </div>
 
@@ -125,19 +107,18 @@ export default function DashboardPage() {
           {recentProjects.map((project) => {
             const status = statusConfig[project.status as keyof typeof statusConfig];
             return (
-              <div key={project.id} className="glass-card glass-card-hover p-4">
+              <div key={project.id} className="bg-white border border-[#E5E2D8] hover:border-[#C5BFB0] rounded-xl p-4 transition-all shadow-2xs">
                 <div className="flex items-center gap-4">
+                  
                   {/* Thumbnail placeholder */}
-                  <div className="w-16 h-10 rounded-lg bg-gradient-to-br from-[#6C3DFF]/30 to-[#A855F7]/20 flex items-center justify-center flex-shrink-0">
-                    <Play className="w-4 h-4 text-[#A855F7]" />
+                  <div className="w-12 h-8 rounded bg-[#FAF9F5] border border-[#E5E2D8] flex items-center justify-center flex-shrink-0">
+                    <Play className="w-3.5 h-3.5 text-[#1E1B4B] fill-current" />
                   </div>
 
                   {/* Title & info */}
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-0.5">
-                      <h3 className="text-sm font-medium text-white truncate">{project.title}</h3>
-                    </div>
-                    <div className="flex items-center gap-3 text-xs text-[#64748B]">
+                    <h3 className="text-sm font-semibold text-[#18181B] truncate mb-0.5">{project.title}</h3>
+                    <div className="flex items-center gap-3 text-xs text-[#71717A]">
                       <span>{project.format}</span>
                       <span>·</span>
                       <span>{project.duration}</span>
@@ -148,29 +129,23 @@ export default function DashboardPage() {
                     </div>
                     {/* Progress bar for generating */}
                     {project.status === 'generating' && (
-                      <div className="mt-2">
-                        <div className="flex justify-between text-[10px] text-[#64748B] mb-1">
+                      <div className="mt-2 max-w-md">
+                        <div className="flex justify-between text-[10px] text-[#71717A] mb-1">
                           <span>Stage: {project.stage}</span>
                           <span>{project.progress}%</span>
                         </div>
-                        <div className="progress-bar h-1">
-                          <div className="progress-fill" style={{ width: `${project.progress}%` }} />
+                        <div className="w-full bg-[#E5E2D8] h-1 rounded-full overflow-hidden">
+                          <div className="bg-[#1E1B4B] h-full rounded-full" style={{ width: `${project.progress}%` }} />
                         </div>
                       </div>
                     )}
                   </div>
 
-                  {/* Status + action */}
+                  {/* Status */}
                   <div className="flex items-center gap-3">
-                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full border ${status.bg} ${status.color}`}>
+                    <span className={`text-[10px] font-mono-label font-bold px-2 py-0.5 rounded border ${status.bg} ${status.color}`}>
                       {status.label}
                     </span>
-                    <Link
-                      href={`/dashboard/video/${project.id}`}
-                      className="text-[#64748B] hover:text-white transition-colors"
-                    >
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
                   </div>
                 </div>
               </div>
@@ -178,6 +153,7 @@ export default function DashboardPage() {
           })}
         </div>
       </div>
+
     </div>
   );
 }

@@ -2,176 +2,169 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Sparkles, Mail, Lock, Eye, EyeOff, ArrowRight, Github, User, Check } from 'lucide-react';
-
-const passwordRequirements = [
-  { label: 'At least 8 characters', check: (p: string) => p.length >= 8 },
-  { label: 'One uppercase letter', check: (p: string) => /[A-Z]/.test(p) },
-  { label: 'One number', check: (p: string) => /[0-9]/.test(p) },
-];
+import { useRouter } from 'next/navigation';
+import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
+import { Sparkles } from 'lucide-react';
 
 export default function SignupPage() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [agreed, setAgreed] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleEmailSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!agreed) return;
-    setIsLoading(true);
-    // TODO: Supabase auth integration
-    await new Promise(r => setTimeout(r, 1500));
-    setIsLoading(false);
-    window.location.href = '/dashboard';
+    setError('');
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      router.push('/dashboard');
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || 'Failed to create an account.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignup = async () => {
+    setError('');
+    setLoading(true);
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      router.push('/dashboard');
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || 'Google sign-up failed.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="glass-card p-8">
-      {/* Logo */}
-      <div className="text-center mb-8">
-        <Link href="/" className="inline-flex items-center gap-2 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#6C3DFF] to-[#A855F7] flex items-center justify-center">
-            <Sparkles className="w-5 h-5 text-white" />
-          </div>
-          <span className="text-xl font-bold text-white">Tuber<span className="gradient-text">AI</span></span>
-        </Link>
-        <h1 className="text-2xl font-bold text-white">Create your account</h1>
-        <p className="text-[#94A3B8] text-sm mt-1">Start generating videos in minutes</p>
-
-        {/* Free plan badge */}
-        <div className="inline-flex items-center gap-2 badge badge-purple mt-3">
-          <Check className="w-3 h-3" />
-          <span>Free to start — no credit card required</span>
-        </div>
-      </div>
-
-      {/* Social login */}
-      <button className="w-full flex items-center justify-center gap-3 py-3 rounded-xl border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)] hover:bg-[rgba(255,255,255,0.07)] text-white text-sm font-medium transition-all mb-6">
-        <Github className="w-4 h-4" />
-        Continue with GitHub
-      </button>
-
-      <div className="flex items-center gap-3 mb-6">
-        <div className="flex-1 h-px bg-[rgba(255,255,255,0.08)]" />
-        <span className="text-xs text-[#64748B]">or sign up with email</span>
-        <div className="flex-1 h-px bg-[rgba(255,255,255,0.08)]" />
-      </div>
-
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-[#94A3B8] mb-1.5">Full Name</label>
-          <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" />
-            <input
-              type="text"
-              value={name}
-              onChange={e => setName(e.target.value)}
-              placeholder="John Doe"
-              className="input-field pl-10"
-              required
-            />
-          </div>
+    <div className="min-h-screen flex items-center justify-center bg-[#F6F5F0] px-4 sm:px-6">
+      <div className="max-w-md w-full bg-white border border-[#E5E2D8] rounded-2xl p-8 shadow-xs">
+        
+        {/* Header / Logo */}
+        <div className="text-center mb-8">
+          <Link href="/" className="inline-flex items-center gap-2 mb-4">
+            <div className="w-8 h-8 rounded-lg bg-[#1E1B4B] flex items-center justify-center text-white">
+              <Sparkles className="w-4 h-4 text-[#F6F5F0]" />
+            </div>
+            <span className="text-xl font-bold font-serif-heading text-[#18181B]">
+              Tuber<span className="text-[#1E1B4B]">AI</span>
+            </span>
+          </Link>
+          <h2 className="text-2xl font-bold font-serif-heading text-[#18181B]">
+            Create your account
+          </h2>
+          <p className="text-xs text-[#52525B] mt-1">
+            Get started with 300 free founding credits
+          </p>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-[#94A3B8] mb-1.5">Email</label>
-          <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" />
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-xs text-center font-medium">
+            {error}
+          </div>
+        )}
+
+        {/* Email & Password Signup Form */}
+        <form onSubmit={handleEmailSignup} className="space-y-4">
+          <div>
+            <label className="text-xs font-mono-label font-bold text-[#52525B] block mb-1">
+              EMAIL ADDRESS
+            </label>
             <input
               type="email"
+              required
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="input-field pl-10"
-              required
+              className="w-full bg-[#FAF9F5] border border-[#E5E2D8] rounded-xl px-4 py-2.5 text-sm text-[#18181B] placeholder-[#A1A1AA] focus:outline-none focus:border-[#C5BFB0]"
             />
           </div>
-        </div>
 
-        <div>
-          <label className="block text-sm font-medium text-[#94A3B8] mb-1.5">Password</label>
-          <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" />
+          <div>
+            <label className="text-xs font-mono-label font-bold text-[#52525B] block mb-1">
+              PASSWORD
+            </label>
             <input
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              placeholder="Create a strong password"
-              className="input-field pl-10 pr-10"
+              type="password"
               required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              className="w-full bg-[#FAF9F5] border border-[#E5E2D8] rounded-xl px-4 py-2.5 text-sm text-[#18181B] placeholder-[#A1A1AA] focus:outline-none focus:border-[#C5BFB0]"
             />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-[#94A3B8]"
-            >
-              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-            </button>
           </div>
 
-          {/* Password requirements */}
-          {password && (
-            <div className="mt-2 space-y-1">
-              {passwordRequirements.map(req => (
-                <div key={req.label} className="flex items-center gap-2">
-                  <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center ${req.check(password) ? 'bg-green-500' : 'bg-[rgba(255,255,255,0.1)]'}`}>
-                    {req.check(password) && <Check className="w-2 h-2 text-white" />}
-                  </div>
-                  <span className={`text-xs ${req.check(password) ? 'text-green-400' : 'text-[#64748B]'}`}>
-                    {req.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+          <div>
+            <label className="text-xs font-mono-label font-bold text-[#52525B] block mb-1">
+              CONFIRM PASSWORD
+            </label>
+            <input
+              type="password"
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="••••••••"
+              className="w-full bg-[#FAF9F5] border border-[#E5E2D8] rounded-xl px-4 py-2.5 text-sm text-[#18181B] placeholder-[#A1A1AA] focus:outline-none focus:border-[#C5BFB0]"
+            />
+          </div>
 
-        {/* Terms */}
-        <div className="flex items-start gap-3">
           <button
-            type="button"
-            onClick={() => setAgreed(!agreed)}
-            className={`w-4 h-4 rounded border mt-0.5 flex-shrink-0 flex items-center justify-center transition-all ${
-              agreed ? 'bg-[#6C3DFF] border-[#6C3DFF]' : 'border-[rgba(255,255,255,0.2)] bg-transparent'
-            }`}
+            type="submit"
+            disabled={loading}
+            className="w-full btn-indigo-pill justify-center text-sm py-2.5 rounded-xl font-bold mt-2"
           >
-            {agreed && <Check className="w-2.5 h-2.5 text-white" />}
+            {loading ? 'Creating account...' : 'Create Account'}
           </button>
-          <label className="text-xs text-[#64748B] leading-relaxed cursor-pointer" onClick={() => setAgreed(!agreed)}>
-            I agree to TuberAI's{' '}
-            <Link href="/terms" className="text-[#A855F7] hover:text-[#6C3DFF]">Terms of Service</Link>
-            {' '}and{' '}
-            <Link href="/privacy" className="text-[#A855F7] hover:text-[#6C3DFF]">Privacy Policy</Link>
-          </label>
+        </form>
+
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-[#E5E2D8]"></div>
+          </div>
+          <div className="relative flex justify-center text-xs">
+            <span className="bg-white px-3 text-[#71717A] font-medium">Or sign up with</span>
+          </div>
         </div>
 
+        {/* Google Sign In */}
         <button
-          type="submit"
-          disabled={isLoading || !agreed}
-          className="btn-primary w-full py-3 flex items-center justify-center gap-2 mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          onClick={handleGoogleSignup}
+          disabled={loading}
+          className="w-full flex items-center justify-center gap-2 bg-white border border-[#E5E2D8] hover:border-[#C5BFB0] rounded-xl py-2.5 text-sm font-semibold text-[#18181B] transition-colors"
         >
-          {isLoading ? (
-            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-          ) : (
-            <>
-              Create Account
-              <ArrowRight className="w-4 h-4" />
-            </>
-          )}
+          <svg className="w-4 h-4" viewBox="0 0 24 24">
+            <path
+              fill="#EA4335"
+              d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114-3.466 0-6.277-2.85-6.277-6.36 0-3.51 2.811-6.358 6.277-6.358 1.584 0 3.018.59 4.114 1.564l3.078-3.078C18.91 1.94 15.823 1 12.24 1 5.923 1 1 5.92 1 12s4.923 11 11.24 11c6.592 0 11.24-4.577 11.24-11 0-.668-.073-1.31-.205-1.922H12.24z"
+            />
+          </svg>
+          Google
         </button>
-      </form>
 
-      {/* Login link */}
-      <p className="text-center text-sm text-[#64748B] mt-6">
-        Already have an account?{' '}
-        <Link href="/auth/login" className="text-[#A855F7] hover:text-[#6C3DFF] font-medium transition-colors">
-          Sign in →
-        </Link>
-      </p>
+        {/* Footer Link */}
+        <div className="text-center mt-6 text-xs text-[#52525B]">
+          Already have an account?{' '}
+          <Link href="/auth/login" className="text-[#1E1B4B] font-semibold hover:underline">
+            Log in
+          </Link>
+        </div>
+
+      </div>
     </div>
   );
 }
