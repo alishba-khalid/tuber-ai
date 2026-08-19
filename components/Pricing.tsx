@@ -4,7 +4,7 @@ import { Check } from 'lucide-react';
 const plans = [
   {
     name: 'Starter',
-    price: 20,
+    price: 29,
     savings: '',
     credits: 300,
     videos: '1 full 1-hour video',
@@ -14,7 +14,7 @@ const plans = [
   },
   {
     name: 'Plus',
-    price: 39,
+    price: 49,
     savings: 'Save 11%',
     credits: 660,
     videos: '2 full 1-hour videos',
@@ -24,7 +24,7 @@ const plans = [
   },
   {
     name: 'Creator',
-    price: 79,
+    price: 89,
     savings: 'Save 21%',
     credits: 1500,
     videos: '5 full 1-hour videos',
@@ -34,7 +34,7 @@ const plans = [
   },
   {
     name: 'Studio',
-    price: 129,
+    price: 139,
     savings: 'Save 28%',
     credits: 2700,
     videos: '9 full 1-hour videos',
@@ -44,7 +44,7 @@ const plans = [
   },
   {
     name: 'Pro',
-    price: 249,
+    price: 259,
     savings: 'Save 38%',
     credits: 6000,
     videos: '20 full 1-hour videos',
@@ -68,7 +68,7 @@ export default function Pricing() {
             Founding pricing — locked in while we're in beta
           </h2>
           <p className="text-base sm:text-lg text-[#52525B] leading-relaxed mb-6">
-            A full video every month, from $20/mo. One finished 1-hour video — voice and visuals included. Or pour the same $20/mo into 1,000 images, or 120 minutes of voiceover, or 20 full scripts.
+            A full video every month, from $29/mo. One finished 1-hour video — voice and visuals included. Or pour the same $29/mo into 1,000 images, or 120 minutes of voiceover, or 20 full scripts.
           </p>
 
           <div className="bg-[#FFFFFF] border border-[#E5E2D8] p-4 rounded-xl text-xs sm:text-sm text-[#52525B] inline-block shadow-2xs">

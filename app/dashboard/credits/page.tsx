@@ -9,11 +9,11 @@ const transactions = [
 ];
 
 const plans = [
-  { id: 'starter', name: 'Starter', price: 20, credits: 300, desc: '1 hour video' },
-  { id: 'plus', name: 'Plus', price: 39, credits: 660, desc: '2 hours video' },
-  { id: 'creator', name: 'Creator', price: 79, credits: 1500, desc: '5 hours video' },
-  { id: 'studio', name: 'Studio', price: 129, credits: 2700, desc: '9 hours video' },
-  { id: 'pro', name: 'Pro', price: 249, credits: 6000, desc: '20 hours video' },
+  { id: 'starter', name: 'Starter', price: 29, credits: 300, desc: '1 hour video' },
+  { id: 'plus', name: 'Plus', price: 49, credits: 660, desc: '2 hours video' },
+  { id: 'creator', name: 'Creator', price: 89, credits: 1500, desc: '5 hours video' },
+  { id: 'studio', name: 'Studio', price: 139, credits: 2700, desc: '9 hours video' },
+  { id: 'pro', name: 'Pro', price: 259, credits: 6000, desc: '20 hours video' },
 ];
 
 export default function CreditsPage() {

@@ -3,11 +3,11 @@ import { stripe } from '@/lib/stripe';
 
 // Plan configuration lookup (using standard Stripe price variables)
 const plans: Record<string, { price: number; credits: number; name: string }> = {
-  starter: { price: 20, credits: 300, name: 'Starter Plan' },
-  plus: { price: 39, credits: 660, name: 'Plus Plan' },
-  creator: { price: 79, credits: 1500, name: 'Creator Plan' },
-  studio: { price: 129, credits: 2700, name: 'Studio Plan' },
-  pro: { price: 249, credits: 6000, name: 'Pro Plan' },
+  starter: { price: 29, credits: 300, name: 'Starter Plan' },
+  plus: { price: 49, credits: 660, name: 'Plus Plan' },
+  creator: { price: 89, credits: 1500, name: 'Creator Plan' },
+  studio: { price: 139, credits: 2700, name: 'Studio Plan' },
+  pro: { price: 259, credits: 6000, name: 'Pro Plan' },
 };
 
 export async function POST(request: Request) {
