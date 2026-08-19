@@ -52,29 +52,29 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#E6F2F5] px-4 sm:px-6">
-      <div className="max-w-md w-full bg-white border border-[#CADCE0] rounded-2xl p-8 shadow-xs">
+    <div className="min-h-screen flex items-center justify-center bg-transparent px-4 sm:px-6">
+      <div className="max-w-md w-full bg-[#0A1412] border border-[#122823] rounded-2xl p-8 shadow-xl shadow-emerald-950/20">
         
         {/* Header / Logo */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 rounded-lg bg-[#0F6F8A] flex items-center justify-center text-[#E6F2F5]">
-              <Sparkles className="w-4 h-4 text-[#E6F2F5]" />
+            <div className="w-8 h-8 rounded-lg bg-[#C5B49F] flex items-center justify-center text-[#030706]">
+              <Sparkles className="w-4 h-4 text-[#030706]" />
             </div>
-            <span className="text-xl font-bold font-serif-heading text-[#0A1C20]">
-              Tuber<span className="text-[#0F6F8A]">AI</span>
+            <span className="text-xl font-bold font-serif-heading text-[#ECFDF5]">
+              Tuber<span className="text-[#C5B49F]">AI</span>
             </span>
           </Link>
-          <h2 className="text-3xl font-bold font-serif-heading text-[#0A1C20]">
+          <h2 className="text-3xl font-bold font-serif-heading text-[#ECFDF5]">
             Create your account
           </h2>
-          <p className="text-xs text-[#486E78] mt-1">
+          <p className="text-xs text-[#8FAAA6] mt-1">
             Get started with 300 free founding credits
           </p>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-xs text-center font-medium">
+          <div className="mb-4 p-3 bg-red-950/40 border border-red-800 text-red-400 rounded-lg text-xs text-center font-medium">
             {error}
           </div>
         )}
@@ -82,7 +82,7 @@ export default function SignupPage() {
         {/* Email & Password Signup Form */}
         <form onSubmit={handleEmailSignup} className="space-y-4">
           <div>
-            <label className="text-xs font-mono-label font-bold text-[#486E78] block mb-1">
+            <label className="text-xs font-mono-label font-bold text-[#8FAAA6] block mb-1">
               EMAIL ADDRESS
             </label>
             <input
@@ -91,12 +91,12 @@ export default function SignupPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="w-full bg-white border border-[#CADCE0] rounded-xl px-4 py-2.5 text-sm text-[#0A1C20] placeholder-[#486E78] focus:outline-none focus:border-[#AEC8CC]"
+              className="w-full bg-[#0A1412] border border-[#122823] rounded-xl px-4 py-2.5 text-sm text-[#ECFDF5] placeholder-[#527E72] focus:outline-none focus:border-[#225146]"
             />
           </div>
 
           <div>
-            <label className="text-xs font-mono-label font-bold text-[#486E78] block mb-1">
+            <label className="text-xs font-mono-label font-bold text-[#8FAAA6] block mb-1">
               PASSWORD
             </label>
             <input
@@ -105,12 +105,12 @@ export default function SignupPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full bg-white border border-[#CADCE0] rounded-xl px-4 py-2.5 text-sm text-[#0A1C20] placeholder-[#486E78] focus:outline-none focus:border-[#AEC8CC]"
+              className="w-full bg-[#0A1412] border border-[#122823] rounded-xl px-4 py-2.5 text-sm text-[#ECFDF5] placeholder-[#527E72] focus:outline-none focus:border-[#225146]"
             />
           </div>
 
           <div>
-            <label className="text-xs font-mono-label font-bold text-[#486E78] block mb-1">
+            <label className="text-xs font-mono-label font-bold text-[#8FAAA6] block mb-1">
               CONFIRM PASSWORD
             </label>
             <input
@@ -119,14 +119,14 @@ export default function SignupPage() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full bg-white border border-[#CADCE0] rounded-xl px-4 py-2.5 text-sm text-[#0A1C20] placeholder-[#486E78] focus:outline-none focus:border-[#AEC8CC]"
+              className="w-full bg-[#0A1412] border border-[#122823] rounded-xl px-4 py-2.5 text-sm text-[#ECFDF5] placeholder-[#527E72] focus:outline-none focus:border-[#225146]"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full btn-indigo-pill justify-center text-sm py-2.5 rounded-xl font-bold mt-2"
+            className="w-full btn-indigo-pill justify-center text-sm py-2.5 rounded-xl font-bold mt-2 cursor-pointer"
           >
             {loading ? 'Creating account...' : 'Create Account'}
           </button>
@@ -134,10 +134,10 @@ export default function SignupPage() {
 
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-[#CADCE0]"></div>
+            <div className="w-full border-t border-[#122823]"></div>
           </div>
           <div className="relative flex justify-center text-xs">
-            <span className="bg-white px-3 text-[#74969E] font-medium">Or sign up with</span>
+            <span className="bg-[#0A1412] px-3 text-[#527E72] font-medium">Or sign up with</span>
           </div>
         </div>
 
@@ -145,7 +145,7 @@ export default function SignupPage() {
         <button
           onClick={handleGoogleSignup}
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 bg-white border border-[#CADCE0] hover:border-[#AEC8CC] rounded-xl py-2.5 text-sm font-semibold text-[#0A1C20] transition-colors"
+          className="w-full flex items-center justify-center gap-2 bg-[#0A1412] border border-[#122823] hover:border-[#225146] hover:bg-[#122823]/50 rounded-xl py-2.5 text-sm font-semibold text-[#ECFDF5] transition-all cursor-pointer"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24">
             <path
@@ -157,9 +157,9 @@ export default function SignupPage() {
         </button>
 
         {/* Footer Link */}
-        <div className="text-center mt-6 text-xs text-[#486E78]">
+        <div className="text-center mt-6 text-xs text-[#8FAAA6]">
           Already have an account?{' '}
-          <Link href="/auth/login" className="text-[#0F6F8A] font-semibold hover:underline">
+          <Link href="/auth/login" className="text-[#C5B49F] font-semibold hover:underline">
             Log in
           </Link>
         </div>

@@ -48,7 +48,7 @@ const posts = [
     readTime: '5 min read',
     date: 'Jul 28, 2026',
     author: 'TuberAI Team',
-    color: 'from-[#10B981]/20 to-[#6C3DFF]/20',
+    color: 'from-[#C5B49F]/20 to-[#6C3DFF]/20',
   },
 ];
 

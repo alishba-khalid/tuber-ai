@@ -56,7 +56,7 @@ const plans = [
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="py-20 bg-transparent border-t border-[#CADCE0]">
+    <section id="pricing" className="py-20 bg-transparent border-t border-[#122823]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -64,15 +64,15 @@ export default function Pricing() {
           <div className="badge-indigo mb-4">
             <span>PRICING</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-whitexl font-bold font-serif-heading text-[#0A1C20] mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold font-serif-heading text-[#ECFDF5] mb-4">
             Founding pricing — locked in while we're in beta
           </h2>
-          <p className="text-[#E6F2F5]ase sm:text-lg text-[#486E78] leading-relaxed mb-6">
+          <p className="text-sm sm:text-base text-[#8FAAA6] leading-relaxed mb-6">
             A full video every month, from $29/mo. One finished 1-hour video — voice and visuals included. Or pour the same $29/mo into 1,000 images, or 120 minutes of voiceover, or 20 full scripts.
           </p>
 
-          <div className="bg-white border border-[#CADCE0] p-4 rounded-xl text-xs sm:text-sm text-[#486E78] inline-block shadow-2xs">
-            <span className="font-semibold text-[#0A1C20]">The old way:</span> $300–$1,000 per video with a freelance team. TuberAI does the whole thing for a few dollars — while you sleep.
+          <div className="bg-[#0A1412] border border-[#122823] p-4 rounded-xl text-xs sm:text-sm text-[#8FAAA6] inline-block shadow-2xs">
+            <span className="font-semibold text-[#C5B49F]">The old way:</span> $300–$1,000 per video with a freelance team. TuberAI does the whole thing for a few dollars — while you sleep.
           </div>
         </div>
 
@@ -83,45 +83,45 @@ export default function Pricing() {
               key={plan.name}
               className={`rounded-2xl p-6 flex flex-col justify-between transition-all relative ${
                 plan.popular
-                  ? 'bg-white border-2 border-[#0F6F8A] shadow-md'
-                  : 'bg-white border border-[#CADCE0] shadow-2xs hover:border-[#AEC8CC]'
+                  ? 'bg-[#0A1412] border-2 border-[#C5B49F] shadow-lg shadow-emerald-950/20'
+                  : 'bg-[#0A1412] border border-[#122823] shadow-2xs hover:border-[#225146]'
               }`}
             >
               {plan.popular && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#0F6F8A] text-[#E6F2F5] text-[10px] font-mono-label font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-xs">
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#C5B49F] text-[#030706] text-[10px] font-mono-label font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-xs">
                   BEST VALUE
                 </div>
               )}
 
               <div>
                 <div className="flex items-center justify-between mb-2 mt-1">
-                  <h3 className="text-lg font-bold font-serif-heading text-[#0A1C20]">
+                  <h3 className="text-lg font-bold font-serif-heading text-[#ECFDF5]">
                     {plan.name}
                   </h3>
                   {plan.savings && (
-                    <span className="text-[10px] font-mono-label font-semibold text-[#0F6F8A] bg-[#0F6F8A]/10 px-2 py-0.5 rounded border border-[#0F6F8A]/20">
+                    <span className="text-[10px] font-mono-label font-semibold text-[#C5B49F] bg-[#C5B49F]/15 px-2 py-0.5 rounded border border-[#C5B49F]/30">
                       {plan.savings}
                     </span>
                   )}
                 </div>
 
                 <div className="mb-4">
-                  <span className="text-4xl font-extrabold font-serif-heading text-[#0A1C20]">
+                  <span className="text-4xl font-extrabold font-serif-heading text-[#ECFDF5]">
                     ${plan.price}
                   </span>
-                  <span className="text-xs text-[#74969E]"> / month</span>
+                  <span className="text-xs text-[#527E72]"> / month</span>
                 </div>
 
-                <div className="space-y-3 text-xs text-[#486E78] border-t border-[#CADCE0] pt-4 mb-6">
-                  <div className="flex items-center gap-2 font-semibold text-[#0A1C20]">
-                    <Check className="w-3.5 h-3.5 text-[#0F6F8A]" />
+                <div className="space-y-3 text-xs text-[#8FAAA6] border-t border-[#122823] pt-4 mb-6">
+                  <div className="flex items-center gap-2 font-semibold text-[#ECFDF5]">
+                    <Check className="w-3.5 h-3.5 text-[#C5B49F]" />
                     <span>{plan.credits.toLocaleString()} monthly credits</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Check className="w-3.5 h-3.5 text-[#0F6F8A]" />
+                    <Check className="w-3.5 h-3.5 text-[#C5B49F]" />
                     <span>{plan.videos}</span>
                   </div>
-                  <div className="text-[11px] text-[#74969E] leading-relaxed pt-1">
+                  <div className="text-[11px] text-[#527E72] leading-relaxed pt-1">
                     Equivalent: {plan.rates}
                   </div>
                 </div>
@@ -129,7 +129,7 @@ export default function Pricing() {
 
               <Link
                 href="/auth/signup"
-                className={`w-full text-center text-xs py-3 rounded-full font-semibold transition-all ${
+                className={`w-full text-center text-xs py-3 rounded-full font-semibold transition-all cursor-pointer ${
                   plan.popular
                     ? 'btn-indigo-pill'
                     : 'btn-outline-pill'

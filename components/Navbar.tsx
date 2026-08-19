@@ -90,29 +90,29 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-transparent/95 backdrop-blur-md border-b border-[#CADCE0] transition-all duration-200">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[#050B0A]/90 backdrop-blur-md border-b border-[#122823] transition-all duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
-            <div className="w-8 h-8 rounded-lg bg-[#0F6F8A] flex items-center justify-center shadow-xs">
-              <Sparkles className="w-4 h-4 text-[#E6F2F5]" />
+            <div className="w-8 h-8 rounded-lg bg-[#C5B49F] flex items-center justify-center shadow-xs">
+              <Sparkles className="w-4 h-4 text-[#050B0A]" />
             </div>
-            <span className="text-xl font-bold font-serif-heading tracking-tight text-[#0A1C20]">
-              Tuber<span className="text-[#0F6F8A]">AI</span>
+            <span className="text-xl font-bold font-serif-heading tracking-tight text-[#ECFDF5]">
+              Tuber<span className="text-[#C5B49F]">AI</span>
             </span>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1 bg-white/80 border border-[#CADCE0] px-4 py-2 rounded-full shadow-2xs">
+          <nav className="hidden md:flex items-center gap-1 bg-[#0A1412]/80 border border-[#122823] px-4 py-2 rounded-full shadow-2xs">
 
             {/* Tools Dropdown Trigger */}
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setToolsOpen(!toolsOpen)}
                 onMouseEnter={() => setToolsOpen(true)}
-                className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-[#486E78] hover:text-[#0A1C20] rounded-full hover:bg-[#CADCE0] transition-colors"
+                className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-[#8FAAA6] hover:text-[#ECFDF5] rounded-full hover:bg-[#122823] transition-colors cursor-pointer"
               >
                 Tools
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${toolsOpen ? 'rotate-180' : ''}`} />
@@ -122,9 +122,9 @@ export default function Navbar() {
               {toolsOpen && (
                 <div
                   onMouseLeave={() => setToolsOpen(false)}
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[540px] bg-white border border-[#CADCE0] rounded-2xl shadow-xl overflow-hidden z-50"
+                  className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[540px] bg-[#0A1412] border border-[#122823] rounded-2xl shadow-xl overflow-hidden z-50"
                 >
-                  <div className="grid grid-cols-2 gap-px bg-[#F5EDE8] p-px">
+                  <div className="grid grid-cols-2 gap-px bg-[#122823] p-px">
                     {tools.map((tool) => {
                       const Icon = tool.icon;
                       return (
@@ -132,16 +132,16 @@ export default function Navbar() {
                           key={tool.label}
                           href={tool.href}
                           onClick={() => setToolsOpen(false)}
-                          className="flex items-start gap-3 p-4 bg-white hover:bg-[#E6F2F5] transition-colors group"
+                          className="flex items-start gap-3 p-4 bg-[#0A1412] hover:bg-[#122823] transition-colors group"
                         >
-                          <div className="w-8 h-8 rounded-lg bg-[#0F6F8A]/10 border border-[#0F6F8A]/20 flex items-center justify-center text-[#0F6F8A] flex-shrink-0 mt-0.5 group-hover:bg-[#0F6F8A] group-hover:text-[#E6F2F5] transition-colors">
+                          <div className="w-8 h-8 rounded-lg bg-[#C5B49F]/10 border border-[#C5B49F]/20 flex items-center justify-center text-[#C5B49F] flex-shrink-0 mt-0.5 group-hover:bg-[#C5B49F] group-hover:text-[#030706] transition-colors">
                             <Icon className="w-4 h-4" />
                           </div>
                           <div>
-                            <div className="text-sm font-semibold text-[#0A1C20] group-hover:text-[#0F6F8A] transition-colors">
+                            <div className="text-sm font-semibold text-[#ECFDF5] group-hover:text-[#C5B49F] transition-colors">
                               {tool.label}
                             </div>
-                            <div className="text-xs text-[#74969E] leading-snug mt-0.5">
+                            <div className="text-xs text-[#527E72] leading-snug mt-0.5">
                               {tool.desc}
                             </div>
                           </div>
@@ -151,11 +151,11 @@ export default function Navbar() {
                   </div>
 
                   {/* Footer row */}
-                  <div className="px-4 py-3 bg-transparent border-t border-[#CADCE0]">
+                  <div className="px-4 py-3 bg-transparent border-t border-[#122823]">
                     <Link
                       href="/tools"
                       onClick={() => setToolsOpen(false)}
-                      className="text-xs font-semibold text-[#0F6F8A] flex items-center gap-1 hover:gap-2 transition-all"
+                      className="text-xs font-semibold text-[#C5B49F] flex items-center gap-1 hover:gap-2 transition-all"
                     >
                       See all tools <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
@@ -169,7 +169,7 @@ export default function Navbar() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="px-3 py-1.5 text-sm font-medium text-[#486E78] hover:text-[#0A1C20] rounded-full hover:bg-[#CADCE0] transition-colors"
+                className="px-3 py-1.5 text-sm font-medium text-[#8FAAA6] hover:text-[#ECFDF5] rounded-full hover:bg-[#122823] transition-colors"
               >
                 {link.label}
               </Link>
@@ -180,7 +180,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-4 flex-shrink-0">
             <Link
               href="/auth/login"
-              className="text-sm font-medium text-[#486E78] hover:text-[#0A1C20] transition-colors px-2"
+              className="text-sm font-medium text-[#8FAAA6] hover:text-[#ECFDF5] transition-colors px-2"
             >
               Log in
             </Link>
@@ -194,7 +194,7 @@ export default function Navbar() {
 
           {/* Mobile Toggle */}
           <button
-            className="md:hidden text-[#0A1C20] p-2"
+            className="md:hidden text-[#ECFDF5] p-2"
             onClick={() => setIsMobileOpen(!isMobileOpen)}
             aria-label="Toggle menu"
           >
@@ -204,11 +204,11 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isMobileOpen && (
-          <div className="md:hidden py-4 px-4 bg-white border-t border-[#CADCE0] rounded-b-2xl shadow-lg">
+          <div className="md:hidden py-4 px-4 bg-[#0A1412] border-t border-[#122823] rounded-b-2xl shadow-lg">
             <div className="flex flex-col gap-1">
 
               {/* Mobile Tools Submenu */}
-              <div className="text-xs font-mono-label font-bold text-[#74969E] uppercase px-3 pt-2 pb-1">
+              <div className="text-xs font-mono-label font-bold text-[#527E72] uppercase px-3 pt-2 pb-1">
                 Tools
               </div>
               {tools.map((tool) => {
@@ -217,29 +217,29 @@ export default function Navbar() {
                   <Link
                     key={tool.label}
                     href={tool.href}
-                    className="flex items-center gap-3 px-3 py-2.5 text-sm text-[#0A1C20] rounded-xl hover:bg-[#E6F2F5]"
+                    className="flex items-center gap-3 px-3 py-2.5 text-sm text-[#ECFDF5] rounded-xl hover:bg-[#122823]"
                     onClick={() => setIsMobileOpen(false)}
                   >
-                    <Icon className="w-4 h-4 text-[#0F6F8A]" />
+                    <Icon className="w-4 h-4 text-[#C5B49F]" />
                     {tool.label}
                   </Link>
                 );
               })}
 
-              <div className="h-px bg-[#CADCE0] my-2" />
+              <div className="h-px bg-[#122823] my-2" />
 
               {navLinks.map((link) => (
                 <Link
                   key={link.label}
                   href={link.href}
-                  className="px-3 py-2.5 text-sm font-medium text-[#0A1C20] rounded-xl hover:bg-[#E6F2F5]"
+                  className="px-3 py-2.5 text-sm font-medium text-[#ECFDF5] rounded-xl hover:bg-[#122823]"
                   onClick={() => setIsMobileOpen(false)}
                 >
                   {link.label}
                 </Link>
               ))}
 
-              <div className="pt-3 border-t border-[#CADCE0] flex flex-col gap-2 mt-1">
+              <div className="pt-3 border-t border-[#122823] flex flex-col gap-2 mt-1">
                 <Link
                   href="/auth/login"
                   className="btn-outline-pill w-full text-center text-sm py-2.5"
