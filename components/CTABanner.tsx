@@ -26,7 +26,7 @@ export default function CTABanner() {
                 href="/auth/signup"
                 className="bg-[#FFFFFF] text-[#1E1B4B] hover:bg-transparent rounded-full font-bold px-8 py-4 text-base inline-flex items-center gap-2 shadow-md transition-all hover:scale-105"
               >
-                Create your first video ->
+                Create your first video {'->'}
               </Link>
             </div>
           </div>
