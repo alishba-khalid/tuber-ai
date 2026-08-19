@@ -28,15 +28,14 @@ body {
 body {
   background: linear-gradient(
     -45deg,
-    #E6F2F5,
-    #F0F7F9,
-    #D9E8EB,   /* Replaced the light green tint with a cool ice-blue tint */
-    #DCECF0,
-    #EAF3F5,
-    #D2E5EB
+    #B4EBF7,   /* Soft ice-cyan */
+    #D4C5F2,   /* Soft lavender */
+    #F3C5D3,   /* Soft rose-pink */
+    #B4DDEB,   /* Soft sky-blue */
+    #EAF0F6    /* Soft silver-white */
   );
   background-size: 400% 400%;
-  animation: aurora-shift 15s ease infinite;
+  animation: aurora-shift 12s ease infinite; /* Speed up slightly to 12s for better visual response */
 }
 
 @keyframes aurora-shift {
