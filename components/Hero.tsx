@@ -159,16 +159,24 @@ export default function Hero() {
                       <span>00:00:00 / 10:00:00</span>
                     </div>
                     <div className="flex items-center gap-0.5 h-4">
-                      {[40,65,30,85,50,95,70,45,80,60,90,40,75,55,85,60,40,95,70,50,80,65,90,45,70,85,60,40,75,90,55,70,85,50,60,90,40,75,60,85].map((h, i) => (
-                        <div
-                          key={i}
-                          className="flex-1 rounded-full transition-all duration-300"
-                          style={{
-                            height: `${h}%`,
-                            backgroundColor: i < 16 ? '#9FE8FA' : '#133038'
-                          }}
-                        />
-                      ))}
+                      {[40,65,30,85,50,95,70,45,80,60,90,40,75,55,85,60,40,95,70,50,80,65,90,45,70,85,60,40,75,90,55,70,85,50,60,90,40,75,60,85].map((h, i) => {
+                        const delay = (i % 7) * 0.12;
+                        const duration = 0.5 + (i % 5) * 0.15;
+                        return (
+                          <div
+                            key={i}
+                            className={`flex-1 rounded-full transition-all ${
+                              isPlaying ? 'animate-equalizer-bar' : ''
+                            }`}
+                            style={{
+                              height: `${h}%`,
+                              backgroundColor: i < 16 ? '#9FE8FA' : '#133038',
+                              animationDelay: isPlaying ? `${delay}s` : undefined,
+                              animationDuration: isPlaying ? `${duration}s` : undefined,
+                            }}
+                          />
+                        );
+                      })}
                     </div>
                   </div>
                 </div>

@@ -205,3 +205,16 @@ body > * {
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #061216; }
 ::-webkit-scrollbar-thumb { background: #133038; border-radius: 3px; }
+
+/* ─── Audio Equalizer Waveform Animation ─── */
+@keyframes equalizer-bounce {
+  0% { transform: scaleY(0.25); }
+  50% { transform: scaleY(1); }
+  100% { transform: scaleY(0.25); }
+}
+
+.animate-equalizer-bar {
+  transform-origin: bottom;
+  animation: equalizer-bounce 0.8s ease-in-out infinite;
+}
+
