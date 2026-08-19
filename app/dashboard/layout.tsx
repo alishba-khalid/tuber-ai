@@ -31,10 +31,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#E6EEF0]">
+      <div className="min-h-screen flex items-center justify-center bg-[#142F38]">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 rounded-full border-4 border-[#0F6F8A]/30 border-t-[#0F6F8A] animate-spin" />
-          <span className="text-xs font-mono-label font-bold text-[#4B6E7A]">LOADING SESSION...</span>
+          <span className="text-xs font-mono-label font-bold text-[#92B5C0]">LOADING SESSION...</span>
         </div>
       </div>
     );
@@ -49,43 +49,43 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const displayName = user.email ? user.email.split('@')[0] : 'Creator';
 
   return (
-    <div className="flex h-screen bg-[#E6EEF0] overflow-hidden">
+    <div className="flex h-screen bg-[#142F38] overflow-hidden">
       
       {/* Sidebar */}
-      <aside className="w-60 border-r border-[#CADAE0] flex flex-col bg-[#FFFFFF]">
+      <aside className="w-60 border-r border-[#1E434F] flex flex-col bg-[#0D2229]">
         
         {/* Logo */}
-        <div className="p-4 border-b border-[#CADAE0]">
+        <div className="p-4 border-b border-[#1E434F]">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#0F6F8A] flex items-center justify-center text-white">
-              <Sparkles className="w-4 h-4 text-[#E6EEF0]" />
+            <div className="w-8 h-8 rounded-lg bg-[#8FE1F4] flex items-center justify-center text-white">
+              <Sparkles className="w-4 h-4 text-[#142F38]" />
             </div>
-            <span className="text-lg font-bold font-serif-heading text-[#0C1D24]">
-              Tuber<span className="text-[#0F6F8A]">AI</span>
+            <span className="text-lg font-bold font-serif-heading text-[#E6F3F7]">
+              Tuber<span className="text-[#8FE1F4]">AI</span>
             </span>
           </Link>
         </div>
 
         {/* Credits Widget */}
-        <div className="p-4 border-b border-[#CADAE0] bg-[#FFFFFF]">
+        <div className="p-4 border-b border-[#1E434F] bg-[#0D2229]">
           <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-1.5 text-[#0F6F8A]">
+            <div className="flex items-center gap-1.5 text-[#8FE1F4]">
               <Zap className="w-3.5 h-3.5 fill-current" />
               <span className="text-xs font-bold font-mono-label">CREDITS</span>
             </div>
-            <Link href="/dashboard/credits" className="text-xs text-[#0F6F8A] font-semibold hover:underline">
+            <Link href="/dashboard/credits" className="text-xs text-[#8FE1F4] font-semibold hover:underline">
               Top up
             </Link>
           </div>
-          <div className="text-whitexl font-bold font-serif-heading text-[#0C1D24] mb-1">
+          <div className="text-whitexl font-bold font-serif-heading text-[#E6F3F7] mb-1">
             {credits}
           </div>
-          <div className="text-[10px] text-[#7A9CA8] mb-2 font-mono-label">
+          <div className="text-[10px] text-[#5D8390] mb-2 font-mono-label">
             FOUNDING ACCESS
           </div>
-          <div className="w-full bg-[#CADAE0] h-1.5 rounded-full overflow-hidden">
+          <div className="w-full bg-[#1E434F] h-1.5 rounded-full overflow-hidden">
             <div 
-              className="bg-[#0F6F8A] h-full rounded-full transition-all duration-300" 
+              className="bg-[#8FE1F4] h-full rounded-full transition-all duration-300" 
               style={{ width: `${Math.min(100, (credits / 300) * 100)}%` }} 
             />
           </div>
@@ -101,30 +101,30 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 href={href}
                 className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl transition-all ${
                   isActive 
-                    ? 'bg-[#0F6F8A]/10 text-[#0F6F8A] font-semibold border-l-2 border-[#0F6F8A]'
-                    : 'text-[#4B6E7A] hover:text-[#0C1D24] hover:bg-[#FFFFFF]'
+                    ? 'bg-[#8FE1F4]/10 text-[#8FE1F4] font-semibold border-l-2 border-[#0F6F8A]'
+                    : 'text-[#92B5C0] hover:text-[#E6F3F7] hover:bg-[#0D2229]'
                 }`}
               >
                 <Icon className="w-4 h-4" />
                 <span>{label}</span>
-                {isActive && <ChevronRight className="w-3.5 h-3.5 ml-auto text-[#0F6F8A]" />}
+                {isActive && <ChevronRight className="w-3.5 h-3.5 ml-auto text-[#8FE1F4]" />}
               </Link>
             );
           })}
         </nav>
 
         {/* Bottom User Actions & Logout */}
-        <div className="p-3 border-t border-[#CADAE0]">
-          <div className="flex items-center justify-between p-2 rounded-xl hover:bg-[#FFFFFF] group transition-all">
+        <div className="p-3 border-t border-[#1E434F]">
+          <div className="flex items-center justify-between p-2 rounded-xl hover:bg-[#0D2229] group transition-all">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-[#0F6F8A]/10 border border-[#0F6F8A]/20 flex items-center justify-center text-xs font-bold text-[#0F6F8A]">
+              <div className="w-8 h-8 rounded-full bg-[#8FE1F4]/10 border border-[#8FE1F4]/20 flex items-center justify-center text-xs font-bold text-[#8FE1F4]">
                 {userInitials}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-xs font-bold text-[#0C1D24] truncate capitalize">
+                <div className="text-xs font-bold text-[#E6F3F7] truncate capitalize">
                   {displayName}
                 </div>
-                <div className="text-[10px] text-[#7A9CA8] truncate font-mono-label">
+                <div className="text-[10px] text-[#5D8390] truncate font-mono-label">
                   FREE PLAN
                 </div>
               </div>
@@ -132,7 +132,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <button 
               onClick={logout}
               title="Logout" 
-              className="p-1 text-[#7A9CA8] hover:text-[#991B1B] transition-colors rounded-lg hover:bg-red-50"
+              className="p-1 text-[#5D8390] hover:text-[#991B1B] transition-colors rounded-lg hover:bg-red-50"
             >
               <LogOut className="w-4 h-4" />
             </button>
@@ -145,22 +145,22 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <div className="flex-1 flex flex-col overflow-hidden">
         
         {/* Top Header */}
-        <header className="h-14 border-b border-[#CADAE0] flex items-center px-6 gap-4 bg-[#FFFFFF]">
+        <header className="h-14 border-b border-[#1E434F] flex items-center px-6 gap-4 bg-[#0D2229]">
           
           {/* Search bar */}
           <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7A9CA8]" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5D8390]" />
             <input
               placeholder="Search projects..."
-              className="w-full bg-[#FFFFFF] border border-[#CADAE0] rounded-xl pl-9 pr-4 py-1.5 text-sm text-[#0C1D24] placeholder-[#A1A1AA] focus:outline-none focus:border-[#AEC4CC]"
+              className="w-full bg-[#0D2229] border border-[#1E434F] rounded-xl pl-9 pr-4 py-1.5 text-sm text-[#E6F3F7] placeholder-[#A1A1AA] focus:outline-none focus:border-[#2B5E6E]"
             />
           </div>
           
           {/* Right side icons */}
           <div className="ml-auto flex items-center gap-3">
-            <button className="relative p-2 rounded-xl hover:bg-[#FFFFFF] text-[#7A9CA8] hover:text-[#0C1D24] transition-all">
+            <button className="relative p-2 rounded-xl hover:bg-[#0D2229] text-[#5D8390] hover:text-[#E6F3F7] transition-all">
               <Bell className="w-4 h-4" />
-              <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-[#0F6F8A]" />
+              <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-[#8FE1F4]" />
             </button>
             
             <Link 

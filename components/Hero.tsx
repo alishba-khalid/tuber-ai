@@ -41,12 +41,12 @@ export default function Hero() {
             </div>
 
             {/* Main Sans Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-whitexl font-bold font-serif-heading text-[#0C1D24] leading-[1.12] tracking-tight">
-              The ten-hour AI video generator. <span className="text-[#0F6F8A] block mt-1">Published straight to YouTube.</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-whitexl font-bold font-serif-heading text-[#E6F3F7] leading-[1.12] tracking-tight">
+              The ten-hour AI video generator. <span className="text-[#8FE1F4] block mt-1">Published straight to YouTube.</span>
             </h1>
 
             {/* Subheadline */}
-            <p className="text-sm sm:text-base md:text-lg text-[#4B6E7A] max-w-2xl font-normal leading-relaxed">
+            <p className="text-sm sm:text-base md:text-lg text-[#92B5C0] max-w-2xl font-normal leading-relaxed">
               Most AI long video generators cap out at a minute or two — some stretch to 50 minutes. TuberAI doesn't. One topic in, and it writes the script, narrates it in a natural or cloned voice, generates scene-matched visuals, and renders a finished long-form video up to 10 hours — with no per-video cap on how many you make, auto-published straight to YouTube.
             </p>
 
@@ -71,7 +71,7 @@ export default function Hero() {
               {subHeroChips.map((chip) => (
                 <span
                   key={chip}
-                  className="px-3.5 py-1.5 rounded-full text-xs font-medium text-[#4B6E7A] bg-[#FFFFFF] border border-[#CADAE0]"
+                  className="px-3.5 py-1.5 rounded-full text-xs font-medium text-[#92B5C0] bg-[#0D2229] border border-[#1E434F]"
                 >
                   ✓ {chip}
                 </span>
@@ -82,32 +82,32 @@ export default function Hero() {
 
           {/* Right Column: Interactive Video Preview Widget */}
           <div className="lg:col-span-5 w-full">
-            <div className="bg-[#FFFFFF] border border-[#CADAE0] rounded-2xl shadow-sm overflow-hidden">
+            <div className="bg-[#0D2229] border border-[#1E434F] rounded-2xl shadow-sm overflow-hidden">
               
               {/* Widget Header Bar */}
-              <div className="bg-[#E6EEF0] border-b border-[#CADAE0] px-4 py-3 flex items-center justify-between">
+              <div className="bg-[#142F38] border-b border-[#1E434F] px-4 py-3 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#0F6F8A]" />
-                  <span className="text-[10px] font-mono-label font-bold text-[#0C1D24] uppercase">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#8FE1F4]" />
+                  <span className="text-[10px] font-mono-label font-bold text-[#E6F3F7] uppercase">
                     PROJECT: ROME_FULL_HISTORY.MP4
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-[10px] font-mono-label text-[#64748B]">
-                  <Clock className="w-3.5 h-3.5 text-[#0F6F8A]" />
+                  <Clock className="w-3.5 h-3.5 text-[#8FE1F4]" />
                   <span>10:00:00 MAX</span>
                 </div>
               </div>
 
               {/* Chapter Tabs Row */}
-              <div className="flex border-b border-[#CADAE0] bg-[#FFFFFF] overflow-x-auto">
+              <div className="flex border-b border-[#1E434F] bg-[#0D2229] overflow-x-auto">
                 {chapterTabs.map((tab) => (
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
                     className={`px-3 py-2 text-[10px] font-mono-label font-semibold border-b-2 transition-all flex items-center gap-1.5 flex-shrink-0 ${
                       activeTab === tab.id
-                        ? 'border-[#8FE1F4] text-[#0F6F8A] bg-[#FFFFFF]/60'
-                        : 'border-transparent text-[#64748B] hover:text-[#0C1D24] hover:bg-[#E6EEF0]'
+                        ? 'border-[#8FE1F4] text-[#8FE1F4] bg-[#0D2229]/60'
+                        : 'border-transparent text-[#64748B] hover:text-[#E6F3F7] hover:bg-[#142F38]'
                     }`}
                   >
                     {tab.label}
@@ -116,23 +116,23 @@ export default function Hero() {
               </div>
 
               {/* Active Chapter Body Preview */}
-              <div className="p-4 bg-[#FFFFFF] space-y-4">
+              <div className="p-4 bg-[#0D2229] space-y-4">
                 
                 {/* Visual Thumbnail */}
-                <div className="relative aspect-video rounded-xl overflow-hidden bg-[#E6EEF0] border border-[#CADAE0] group">
+                <div className="relative aspect-video rounded-xl overflow-hidden bg-[#142F38] border border-[#1E434F] group">
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
                   
                   <button
                     onClick={() => setIsPlaying(!isPlaying)}
                     className="absolute inset-0 z-20 flex items-center justify-center group-hover:scale-105 transition-transform"
                   >
-                    <div className="w-10 h-10 rounded-full bg-[#0F6F8A] text-[#E6EEF0] flex items-center justify-center shadow-md">
+                    <div className="w-10 h-10 rounded-full bg-[#8FE1F4] text-[#142F38] flex items-center justify-center shadow-md">
                       <Play className="w-4 h-4 fill-current ml-0.5" />
                     </div>
                   </button>
 
-                  <div className="absolute bottom-2.5 left-2.5 z-20 text-[#0C1D24] text-xs font-medium">
-                    <span className="bg-[#0F6F8A]/20 border border-[#8FE1F4]/40 text-[#0F6F8A] text-[9px] px-1.5 py-0.5 rounded-full mr-1.5 font-mono-label">SCENE 14</span>
+                  <div className="absolute bottom-2.5 left-2.5 z-20 text-[#E6F3F7] text-xs font-medium">
+                    <span className="bg-[#8FE1F4]/20 border border-[#8FE1F4]/40 text-[#8FE1F4] text-[9px] px-1.5 py-0.5 rounded-full mr-1.5 font-mono-label">SCENE 14</span>
                     Roman Forum Rendering
                   </div>
                 </div>
@@ -140,20 +140,20 @@ export default function Hero() {
                 {/* Script & Narration Detail */}
                 <div className="space-y-3">
                   <div>
-                    <div className="text-[10px] font-mono-label text-[#0F6F8A] font-semibold mb-0.5">
+                    <div className="text-[10px] font-mono-label text-[#8FE1F4] font-semibold mb-0.5">
                       ACTIVE NARRATION SCRIPT
                     </div>
-                    <h3 className="text-sm font-bold text-[#0C1D24]">
+                    <h3 className="text-sm font-bold text-[#E6F3F7]">
                       {selectedChapter.title}
                     </h3>
                   </div>
 
-                  <p className="text-xs text-[#4B6E7A] leading-relaxed italic border-l-2 border-[#8FE1F4] pl-3 py-0.5">
+                  <p className="text-xs text-[#92B5C0] leading-relaxed italic border-l-2 border-[#8FE1F4] pl-3 py-0.5">
                     "By the 1st century BCE, Rome had grown beyond a city-state into a Mediterranean empire. But with vast conquest came internal strife, civil wars, and the rise of ambitious generals..."
                   </p>
 
                   {/* Audio Waveform */}
-                  <div className="bg-[#E6EEF0] p-3 rounded-xl border border-[#CADAE0] space-y-1.5">
+                  <div className="bg-[#142F38] p-3 rounded-xl border border-[#1E434F] space-y-1.5">
                     <div className="flex items-center justify-between text-[10px] text-[#64748B] font-mono-label">
                       <span>Voice: Marcus (Deep Voice)</span>
                       <span>00:00:00 / 10:00:00</span>
@@ -170,7 +170,7 @@ export default function Hero() {
                             }`}
                             style={{
                               height: `${h}%`,
-                              backgroundColor: i < 16 ? '#8FE1F4' : '#CADAE0',
+                              backgroundColor: i < 16 ? '#8FE1F4' : '#1E434F',
                               animationDelay: isPlaying ? `${delay}s` : undefined,
                               animationDuration: isPlaying ? `${duration}s` : undefined,
                             }}
