@@ -60,10 +60,10 @@ export default function BlogPage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center py-16">
-            <h1 className="text-4xl font-black text-[#060F12] mb-4">
+            <h1 className="text-4xl font-black text-[#E6F2F5] mb-4">
               The <span className="gradient-text">TuberAI</span> Blog
             </h1>
-            <p className="text-[#7FA0AB] text-lg max-w-xl mx-auto">
+            <p className="text-[#486E78] text-lg max-w-xl mx-auto">
               Tips, tutorials, and insights for AI YouTube content creators.
             </p>
           </div>
@@ -81,18 +81,18 @@ export default function BlogPage() {
                     <div className="flex items-center gap-3 mb-2">
                       <span className="badge badge-purple text-[10px]">{post.category}</span>
                     </div>
-                    <h2 className="text-lg font-bold text-[#060F12] mb-2 hover:text-[#A855F7] transition-colors">
+                    <h2 className="text-lg font-bold text-[#E6F2F5] mb-2 hover:text-[#A855F7] transition-colors">
                       {post.title}
                     </h2>
-                    <p className="text-[#7FA0AB] text-sm leading-relaxed mb-4">{post.excerpt}</p>
-                    <div className="flex items-center gap-4 text-xs text-[#4E6872]">
+                    <p className="text-[#486E78] text-sm leading-relaxed mb-4">{post.excerpt}</p>
+                    <div className="flex items-center gap-4 text-xs text-[#74969E]">
                       <span className="flex items-center gap-1"><User className="w-3 h-3" /> {post.author}</span>
                       <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {post.date}</span>
                       <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {post.readTime}</span>
                     </div>
                   </div>
                   
-                  <ArrowRight className="w-5 h-5 text-[#4E6872] flex-shrink-0 self-center hidden sm:block" />
+                  <ArrowRight className="w-5 h-5 text-[#74969E] flex-shrink-0 self-center hidden sm:block" />
                 </div>
               </Link>
             ))}

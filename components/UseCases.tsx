@@ -6,12 +6,12 @@ const niches = [
     desc: 'History, science, and true-crime deep-dives that run for a full hour — or ten.',
     icon: Film,
     colorStyle: {
-      cardBg: 'bg-[#0E1B20]',
-      border: 'border-[#172B33] hover:border-blue-500',
-      headerText: 'text-[#E6F3F7] group-hover:text-[#060F12]lue-400',
+      cardBg: 'bg-white',
+      border: 'border-[#CADCE0] hover:border-blue-500',
+      headerText: 'text-[#0A1C20] group-hover:text-[#E6F2F5]lue-400',
       iconBg: 'bg-blue-500/10',
       iconBorder: 'border-blue-500/20',
-      iconColor: 'text-[#060F12]lue-400',
+      iconColor: 'text-[#E6F2F5]lue-400',
     }
   },
   {
@@ -19,12 +19,12 @@ const niches = [
     desc: 'Ship narration-led videos on a schedule and bank watch-time, no camera required.',
     icon: Radio,
     colorStyle: {
-      cardBg: 'bg-[#0E1B20]',
-      border: 'border-[#172B33] hover:border-emerald-500',
-      headerText: 'text-[#E6F3F7] group-hover:text-[#060F12]merald-400',
+      cardBg: 'bg-white',
+      border: 'border-[#CADCE0] hover:border-emerald-500',
+      headerText: 'text-[#0A1C20] group-hover:text-[#E6F2F5]merald-400',
       iconBg: 'bg-emerald-500/10',
       iconBorder: 'border-emerald-500/20',
-      iconColor: 'text-[#060F12]merald-400',
+      iconColor: 'text-[#E6F2F5]merald-400',
     }
   },
   {
@@ -32,9 +32,9 @@ const niches = [
     desc: 'Long, calming narration tuned for the multi-hour sessions this audience loves.',
     icon: Moon,
     colorStyle: {
-      cardBg: 'bg-[#0E1B20]',
-      border: 'border-[#172B33] hover:border-amber-500',
-      headerText: 'text-[#E6F3F7] group-hover:text-amber-400',
+      cardBg: 'bg-white',
+      border: 'border-[#CADCE0] hover:border-amber-500',
+      headerText: 'text-[#0A1C20] group-hover:text-amber-400',
       iconBg: 'bg-amber-500/10',
       iconBorder: 'border-amber-500/20',
       iconColor: 'text-amber-400',
@@ -45,9 +45,9 @@ const niches = [
     desc: 'Rich, chaptered storytelling that keeps viewers watching for hours.',
     icon: BookOpen,
     colorStyle: {
-      cardBg: 'bg-[#0E1B20]',
-      border: 'border-[#172B33] hover:border-purple-500',
-      headerText: 'text-[#E6F3F7] group-hover:text-purple-400',
+      cardBg: 'bg-white',
+      border: 'border-[#CADCE0] hover:border-purple-500',
+      headerText: 'text-[#0A1C20] group-hover:text-purple-400',
       iconBg: 'bg-purple-500/10',
       iconBorder: 'border-purple-500/20',
       iconColor: 'text-purple-400',
@@ -58,9 +58,9 @@ const niches = [
     desc: 'Turn a full-length script into consistent narration in your own cloned voice.',
     icon: Mic,
     colorStyle: {
-      cardBg: 'bg-[#0E1B20]',
-      border: 'border-[#172B33] hover:border-rose-500',
-      headerText: 'text-[#E6F3F7] group-hover:text-rose-400',
+      cardBg: 'bg-white',
+      border: 'border-[#CADCE0] hover:border-rose-500',
+      headerText: 'text-[#0A1C20] group-hover:text-rose-400',
       iconBg: 'bg-rose-500/10',
       iconBorder: 'border-rose-500/20',
       iconColor: 'text-rose-400',
@@ -71,9 +71,9 @@ const niches = [
     desc: 'Explainers and lessons with a scene image for every point you make.',
     icon: GraduationCap,
     colorStyle: {
-      cardBg: 'bg-[#0E1B20]',
-      border: 'border-[#172B33] hover:border-teal-500',
-      headerText: 'text-[#E6F3F7] group-hover:text-teal-400',
+      cardBg: 'bg-white',
+      border: 'border-[#CADCE0] hover:border-teal-500',
+      headerText: 'text-[#0A1C20] group-hover:text-teal-400',
       iconBg: 'bg-teal-500/10',
       iconBorder: 'border-teal-500/20',
       iconColor: 'text-teal-400',
@@ -83,7 +83,7 @@ const niches = [
 
 export default function UseCases() {
   return (
-    <section className="py-20 bg-transparent border-y border-[#172B33]">
+    <section className="py-20 bg-transparent border-y border-[#CADCE0]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -91,10 +91,10 @@ export default function UseCases() {
           <div className="badge-indigo mb-4">
             <span>WHO IT'S FOR</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-2xl font-bold font-serif-heading text-[#E6F3F7] mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-whitexl font-bold font-serif-heading text-[#0A1C20] mb-4">
             Built for long-form, faceless channels
           </h2>
-          <p className="text-sm sm:text-[#060F12]ase md:text-lg text-[#7FA0AB]">
+          <p className="text-sm sm:text-[#E6F2F5]ase md:text-lg text-[#486E78]">
             The niches where hours of watch time turn into real revenue — the ones short-video tools can't serve.
           </p>
         </div>
@@ -116,7 +116,7 @@ export default function UseCases() {
                   <h3 className={`text-xl font-bold font-serif-heading mb-2 transition-colors ${style.headerText}`}>
                     {niche.title}
                   </h3>
-                  <p className="text-sm text-[#7FA0AB] leading-relaxed">
+                  <p className="text-sm text-[#486E78] leading-relaxed">
                     {niche.desc}
                   </p>
                 </div>
