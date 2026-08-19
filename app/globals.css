@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #141311;      /* Rich warm chocolate-charcoal background */
-  --bg-surface: #1E1D1A;      /* Warm charcoal card surface */
-  --border-color: #2D2A26;    /* Subtle warm border */
-  --border-hover: #423E37;    /* Hover border state */
-  --text-primary: #F9F9F8;    /* Warm crisp white primary text */
-  --text-secondary: #A19E95;  /* Warm sand-gray subtitle text */
-  --text-muted: #6E6B65;      /* Muted text details */
-  --accent-indigo: #E28C38;   /* Warm copper-amber/orange accent */
-  --accent-indigo-hover: #C97327;
-  --accent-indigo-light: rgba(226, 140, 56, 0.08);
-  --accent-amber: #FB923C;
+  --bg-primary: #060B08;      /* Midnight Forest Black background */
+  --bg-surface: #0D1410;      /* Dark Forest Slate card surface */
+  --border-color: #1A241F;    /* Subtle dark forest border */
+  --border-hover: #283830;    /* Hover border state */
+  --text-primary: #EBF5F0;    /* Crisp forest-white primary text */
+  --text-secondary: #92A89C;  /* Muted sage-gray subtitle text */
+  --text-muted: #5F7368;      /* Muted text details */
+  --accent-indigo: #D4AF37;   /* Brushed Metallic Gold for actions */
+  --accent-indigo-hover: #BCA033;
+  --accent-indigo-light: rgba(212, 175, 55, 0.08);
+  --accent-amber: #10B981;    /* Luminous Emerald Green for highlights */
 }
 
 body {
@@ -22,18 +22,18 @@ body {
   line-height: 1.5;
 }
 
-/* ─── Animated Aurora Background (Warm Earthy Charcoal & Amber Tint) ───
-   A very slow, deep color-shifting gradient cycling between warm dark charcoal,
-   soft sand-black, and subtle amber-copper highlights. */
+/* ─── Animated Aurora Background (Midnight Forest & Gold Tint) ───
+   A very slow, deep color-shifting gradient cycling between midnight forest,
+   deep emerald-slate, and subtle warm metallic gold-charcoal. */
 body {
   background: linear-gradient(
     -45deg,
-    #141311,
-    #1E1D1A,
-    #231E18,
-    #141311,
-    #1C1B19,
-    #18120D
+    #060B08,
+    #0E1B15,
+    #1A160E,
+    #060B08,
+    #13241D,
+    #1B170F
   );
   background-size: 400% 400%;
   animation: aurora-shift 22s ease infinite;
@@ -58,12 +58,12 @@ body::before {
     112deg,
     transparent 0px,
     transparent 55px,
-    rgba(226, 140, 56, 0.04) 56px,
-    rgba(226, 140, 56, 0.04) 59px,
+    rgba(212, 175, 55, 0.03) 56px,
+    rgba(212, 175, 55, 0.03) 59px,
     transparent 60px,
     transparent 120px,
-    rgba(226, 140, 56, 0.02) 121px,
-    rgba(226, 140, 56, 0.02) 123px,
+    rgba(212, 175, 55, 0.01) 121px,
+    rgba(212, 175, 55, 0.01) 123px,
     transparent 124px,
     transparent 180px
   );
@@ -87,8 +87,8 @@ body::after {
     22deg,
     transparent 0px,
     transparent 70px,
-    rgba(226, 140, 56, 0.03) 71px,
-    rgba(226, 140, 56, 0.03) 74px,
+    rgba(212, 175, 55, 0.02) 71px,
+    rgba(212, 175, 55, 0.02) 74px,
     transparent 75px,
     transparent 145px
   );
@@ -126,10 +126,10 @@ body > * {
   letter-spacing: 0.06em;
 }
 
-/* ─── Primary Amber-Orange Pill Button ─── */
+/* ─── Primary Metallic Gold Pill Button ─── */
 .btn-indigo-pill {
-  background-color: #E28C38;
-  color: #141311;
+  background-color: #D4AF37;
+  color: #060B08;
   border-radius: 9999px;
   font-weight: 700;
   padding: 0.625rem 1.375rem;
@@ -140,20 +140,20 @@ body > * {
   justify-content: center;
   gap: 0.5rem;
   text-decoration: none;
-  box-shadow: 0 1px 3px rgba(226, 140, 56, 0.25);
+  box-shadow: 0 1px 3px rgba(212, 175, 55, 0.25);
 }
 
 .btn-indigo-pill:hover {
-  background-color: #C97327;
+  background-color: #BCA033;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(226, 140, 56, 0.45);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.45);
 }
 
 /* ─── Secondary Outline Pill Button ─── */
 .btn-outline-pill {
   background-color: rgba(255, 255, 255, 0.02);
-  color: #F9F9F8;
-  border: 1px solid #2D2A26;
+  color: #EBF5F0;
+  border: 1px solid #1A241F;
   border-radius: 9999px;
   font-weight: 500;
   padding: 0.625rem 1.375rem;
@@ -168,7 +168,7 @@ body > * {
 
 .btn-outline-pill:hover {
   background-color: rgba(255, 255, 255, 0.05);
-  border-color: #423E37;
+  border-color: #283830;
 }
 
 /* ─── Badge ─── */
@@ -181,30 +181,30 @@ body > * {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #E28C38;
-  background-color: rgba(226, 140, 56, 0.12);
+  color: #D4AF37;
+  background-color: rgba(212, 175, 55, 0.08);
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
-  border: 1px solid rgba(226, 140, 56, 0.25);
+  border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 /* ─── Clean Card ─── */
 .card-clean {
-  background-color: #1E1D1A;
-  border: 1px solid #2D2A26;
+  background-color: #0D1410;
+  border: 1px solid #1A241F;
   border-radius: 1rem;
   transition: all 0.2s ease;
 }
 
 .card-clean:hover {
-  border-color: #423E37;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+  border-color: #283830;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
 }
 
 /* ─── Scrollbar ─── */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #141311; }
-::-webkit-scrollbar-thumb { background: #2D2A26; border-radius: 3px; }
+::-webkit-scrollbar-track { background: #060B08; }
+::-webkit-scrollbar-thumb { background: #1A241F; border-radius: 3px; }
 
 /* ─── Audio Equalizer Waveform Animation ─── */
 @keyframes equalizer-bounce {
