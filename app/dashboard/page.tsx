@@ -30,7 +30,7 @@ const recentProjects = [
 
 const statusConfig = {
   completed: { label: 'Completed', color: 'text-green-700', bg: 'bg-green-50 border-green-200' },
-  generating: { label: 'Generating', color: 'text-[#1E1B4B]', bg: 'bg-[#EEF2FF] border-[#C7D2FE]' },
+  generating: { label: 'Generating', color: 'text-[#818CF8]', bg: 'bg-[#6366F1]/10 border-[#6366F1]/20' },
   queued: { label: 'Queued', color: 'text-amber-700', bg: 'bg-amber-50 border-amber-200' },
   failed: { label: 'Failed', color: 'text-red-700', bg: 'bg-red-50 border-red-200' },
 };
@@ -51,8 +51,8 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold font-serif-heading text-[#18181B]">Dashboard</h1>
-          <p className="text-[#52525B] text-sm mt-0.5 capitalize">Welcome back, {displayName}. Ready to create?</p>
+          <h1 className="text-2xl font-bold font-serif-heading text-[#F8FAFC]">Dashboard</h1>
+          <p className="text-[#94A3B8] text-sm mt-0.5 capitalize">Welcome back, {displayName}. Ready to create?</p>
         </div>
         <Link href="/dashboard/create" className="btn-indigo-pill text-xs px-4 py-2 flex items-center gap-1.5">
           <PlusCircle className="w-3.5 h-3.5" />
@@ -65,27 +65,27 @@ export default function DashboardPage() {
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <div key={stat.label} className="bg-white border border-[#E5E2D8] p-4 rounded-xl shadow-2xs">
+            <div key={stat.label} className="bg-[#151B26] border border-[#222B3C] p-4 rounded-xl shadow-2xs">
               <div className="flex items-start justify-between mb-3">
-                <div className="w-8 h-8 rounded-lg bg-[#EEF2FF] border border-[#C7D2FE] flex items-center justify-center text-[#1E1B4B]">
+                <div className="w-8 h-8 rounded-lg bg-[#6366F1]/10 border border-[#6366F1]/20 flex items-center justify-center text-[#818CF8]">
                   <Icon className="w-4 h-4" />
                 </div>
-                <BarChart3 className="w-3.5 h-3.5 text-[#71717A]" />
+                <BarChart3 className="w-3.5 h-3.5 text-[#64748B]" />
               </div>
-              <div className="text-2xl font-bold font-serif-heading text-[#18181B] mb-0.5">{stat.value}</div>
-              <div className="text-xs text-[#52525B]">{stat.label}</div>
-              <div className="text-[10px] font-mono-label font-bold text-[#1E1B4B] mt-1">{stat.change}</div>
+              <div className="text-2xl font-bold font-serif-heading text-[#F8FAFC] mb-0.5">{stat.value}</div>
+              <div className="text-xs text-[#94A3B8]">{stat.label}</div>
+              <div className="text-[10px] font-mono-label font-bold text-[#818CF8] mt-1">{stat.change}</div>
             </div>
           );
         })}
       </div>
 
       {/* Quick Create Banner */}
-      <div className="relative rounded-2xl bg-white border border-[#E5E2D8] p-6 shadow-2xs overflow-hidden">
+      <div className="relative rounded-2xl bg-[#151B26] border border-[#222B3C] p-6 shadow-2xs overflow-hidden">
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h3 className="text-lg font-bold font-serif-heading text-[#18181B] mb-1">Start a new project</h3>
-            <p className="text-[#52525B] text-sm">Enter a topic and generate a full-length YouTube video in minutes.</p>
+            <h3 className="text-lg font-bold font-serif-heading text-[#F8FAFC] mb-1">Start a new project</h3>
+            <p className="text-[#94A3B8] text-sm">Enter a topic and generate a full-length YouTube video in minutes.</p>
           </div>
           <Link href="/dashboard/create" className="btn-indigo-pill text-xs px-5 py-2.5 flex items-center gap-2 flex-shrink-0">
             Create Now
@@ -97,8 +97,8 @@ export default function DashboardPage() {
       {/* Recent Projects */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold font-serif-heading text-[#18181B]">Recent Projects</h2>
-          <Link href="/dashboard/projects" className="text-xs text-[#1E1B4B] font-semibold hover:underline flex items-center gap-1">
+          <h2 className="text-lg font-bold font-serif-heading text-[#F8FAFC]">Recent Projects</h2>
+          <Link href="/dashboard/projects" className="text-xs text-[#818CF8] font-semibold hover:underline flex items-center gap-1">
             View all <ArrowRight className="w-3 h-3" />
           </Link>
         </div>
@@ -107,18 +107,18 @@ export default function DashboardPage() {
           {recentProjects.map((project) => {
             const status = statusConfig[project.status as keyof typeof statusConfig];
             return (
-              <div key={project.id} className="bg-white border border-[#E5E2D8] hover:border-[#C5BFB0] rounded-xl p-4 transition-all shadow-2xs">
+              <div key={project.id} className="bg-[#151B26] border border-[#222B3C] hover:border-[#333F56] rounded-xl p-4 transition-all shadow-2xs">
                 <div className="flex items-center gap-4">
                   
                   {/* Thumbnail placeholder */}
-                  <div className="w-12 h-8 rounded bg-[#FAF9F5] border border-[#E5E2D8] flex items-center justify-center flex-shrink-0">
-                    <Play className="w-3.5 h-3.5 text-[#1E1B4B] fill-current" />
+                  <div className="w-12 h-8 rounded bg-[#151B26] border border-[#222B3C] flex items-center justify-center flex-shrink-0">
+                    <Play className="w-3.5 h-3.5 text-[#818CF8] fill-current" />
                   </div>
 
                   {/* Title & info */}
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-semibold text-[#18181B] truncate mb-0.5">{project.title}</h3>
-                    <div className="flex items-center gap-3 text-xs text-[#71717A]">
+                    <h3 className="text-sm font-semibold text-[#F8FAFC] truncate mb-0.5">{project.title}</h3>
+                    <div className="flex items-center gap-3 text-xs text-[#64748B]">
                       <span>{project.format}</span>
                       <span>·</span>
                       <span>{project.duration}</span>
@@ -130,12 +130,12 @@ export default function DashboardPage() {
                     {/* Progress bar for generating */}
                     {project.status === 'generating' && (
                       <div className="mt-2 max-w-md">
-                        <div className="flex justify-between text-[10px] text-[#71717A] mb-1">
+                        <div className="flex justify-between text-[10px] text-[#64748B] mb-1">
                           <span>Stage: {project.stage}</span>
                           <span>{project.progress}%</span>
                         </div>
-                        <div className="w-full bg-[#E5E2D8] h-1 rounded-full overflow-hidden">
-                          <div className="bg-[#1E1B4B] h-full rounded-full" style={{ width: `${project.progress}%` }} />
+                        <div className="w-full bg-[#222B3C] h-1 rounded-full overflow-hidden">
+                          <div className="bg-[#6366F1] h-full rounded-full" style={{ width: `${project.progress}%` }} />
                         </div>
                       </div>
                     )}

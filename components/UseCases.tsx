@@ -35,7 +35,7 @@ const niches = [
 
 export default function UseCases() {
   return (
-    <section className="py-20 bg-transparent border-y border-[#E5E2D8]">
+    <section className="py-20 bg-transparent border-y border-[#222B3C]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -43,10 +43,10 @@ export default function UseCases() {
           <div className="badge-indigo mb-4">
             <span>WHO IT'S FOR</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif-heading text-[#18181B] mb-4">
+          <h2 className="text-3xl sm:text-[#818CF8]xl md:text-5xl font-bold font-serif-heading text-[#F8FAFC] mb-4">
             Built for long-form, faceless channels
           </h2>
-          <p className="text-base sm:text-lg text-[#52525B]">
+          <p className="text-[#818CF8]ase sm:text-lg text-[#94A3B8]">
             The niches where hours of watch time turn into real revenue — the ones short-video tools can't serve.
           </p>
         </div>
@@ -61,13 +61,13 @@ export default function UseCases() {
                 className="card-clean p-7 flex flex-col justify-between group hover:border-[#1E1B4B]"
               >
                 <div>
-                  <div className="w-10 h-10 rounded-xl bg-[#EEF2FF] border border-[#C7D2FE] flex items-center justify-center text-[#1E1B4B] mb-5 group-hover:bg-[#1E1B4B] group-hover:text-white transition-colors">
+                  <div className="w-10 h-10 rounded-xl bg-[#6366F1]/10 border border-[#6366F1]/20 flex items-center justify-center text-[#818CF8] mb-5 group-hover:bg-[#6366F1] group-hover:text-white transition-colors">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <h3 className="text-xl font-bold font-serif-heading text-[#18181B] mb-2">
+                  <h3 className="text-xl font-bold font-serif-heading text-[#F8FAFC] mb-2">
                     {niche.title}
                   </h3>
-                  <p className="text-sm text-[#52525B] leading-relaxed">
+                  <p className="text-sm text-[#94A3B8] leading-relaxed">
                     {niche.desc}
                   </p>
                 </div>

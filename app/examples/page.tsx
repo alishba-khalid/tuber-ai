@@ -49,7 +49,7 @@ export default function ExamplesPage() {
                 {/* Thumbnail */}
                 <div className={`h-44 bg-gradient-to-br ${ex.thumbnail_color} flex items-center justify-center relative`}>
                   <div className="absolute inset-0 bg-black/30" />
-                  <div className="relative z-10 w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <div className="relative z-10 w-14 h-14 rounded-full bg-[#151B26]/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
                     <Play className="w-6 h-6 text-white fill-white ml-0.5" />
                   </div>
                   {/* Duration badge */}
@@ -76,7 +76,7 @@ export default function ExamplesPage() {
           </div>
 
           <div className="text-center mt-12">
-            <Link href="/auth/signup" className="btn-primary px-8 py-4 text-base inline-flex items-center gap-2">
+            <Link href="/auth/signup" className="btn-primary px-8 py-4 text-[#818CF8]ase inline-flex items-center gap-2">
               Start Creating Your Videos →
             </Link>
             <p className="text-[#64748B] text-sm mt-3">No credit card required. Free to get started.</p>

@@ -27,7 +27,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
       </head>
-      <body className="antialiased text-[#18181B] selection:bg-[#1E1B4B] selection:text-white">
+      <body className="antialiased text-[#F8FAFC] selection:bg-[#6366F1] selection:text-white">
         <AuthProvider>
           {children}
         </AuthProvider>

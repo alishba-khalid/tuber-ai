@@ -56,7 +56,7 @@ const plans = [
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="py-20 bg-transparent border-t border-[#E5E2D8]">
+    <section id="pricing" className="py-20 bg-transparent border-t border-[#222B3C]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -64,15 +64,15 @@ export default function Pricing() {
           <div className="badge-indigo mb-4">
             <span>PRICING</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif-heading text-[#18181B] mb-4">
+          <h2 className="text-3xl sm:text-[#818CF8]xl md:text-5xl font-bold font-serif-heading text-[#F8FAFC] mb-4">
             Founding pricing — locked in while we're in beta
           </h2>
-          <p className="text-base sm:text-lg text-[#52525B] leading-relaxed mb-6">
+          <p className="text-[#818CF8]ase sm:text-lg text-[#94A3B8] leading-relaxed mb-6">
             A full video every month, from $29/mo. One finished 1-hour video — voice and visuals included. Or pour the same $29/mo into 1,000 images, or 120 minutes of voiceover, or 20 full scripts.
           </p>
 
-          <div className="bg-[#FFFFFF] border border-[#E5E2D8] p-4 rounded-xl text-xs sm:text-sm text-[#52525B] inline-block shadow-2xs">
-            <span className="font-semibold text-[#18181B]">The old way:</span> $300–$1,000 per video with a freelance team. TuberAI does the whole thing for a few dollars — while you sleep.
+          <div className="bg-[#151B26] border border-[#222B3C] p-4 rounded-xl text-xs sm:text-sm text-[#94A3B8] inline-block shadow-2xs">
+            <span className="font-semibold text-[#F8FAFC]">The old way:</span> $300–$1,000 per video with a freelance team. TuberAI does the whole thing for a few dollars — while you sleep.
           </div>
         </div>
 
@@ -83,45 +83,45 @@ export default function Pricing() {
               key={plan.name}
               className={`rounded-2xl p-6 flex flex-col justify-between transition-all relative ${
                 plan.popular
-                  ? 'bg-[#FFFFFF] border-2 border-[#1E1B4B] shadow-md'
-                  : 'bg-[#FFFFFF] border border-[#E5E2D8] shadow-2xs hover:border-[#C5BFB0]'
+                  ? 'bg-[#151B26] border-2 border-[#1E1B4B] shadow-md'
+                  : 'bg-[#151B26] border border-[#222B3C] shadow-2xs hover:border-[#333F56]'
               }`}
             >
               {plan.popular && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#1E1B4B] text-white text-[10px] font-mono-label font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-xs">
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#6366F1] text-white text-[10px] font-mono-label font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-xs">
                   BEST VALUE
                 </div>
               )}
 
               <div>
                 <div className="flex items-center justify-between mb-2 mt-1">
-                  <h3 className="text-lg font-bold font-serif-heading text-[#18181B]">
+                  <h3 className="text-lg font-bold font-serif-heading text-[#F8FAFC]">
                     {plan.name}
                   </h3>
                   {plan.savings && (
-                    <span className="text-[10px] font-mono-label font-semibold text-[#1E1B4B] bg-[#EEF2FF] px-2 py-0.5 rounded border border-[#C7D2FE]">
+                    <span className="text-[10px] font-mono-label font-semibold text-[#818CF8] bg-[#6366F1]/10 px-2 py-0.5 rounded border border-[#6366F1]/20">
                       {plan.savings}
                     </span>
                   )}
                 </div>
 
                 <div className="mb-4">
-                  <span className="text-3xl font-extrabold font-serif-heading text-[#18181B]">
+                  <span className="text-3xl font-extrabold font-serif-heading text-[#F8FAFC]">
                     ${plan.price}
                   </span>
-                  <span className="text-xs text-[#71717A]"> / month</span>
+                  <span className="text-xs text-[#64748B]"> / month</span>
                 </div>
 
-                <div className="space-y-3 text-xs text-[#52525B] border-t border-[#E5E2D8] pt-4 mb-6">
-                  <div className="flex items-center gap-2 font-semibold text-[#18181B]">
-                    <Check className="w-3.5 h-3.5 text-[#1E1B4B]" />
+                <div className="space-y-3 text-xs text-[#94A3B8] border-t border-[#222B3C] pt-4 mb-6">
+                  <div className="flex items-center gap-2 font-semibold text-[#F8FAFC]">
+                    <Check className="w-3.5 h-3.5 text-[#818CF8]" />
                     <span>{plan.credits.toLocaleString()} monthly credits</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Check className="w-3.5 h-3.5 text-[#1E1B4B]" />
+                    <Check className="w-3.5 h-3.5 text-[#818CF8]" />
                     <span>{plan.videos}</span>
                   </div>
-                  <div className="text-[11px] text-[#71717A] leading-relaxed pt-1">
+                  <div className="text-[11px] text-[#64748B] leading-relaxed pt-1">
                     Equivalent: {plan.rates}
                   </div>
                 </div>
