@@ -17,6 +17,7 @@ const plans = [
 export default function CreditsPage() {
   const { user, credits, isMock } = useAuth();
   const [selectedPlan, setSelectedPlan] = useState('creator');
+  const [paymentMethod, setPaymentMethod] = useState<'stripe' | 'polar'>('stripe');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [transactions, setTransactions] = useState<any[]>([]);
@@ -76,10 +77,11 @@ export default function CreditsPage() {
     if (!user) return;
 
     const urlParams = new URLSearchParams(window.location.search);
-    const mockSuccess = urlParams.get('mock-success');
+    const stripeMockSuccess = urlParams.get('mock-success');
+    const polarMockSuccess = urlParams.get('polar-mock-success');
     const planId = urlParams.get('planId');
 
-    if (mockSuccess === 'true' && planId) {
+    if ((stripeMockSuccess === 'true' || polarMockSuccess === 'true') && planId) {
       // Clean up URL parameters immediately to prevent duplicate runs
       const newUrl = window.location.pathname;
       window.history.replaceState({}, '', newUrl);
@@ -90,10 +92,11 @@ export default function CreditsPage() {
       const processMockPayment = async () => {
         const addedCredits = plan.credits;
         const newCredits = credits + addedCredits;
+        const providerName = stripeMockSuccess === 'true' ? 'Stripe' : 'Polar';
 
         const newTx = {
           id: 'mock-tx-' + Date.now(),
-          desc: `Upgrade to ${plan.name} Plan (Mock)`,
+          desc: `Upgrade to ${plan.name} Plan (Mock ${providerName})`,
           credits: addedCredits,
           amount: plan.price,
           date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
@@ -137,8 +140,10 @@ export default function CreditsPage() {
     setLoading(true);
     setError('');
 
+    const endpoint = paymentMethod === 'stripe' ? '/api/checkout' : '/api/checkout/polar';
+
     try {
-      const res = await fetch('/api/checkout', {
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -150,7 +155,7 @@ export default function CreditsPage() {
 
       const data = await res.json();
       if (data.url) {
-        window.location.href = data.url; // Redirect to Stripe checkout
+        window.location.href = data.url; // Redirect to checkout
       } else {
         setError(data.error || 'Failed to initialize checkout.');
       }
@@ -225,13 +230,42 @@ export default function CreditsPage() {
           ))}
         </div>
 
+        {/* Payment Method Selector */}
+        <div className="mb-6">
+          <div className="text-xs font-mono-label text-[#527E72] uppercase mb-2">Select Payment Method</div>
+          <div className="flex gap-4">
+            <label className="flex items-center gap-2 cursor-pointer bg-[#0A1412] border border-[#122823] px-4 py-2.5 rounded-xl hover:border-[#225146] transition-all">
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="stripe"
+                checked={paymentMethod === 'stripe'}
+                onChange={() => setPaymentMethod('stripe')}
+                className="accent-[#C5B49F]"
+              />
+              <span className="text-sm font-semibold text-[#ECFDF5]">Stripe</span>
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer bg-[#0A1412] border border-[#122823] px-4 py-2.5 rounded-xl hover:border-[#225146] transition-all">
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="polar"
+                checked={paymentMethod === 'polar'}
+                onChange={() => setPaymentMethod('polar')}
+                className="accent-[#C5B49F]"
+              />
+              <span className="text-sm font-semibold text-[#ECFDF5]">Polar.sh</span>
+            </label>
+          </div>
+        </div>
+
         <button
           onClick={handleCheckout}
           disabled={loading}
           className="btn-indigo-pill text-sm px-6 py-3 flex items-center gap-2 justify-center w-full sm:w-auto cursor-pointer"
         >
           <CreditCard className="w-4 h-4" />
-          {loading ? 'Redirecting to Stripe...' : `Upgrade to ${plans.find(p => p.id === selectedPlan)?.name} Plan`}
+          {loading ? 'Redirecting...' : `Upgrade to ${plans.find(p => p.id === selectedPlan)?.name} Plan`}
         </button>
       </div>
 
