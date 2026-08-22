@@ -1,12 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import { Zap, TrendingUp, History, CreditCard } from 'lucide-react';
-
-const transactions = [
-  { id: 1, desc: 'Setup founding user credits', credits: +300, date: 'Aug 19, 2026', type: 'renewal' },
-];
+import { collection, query, orderBy, onSnapshot, doc, updateDoc, setDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 const plans = [
   { id: 'starter', name: 'Starter', price: 29, credits: 300, desc: '1 hour video' },
@@ -17,10 +15,122 @@ const plans = [
 ];
 
 export default function CreditsPage() {
-  const { user, credits } = useAuth();
+  const { user, credits, isMock } = useAuth();
   const [selectedPlan, setSelectedPlan] = useState('creator');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [transactions, setTransactions] = useState<any[]>([]);
+
+  // Load transaction history
+  useEffect(() => {
+    if (!user) return;
+
+    if (!isMock && db) {
+      const q = query(
+        collection(db, 'users', user.uid, 'transactions'),
+        orderBy('createdAt', 'desc')
+      );
+      
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const txs: any[] = [];
+        snapshot.forEach((doc) => {
+          txs.push({ id: doc.id, ...doc.data() });
+        });
+        
+        if (txs.length === 0) {
+          setTransactions([
+            { id: '1', desc: 'Setup founding user credits', credits: 300, date: 'Aug 19, 2026', type: 'renewal', amount: 0 }
+          ]);
+        } else {
+          setTransactions(txs);
+        }
+      }, (err) => {
+        console.error("Failed to load transactions from Firestore:", err);
+      });
+
+      return () => unsubscribe();
+    } else {
+      // LocalStorage mock transactions
+      const loadLocalTransactions = () => {
+        const stored = localStorage.getItem(`tuber_transactions_${user.uid}`);
+        if (stored) {
+          setTransactions(JSON.parse(stored));
+        } else {
+          const defaultTx = [
+            { id: '1', desc: 'Setup founding user credits', credits: 300, date: 'Aug 19, 2026', type: 'renewal', amount: 0 }
+          ];
+          localStorage.setItem(`tuber_transactions_${user.uid}`, JSON.stringify(defaultTx));
+          setTransactions(defaultTx);
+        }
+      };
+
+      loadLocalTransactions();
+      
+      window.addEventListener('storage', loadLocalTransactions);
+      return () => window.removeEventListener('storage', loadLocalTransactions);
+    }
+  }, [user, isMock]);
+
+  // Handle mock checkout success callback
+  useEffect(() => {
+    if (!user) return;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const mockSuccess = urlParams.get('mock-success');
+    const planId = urlParams.get('planId');
+
+    if (mockSuccess === 'true' && planId) {
+      // Clean up URL parameters immediately to prevent duplicate runs
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, '', newUrl);
+
+      const plan = plans.find(p => p.id === planId);
+      if (!plan) return;
+
+      const processMockPayment = async () => {
+        const addedCredits = plan.credits;
+        const newCredits = credits + addedCredits;
+
+        const newTx = {
+          id: 'mock-tx-' + Date.now(),
+          desc: `Upgrade to ${plan.name} Plan (Mock)`,
+          credits: addedCredits,
+          amount: plan.price,
+          date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+          createdAt: new Date().toISOString(),
+          type: 'purchase'
+        };
+
+        if (!isMock && db) {
+          try {
+            // Write directly to Firestore
+            const userRef = doc(db, 'users', user.uid);
+            await updateDoc(userRef, {
+              credits: newCredits,
+              updatedAt: new Date().toISOString()
+            });
+
+            const txRef = doc(collection(db, 'users', user.uid, 'transactions'), newTx.id);
+            await setDoc(txRef, newTx);
+          } catch (err) {
+            console.error("Failed to update Firestore for mock success:", err);
+          }
+        } else {
+          // Write to LocalStorage
+          localStorage.setItem(`tuber_credits_${user.uid}`, newCredits.toString());
+          const stored = localStorage.getItem(`tuber_transactions_${user.uid}`);
+          const currentTxs = stored ? JSON.parse(stored) : [];
+          const updatedTxs = [newTx, ...currentTxs];
+          localStorage.setItem(`tuber_transactions_${user.uid}`, JSON.stringify(updatedTxs));
+          
+          // Trigger storage event to sync state
+          window.dispatchEvent(new Event('storage'));
+        }
+      };
+
+      processMockPayment();
+    }
+  }, [user, credits, isMock]);
 
   const handleCheckout = async () => {
     if (!user) return;

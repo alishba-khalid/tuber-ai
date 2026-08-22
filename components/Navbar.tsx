@@ -13,57 +13,56 @@ const tools = [
     icon: FileText,
     label: 'Script',
     desc: 'Generate chaptered, voice-ready scripts',
-    href: '/tools/script',
+    href: '/dashboard/create',
   },
   {
     icon: Mic,
     label: 'Voiceover',
     desc: 'High-fidelity, realistic narration for long videos',
-    href: '/tools/voiceover',
+    href: '/dashboard/create',
   },
   {
     icon: Wand2,
     label: 'Voice clone',
     desc: 'Clone your voice for YouTube video narration',
-    href: '/tools/voice-clone',
+    href: '/dashboard/create',
   },
   {
     icon: Image,
     label: 'Visuals',
     desc: 'Generate thousands of consistent scene images',
-    href: '/tools/visuals',
+    href: '/dashboard/create',
   },
   {
     icon: Film,
     label: 'Animation',
     desc: 'Animate static images into realistic cinematic clips',
-    href: '/tools/animation',
+    href: '/dashboard/create',
   },
   {
     icon: VideoIcon,
     label: 'Long-form video',
     desc: 'Generate finished 1–10 hour faceless YouTube videos',
-    href: '/tools/long-form-video',
+    href: '/dashboard/create',
   },
   {
     icon: Youtube,
     label: 'YouTube',
     desc: 'Auto upload and publish finished videos to your channel',
-    href: '/tools/youtube',
+    href: '/dashboard/create',
   },
   {
     icon: BarChart2,
     label: 'SEO pack',
     desc: 'Generate optimised video titles, descriptions & tags',
-    href: '/tools/seo',
+    href: '/dashboard/create',
   },
 ];
 
 const navLinks = [
-  { label: 'Examples', href: '/examples' },
-  { label: 'How it works', href: '/how-it-works' },
+  { label: 'Showcase', href: '#showcase' },
+  { label: 'How it works', href: '#how-it-works' },
   { label: 'Pricing', href: '/pricing' },
-  { label: 'Blog', href: '/blog' },
 ];
 
 export default function Navbar() {
@@ -106,15 +105,15 @@ export default function Navbar() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-1 bg-[#0A1412]/80 border border-[#122823] px-4 py-2 rounded-full shadow-2xs">
-
-            {/* Tools Dropdown Trigger */}
+            
+            {/* Product Dropdown Trigger */}
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setToolsOpen(!toolsOpen)}
                 onMouseEnter={() => setToolsOpen(true)}
-                className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-[#8FAAA6] hover:text-[#ECFDF5] rounded-full hover:bg-[#122823] transition-colors cursor-pointer"
+                className="flex items-center gap-1 px-4 py-1.5 text-sm font-medium text-[#8FAAA6] hover:text-[#ECFDF5] rounded-full hover:bg-[#122823] transition-colors cursor-pointer focus:outline-none"
               >
-                Tools
+                Product
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${toolsOpen ? 'rotate-180' : ''}`} />
               </button>
 
@@ -122,7 +121,7 @@ export default function Navbar() {
               {toolsOpen && (
                 <div
                   onMouseLeave={() => setToolsOpen(false)}
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[540px] bg-[#0A1412] border border-[#122823] rounded-2xl shadow-xl overflow-hidden z-50"
+                  className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[540px] bg-[#0A1412] border border-[#122823] rounded-2xl shadow-xl overflow-hidden z-50 animate-fade-in"
                 >
                   <div className="grid grid-cols-2 gap-px bg-[#122823] p-px">
                     {tools.map((tool) => {
@@ -152,13 +151,13 @@ export default function Navbar() {
 
                   {/* Footer row */}
                   <div className="px-4 py-3 bg-transparent border-t border-[#122823]">
-                    <Link
-                      href="/tools"
+                    <a
+                      href="#product-capabilities"
                       onClick={() => setToolsOpen(false)}
                       className="text-xs font-semibold text-[#C5B49F] flex items-center gap-1 hover:gap-2 transition-all"
                     >
-                      See all tools <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
+                      See capabilities outline <ArrowRight className="w-3.5 h-3.5" />
+                    </a>
                   </div>
                 </div>
               )}
@@ -169,7 +168,7 @@ export default function Navbar() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="px-3 py-1.5 text-sm font-medium text-[#8FAAA6] hover:text-[#ECFDF5] rounded-full hover:bg-[#122823] transition-colors"
+                className="px-4 py-1.5 text-sm font-medium text-[#8FAAA6] hover:text-[#ECFDF5] rounded-full hover:bg-[#122823] transition-colors"
               >
                 {link.label}
               </Link>
@@ -206,10 +205,10 @@ export default function Navbar() {
         {isMobileOpen && (
           <div className="md:hidden py-4 px-4 bg-[#0A1412] border-t border-[#122823] rounded-b-2xl shadow-lg">
             <div className="flex flex-col gap-1">
-
+              
               {/* Mobile Tools Submenu */}
               <div className="text-xs font-mono-label font-bold text-[#527E72] uppercase px-3 pt-2 pb-1">
-                Tools
+                Product Tools
               </div>
               {tools.map((tool) => {
                 const Icon = tool.icon;

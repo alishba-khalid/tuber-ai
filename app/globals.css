@@ -1,28 +1,28 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #050B0A;      /* Deep black-green background */
-  --bg-surface: #0A1412;      /* Dark green-slate surface cards */
-  --border-color: #122823;    /* Very dark green-gray border */
-  --border-hover: #225146;    /* Dark green border hover */
-  --text-primary: #ECFDF5;    /* Light emerald tint text */
-  --text-secondary: #8FAAA6;  /* Soft sage green text */
-  --text-muted: #527E72;      /* Dim green-gray text */
-  --accent-indigo: #C5B49F;   /* Antique stone gold primary accent */
-  --accent-indigo-hover: #D5C4AF; /* Lighter golden hover */
-  --accent-indigo-light: rgba(197, 180, 159, 0.1);
-  --accent-amber: #C5B49F;    /* Accent gold */
+  --bg-primary: #FAF6F0;         /* Warm cream/beige background */
+  --bg-surface: #FFFFFF;         /* Clean white surface cards */
+  --border-color: #EADFC9;       /* Soft warm gold/beige border */
+  --border-hover: #C5B49F;       /* Antique gold hover border */
+  --text-primary: #2C2621;       /* Deep dark charcoal/brown text */
+  --text-secondary: #6E6259;     /* Medium warm taupe/brown text */
+  --text-muted: #9C8F84;         /* Soft warm gray/beige text */
+  --accent-indigo: #A88E75;      /* Deeper premium gold for light background contrast */
+  --accent-indigo-hover: #8C7761;
+  --accent-indigo-light: rgba(197, 180, 159, 0.15);
+  --accent-amber: #A88E75;
 }
 
 body {
-  background-color: #020504;
+  background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   line-height: 1.5;
 }
 
-/* ─── Animated Aurora Background (Shifts between lighter and darker shades of dark green) ─── */
+/* ─── Animated Aurora Background (Shifts between soft shades of beige and warm cream) ─── */
 .animated-bg {
   position: fixed;
   inset: 0;
@@ -32,14 +32,14 @@ body {
   pointer-events: none;
   background: linear-gradient(
     -45deg,
-    #020504,   /* Deepest forest green-black */
-    #051310,   /* Deep slate emerald */
-    #0D2A23,   /* Lighter glowing emerald */
-    #081D18,   /* Rich dark emerald */
-    #030B09    /* Deep forest emerald-black */
+    #FAF6F0,   /* Soft warm cream */
+    #F4EBE1,   /* Pale sand beige */
+    #EFE6D8,   /* Warm antique cream */
+    #F6EFE5,   /* Gentle warm ivory */
+    #FAF6F0    /* Soft warm cream */
   );
   background-size: 400% 400%;
-  animation: aurora-shift 12s ease-in-out infinite;
+  animation: aurora-shift 15s ease-in-out infinite;
 }
 
 @keyframes aurora-shift {
@@ -48,7 +48,7 @@ body {
   100% { background-position: 0% 50%; }
 }
 
-/* ─── Crystal Layer 1: Diagonal sliding light rays (Subtle Emerald) ─── */
+/* ─── Crystal Layer 1: Diagonal sliding light rays (Subtle Cream Gold) ─── */
 body::before {
   content: '';
   position: fixed;
@@ -59,17 +59,17 @@ body::before {
     112deg,
     transparent 0px,
     transparent 55px,
-    rgba(16, 185, 129, 0.02) 56px,
-    rgba(16, 185, 129, 0.02) 59px,
+    rgba(197, 180, 159, 0.05) 56px,
+    rgba(197, 180, 159, 0.05) 59px,
     transparent 60px,
     transparent 120px,
-    rgba(16, 185, 129, 0.01) 121px,
-    rgba(16, 185, 129, 0.01) 123px,
+    rgba(197, 180, 159, 0.03) 121px,
+    rgba(197, 180, 159, 0.03) 123px,
     transparent 124px,
     transparent 180px
   );
   background-size: 300px 300px;
-  animation: crystal-slide 10s linear infinite;
+  animation: crystal-slide 15s linear infinite;
 }
 
 @keyframes crystal-slide {
@@ -77,7 +77,7 @@ body::before {
   100% { background-position: 300px 300px; }
 }
 
-/* ─── Crystal Layer 2: Perpendicular shimmer mesh (Subtle Emerald) ─── */
+/* ─── Crystal Layer 2: Perpendicular shimmer mesh (Subtle Cream Gold) ─── */
 body::after {
   content: '';
   position: fixed;
@@ -88,14 +88,14 @@ body::after {
     22deg,
     transparent 0px,
     transparent 70px,
-    rgba(16, 185, 129, 0.015) 71px,
-    rgba(16, 185, 129, 0.015) 74px,
+    rgba(197, 180, 159, 0.04) 71px,
+    rgba(197, 180, 159, 0.04) 74px,
     transparent 75px,
     transparent 145px
   );
   background-size: 200px 200px;
   animation: crystal-pulse 8s ease-in-out infinite alternate,
-             crystal-slide-reverse 12s linear infinite;
+             crystal-slide-reverse 18s linear infinite;
 }
 
 @keyframes crystal-pulse {
@@ -117,10 +117,10 @@ body > * {
 
 /* ─── Typography (Premium Title & Serif Headings) ─── */
 .font-display-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
   font-weight: 800;
-  font-style: italic;
-  letter-spacing: -0.01em;
+  font-style: normal;
+  letter-spacing: -0.03em;
 }
 
 .font-serif-heading {
@@ -137,8 +137,8 @@ body > * {
 
 /* ─── Primary Golden Pill Button (Glowing) ─── */
 .btn-indigo-pill {
-  background-color: #C5B49F;
-  color: #030706;
+  background-color: var(--accent-indigo);
+  color: #FFFFFF !important;
   border-radius: 9999px;
   font-weight: 700;
   padding: 0.625rem 1.375rem;
@@ -149,20 +149,20 @@ body > * {
   justify-content: center;
   gap: 0.5rem;
   text-decoration: none;
-  box-shadow: 0 0 10px rgba(197, 180, 159, 0.2);
+  box-shadow: 0 0 10px rgba(168, 142, 117, 0.15);
 }
 
 .btn-indigo-pill:hover {
-  background-color: #D5C4AF;
+  background-color: var(--accent-indigo-hover);
   transform: translateY(-1px);
-  box-shadow: 0 0 20px rgba(197, 180, 159, 0.5), 0 4px 12px rgba(197, 180, 159, 0.3);
+  box-shadow: 0 0 20px rgba(168, 142, 117, 0.35);
 }
 
 /* ─── Secondary Outline Pill Button ─── */
 .btn-outline-pill {
   background-color: transparent;
-  color: #ECFDF5;
-  border: 1px solid #162E2A;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
   border-radius: 9999px;
   font-weight: 500;
   padding: 0.625rem 1.375rem;
@@ -176,8 +176,8 @@ body > * {
 }
 
 .btn-outline-pill:hover {
-  background-color: rgba(197, 180, 159, 0.05);
-  border-color: #22564C;
+  background-color: var(--accent-indigo-light);
+  border-color: var(--border-hover) !important;
 }
 
 /* ─── Badge ─── */
@@ -190,31 +190,31 @@ body > * {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #C5B49F;
-  background-color: rgba(197, 180, 159, 0.1);
+  color: var(--text-secondary);
+  background-color: var(--accent-indigo-light);
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
-  border: 1px solid rgba(197, 180, 159, 0.2);
+  border: 1px solid var(--border-color);
 }
 
 /* ─── Clean Card ─── */
 .card-clean {
-  background-color: #0A1412;
-  border: 1px solid #122823;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
   border-radius: 1rem;
   transition: all 0.3s ease;
 }
 
 .card-clean:hover {
-  border-color: #225146;
-  box-shadow: 0 10px 30px -5px rgba(197, 180, 159, 0.1);
+  border-color: var(--border-hover);
+  box-shadow: 0 10px 30px -5px rgba(168, 142, 117, 0.08);
 }
 
 /* ─── Scrollbar ─── */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #050B0A; }
-::-webkit-scrollbar-thumb { background: #122823; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #225146; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
 
 /* ─── Audio Equalizer Waveform Animation ─── */
 @keyframes equalizer-bounce {
@@ -226,4 +226,113 @@ body > * {
 .animate-equalizer-bar {
   transform-origin: bottom;
   animation: equalizer-bounce 0.8s ease-in-out infinite;
+}
+
+/* ─── Global Class Overrides to map hardcoded green theme classes to Light Beige & Cream ─── */
+.bg-\[\#050B0A\] {
+  background-color: var(--bg-primary) !important;
+}
+.bg-\[\#0A1412\] {
+  background-color: var(--bg-surface) !important;
+}
+.bg-\[\#122823\] {
+  background-color: var(--border-color) !important;
+}
+.border-\[\#122823\] {
+  border-color: var(--border-color) !important;
+}
+.border-\[\#225146\] {
+  border-color: var(--border-hover) !important;
+}
+.text-\[\#ECFDF5\] {
+  color: var(--text-primary) !important;
+}
+.text-\[\#8FAAA6\] {
+  color: var(--text-secondary) !important;
+}
+.text-\[\#527E72\] {
+  color: var(--text-muted) !important;
+}
+.text-\[\#C5B49F\] {
+  color: var(--accent-indigo) !important;
+}
+.bg-\[\#C5B49F\] {
+  background-color: var(--accent-indigo) !important;
+}
+.border-\[\#C5B49F\] {
+  border-color: var(--border-hover) !important;
+}
+.border-\[\#C5B49F\]\/30 {
+  border-color: rgba(168, 142, 117, 0.3) !important;
+}
+.border-\[\#C5B49F\]\/20 {
+  border-color: rgba(168, 142, 117, 0.2) !important;
+}
+.bg-\[\#C5B49F\]\/10 {
+  background-color: var(--accent-indigo-light) !important;
+}
+.bg-\[\#C5B49F\]\/15 {
+  background-color: rgba(168, 142, 117, 0.15) !important;
+}
+.bg-\[\#C5B49F\]\/25 {
+  background-color: rgba(168, 142, 117, 0.25) !important;
+}
+.bg-\[\#122823\]\/30 {
+  background-color: rgba(234, 223, 201, 0.3) !important;
+}
+.bg-\[\#122823\]\/20 {
+  background-color: rgba(234, 223, 201, 0.2) !important;
+}
+.bg-\[\#122823\]\/50 {
+  background-color: rgba(234, 223, 201, 0.5) !important;
+}
+.bg-\[\#122823\]\/40 {
+  background-color: rgba(234, 223, 201, 0.4) !important;
+}
+
+/* Text color overrides for light theme readability */
+.text-slate-100 {
+  color: var(--text-primary) !important;
+}
+.text-white {
+  color: var(--text-primary) !important;
+}
+.text-\[\#94A3B8\] {
+  color: var(--text-secondary) !important;
+}
+.text-stone-500 {
+  color: var(--text-muted) !important;
+}
+.text-zinc-300 {
+  color: var(--text-secondary) !important;
+}
+.text-zinc-400 {
+  color: var(--text-muted) !important;
+}
+
+/* Correcting background styling for dropdown and mobile navbar */
+header.fixed {
+  background-color: rgba(250, 246, 240, 0.9) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+.bg-\[\#0A1412\]\/80 {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+}
+.bg-\[\#050B0A\]\/95 {
+  background-color: rgba(250, 246, 240, 0.95) !important;
+}
+.bg-\[\#0A1412\]\/50 {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+}
+.bg-\[\#050B0A\] {
+  background-color: var(--bg-primary) !important;
+}
+.bg-black\/60 {
+  background-color: rgba(250, 246, 240, 0.8) !important;
+}
+.bg-\[rgba\(255\,255\,255\,0\.02\)\] {
+  background-color: rgba(168, 142, 117, 0.02) !important;
+}
+.border-\[rgba\(255\,255\,255\,0\.1\)\] {
+  border-color: var(--border-color) !important;
 }

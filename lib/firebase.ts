@@ -11,9 +11,25 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
-const auth = getAuth(app);
-const db = getFirestore(app);
+const isFirebaseConfigured = 
+  !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY && 
+  process.env.NEXT_PUBLIC_FIREBASE_API_KEY !== 'YOUR_API_KEY' &&
+  process.env.NEXT_PUBLIC_FIREBASE_API_KEY !== '';
 
-export { app, auth, db };
+// Initialize Firebase client SDK conditionally
+let app: any = null;
+let auth: any = null;
+let db: any = null;
+
+if (isFirebaseConfigured) {
+  try {
+    app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+    auth = getAuth(app);
+    db = getFirestore(app);
+  } catch (error) {
+    console.error('Failed to initialize real Firebase client SDK:', error);
+  }
+}
+
+export { app, auth, db, isFirebaseConfigured };
+

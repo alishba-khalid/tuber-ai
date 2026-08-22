@@ -21,6 +21,12 @@ export async function POST(request: Request) {
     const selectedPlan = plans[planId];
     const host = request.headers.get('origin') || 'http://localhost:3000';
 
+    // Mock mode fallback if keys are placeholder
+    const isMockMode = !process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY.includes('placeholder');
+    if (isMockMode) {
+      return NextResponse.json({ url: `${host}/dashboard/credits?mock-success=true&planId=${planId}` });
+    }
+
     // Create checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],

@@ -2,6 +2,14 @@ import { NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 import { adminDb } from '@/lib/firebase-admin';
 
+const plans: Record<string, { price: number; credits: number; name: string }> = {
+  starter: { price: 29, credits: 300, name: 'Starter Plan' },
+  plus: { price: 49, credits: 660, name: 'Plus Plan' },
+  creator: { price: 89, credits: 1500, name: 'Creator Plan' },
+  studio: { price: 139, credits: 2700, name: 'Studio Plan' },
+  pro: { price: 259, credits: 6000, name: 'Pro Plan' },
+};
+
 export async function POST(request: Request) {
   const body = await request.text();
   const signature = request.headers.get('stripe-signature');
@@ -28,17 +36,21 @@ export async function POST(request: Request) {
     const session = event.data.object;
 
     const userId = session.client_reference_id;
+    const planId = session.metadata?.planId || '';
     const addedCredits = parseInt(session.metadata?.credits || '0', 10);
 
     if (userId && addedCredits > 0) {
       try {
         const userRef = adminDb.collection('users').doc(userId);
+        const transactionRef = userRef.collection('transactions').doc(); // auto-generate ID
         
+        const planInfo = plans[planId] || { name: 'Premium Plan', price: 0 };
+
         await adminDb.runTransaction(async (transaction: any) => {
           const userDoc = await transaction.get(userRef);
           
+          // Update credits
           if (!userDoc.exists) {
-            // Document doesn't exist, create it
             transaction.set(userRef, {
               credits: addedCredits,
               updatedAt: new Date().toISOString(),
@@ -50,12 +62,23 @@ export async function POST(request: Request) {
               updatedAt: new Date().toISOString(),
             });
           }
+
+          // Log transaction
+          transaction.set(transactionRef, {
+            id: transactionRef.id,
+            desc: `Upgrade to ${planInfo.name}`,
+            credits: addedCredits,
+            amount: planInfo.price,
+            date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+            createdAt: new Date().toISOString(),
+            type: 'purchase',
+          });
         });
 
-        console.log(`Successfully credited ${addedCredits} to user ${userId}`);
+        console.log(`Successfully credited ${addedCredits} and recorded transaction for user ${userId}`);
       } catch (err) {
-        console.error(`Error updating credits in Firestore:`, err);
-        return NextResponse.json({ error: 'Failed to update Firestore credits.' }, { status: 500 });
+        console.error(`Error updating credits/transactions in Firestore:`, err);
+        return NextResponse.json({ error: 'Failed to update Firestore.' }, { status: 500 });
       }
     }
   }

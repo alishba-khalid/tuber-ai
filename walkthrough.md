@@ -1,32 +1,49 @@
-# Walkthrough — Firebase & Stripe Integration
+# Walkthrough — Stripe Payment & Credit Integration
 
-We have successfully migrated TuberAI to use **Firebase (Authentication & Firestore Database)** and integrated **Stripe Checkout** for payment and credit top-ups.
+We have successfully integrated Stripe Billing into the TuberAI application, connecting checkout routes with user credits allocation inside Cloud Firestore.
 
 ---
 
 ## 🛠️ Changes Implemented
 
-### 1. Firebase Core Configuration
-- Created [`lib/firebase.ts`](file:///c:/Users/Alishba/Desktop/tuber/lib/firebase.ts) to initialize the Firebase Client SDK.
-- Created [`lib/firebase-admin.ts`](file:///c:/Users/Alishba/Desktop/tuber/lib/firebase-admin.ts) using the modular Firebase Admin SDK to handle secure Firestore writes.
-- Created [`components/AuthProvider.tsx`](file:///c:/Users/Alishba/Desktop/tuber/components/AuthProvider.tsx) containing:
-  - Auth listener matching logged-in states.
-  - Automatically seeds a new user with **300 free credits** in Firestore on first signup.
+### 1. Environment Configurations ([`.env.local`](file:///c:/Users/Alishba/Desktop/tuber/.env.local))
+* Configured Stripe environment variables with clear instructions:
+  * `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
+  * `STRIPE_SECRET_KEY`
+  * `STRIPE_WEBHOOK_SECRET`
 
-### 2. User Authentication UI (Firebase Integrated)
-- Replaced previous mock auth screens with customized Firebase integration:
-  - [`app/auth/login/page.tsx`](file:///c:/Users/Alishba/Desktop/tuber/app/auth/login/page.tsx) — Email/password sign-in and Google OAuth login.
-  - [`app/auth/signup/page.tsx`](file:///c:/Users/Alishba/Desktop/tuber/app/auth/signup/page.tsx) — Email/password sign-up and Google OAuth registration.
-  - [`app/dashboard/layout.tsx`](file:///c:/Users/Alishba/Desktop/tuber/app/dashboard/layout.tsx) — Automatically redirects unauthenticated users to login page, and displays real Firestore credits dynamically.
+### 2. Stripe API Checkout Route ([`app/api/checkout/route.ts`](file:///c:/Users/Alishba/Desktop/tuber/app/api/checkout/route.ts))
+* Handles checkout sessions for credit plans (*Starter, Plus, Creator, Studio, Pro*).
+* Attaches the Firebase `userId` to `client_reference_id` so the webhook knows whom to credit.
 
-### 3. Stripe Checkout & Credit System
-- Created [`lib/stripe.ts`](file:///c:/Users/Alishba/Desktop/tuber/lib/stripe.ts) to initialize Stripe with fallback testing tokens for clean production building.
-- Created [`app/api/checkout/route.ts`](file:///c:/Users/Alishba/Desktop/tuber/app/api/checkout/route.ts) — Creates Stripe checkout sessions storing active Firebase user UID in `client_reference_id`.
-- Created [`app/api/webhooks/stripe/route.ts`](file:///c:/Users/Alishba/Desktop/tuber/app/api/webhooks/stripe/route.ts) — Listens for `checkout.session.completed` events and increments user credits in Firestore.
-- Updated [`app/dashboard/credits/page.tsx`](file:///c:/Users/Alishba/Desktop/tuber/app/dashboard/credits/page.tsx) to support direct Stripe redirection on clicking plan upgrades.
+### 3. Stripe Webhook Listener ([`app/api/webhooks/stripe/route.ts`](file:///c:/Users/Alishba/Desktop/tuber/app/api/webhooks/stripe/route.ts))
+* Verifies checkout signatures securely.
+* Listens for `checkout.session.completed` events.
+* Initiates a Firestore transaction to safely increment the user's `credits` balance.
 
 ---
 
-## 🧪 Verification & Build Status
-- **Next.js production build**: Passed successfully (`exit code 0`).
-- **TypeScript checks**: Clean and verified.
+## 🧪 Local Testing Instructions
+
+To test the integration locally, follow this guide:
+
+1. **Stripe Test Keys**:
+   * Navigate to the **[Stripe API Keys Dashboard](https://dashboard.stripe.com/test/apikeys)**.
+   * Copy your **Publishable Key** and **Secret Key**, and paste them into [`.env.local`](file:///c:/Users/Alishba/Desktop/tuber/.env.local).
+
+2. **Run Stripe CLI Webhook Forwarding**:
+   * Open your terminal and start webhook listening to forward events to your local server:
+     ```bash
+     stripe listen --forward-to localhost:3000/api/webhooks/stripe
+     ```
+   * Copy the **Webhook Signing Secret** (`whsec_...`) printed in the console and save it as `STRIPE_WEBHOOK_SECRET` in [`.env.local`](file:///c:/Users/Alishba/Desktop/tuber/.env.local).
+
+3. **Trigger Webhook Checkout Event**:
+   * While your local Next.js dev server is running, trigger a mock purchase event:
+     ```bash
+     stripe trigger checkout.session.completed
+     ```
+
+4. **Verify Firestore Credits**:
+   * Visit your **[Cloud Firestore Console](https://console.firebase.google.com/project/tuber-ai-f12aa/firestore)**.
+   * Confirm the matching user document's `credits` field has successfully incremented.

@@ -35,15 +35,42 @@ const statusConfig = {
   failed: { label: 'Failed', color: 'text-red-400', bg: 'bg-red-950/30 border-red-800/40' },
 };
 
+const stageNames = ['Script', 'Voice', 'Visuals', 'Render', 'Publish'];
+
 export default function DashboardPage() {
-  const { user } = useAuth();
+  const { user, projects } = useAuth();
   const displayName = user?.email ? user.email.split('@')[0] : 'Creator';
 
+  // Calculate dynamic stats
+  const getDurationMinutes = (durStr: string) => {
+    let mins = 0;
+    const hMatch = durStr.match(/(\d+)\s*h/i);
+    const mMatch = durStr.match(/(\d+)\s*m/i);
+    if (hMatch) mins += parseInt(hMatch[1]) * 60;
+    if (mMatch) mins += parseInt(mMatch[1]);
+    if (!hMatch && !mMatch) {
+      const parsed = parseInt(durStr);
+      if (!isNaN(parsed)) {
+        if (durStr.includes('hr') || durStr.includes('hour')) mins += parsed * 60;
+        else mins += parsed;
+      }
+    }
+    return mins;
+  };
+
+  const totalVideos = projects.length;
+  const completedMinutes = projects
+    .filter(p => p.status === 'completed')
+    .reduce((acc, p) => acc + getDurationMinutes(p.duration), 0);
+  const totalHours = Math.round((completedMinutes / 60) * 10) / 10;
+
   const stats = [
-    { label: 'Videos Created', value: '2', icon: Video, change: '+2 this month' },
-    { label: 'Hours Generated', value: '3h', icon: Clock, change: '+3h this month' },
+    { label: 'Videos Created', value: totalVideos.toString(), icon: Video, change: 'Total in account' },
+    { label: 'Hours Generated', value: `${totalHours}h`, icon: Clock, change: 'Rendered runtime' },
     { label: 'Avg Watch Time', value: '68%', icon: TrendingUp, change: 'Optimal performance' },
   ];
+
+  const recent = projects.slice(0, 4);
 
   return (
     <div className="space-y-6 max-w-5xl text-slate-100">
@@ -52,7 +79,7 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold font-serif-heading text-[#ECFDF5]">Dashboard</h1>
-          <p className="text-[#8FAAA6] text-sm mt-0.5 capitalize">Welcome back, {displayName}. Ready to create?</p>
+          <p className="text-[#8FAAA6] text-sm mt-0.5 capitalize font-mono-label">Welcome back, {displayName}. Ready to create?</p>
         </div>
         <Link href="/dashboard/create" className="btn-indigo-pill text-xs px-4 py-2 flex items-center gap-1.5 cursor-pointer">
           <PlusCircle className="w-3.5 h-3.5" />
@@ -106,56 +133,70 @@ export default function DashboardPage() {
         </div>
 
         <div className="space-y-3">
-          {recentProjects.map((project) => {
-            const status = statusConfig[project.status as keyof typeof statusConfig];
-            return (
-              <div key={project.id} className="bg-[#0A1412] border border-[#122823] hover:border-[#225146] rounded-xl p-4 transition-all shadow-2xs group">
-                <div className="flex items-center gap-4">
-                  
-                  {/* Thumbnail placeholder */}
-                  <div className="w-12 h-8 rounded bg-[#0A1412] border border-[#122823] flex items-center justify-center flex-shrink-0">
-                    <Play className="w-3.5 h-3.5 text-[#C5B49F] fill-current" />
-                  </div>
+          {recent.length === 0 ? (
+            <div className="bg-[#0A1412] border border-[#122823] border-dashed rounded-xl p-8 text-center text-[#527E72]">
+              No projects yet. Click "New Video" above to launch your first generation.
+            </div>
+          ) : (
+            recent.map((project) => {
+              const status = statusConfig[project.status as keyof typeof statusConfig] || statusConfig.queued;
+              const currentStageName = stageNames[project.stageIndex ?? 0] || 'Processing';
+              const progressVal = project.progress ?? 0;
 
-                  {/* Title & info */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-semibold text-[#ECFDF5] truncate mb-0.5 group-hover:text-[#C5B49F] transition-colors">{project.title}</h3>
-                    <div className="flex items-center gap-3 text-xs text-[#527E72]">
-                      <span>{project.format}</span>
-                      <span>·</span>
-                      <span>{project.duration}</span>
-                      <span>·</span>
-                      <span>{project.credits} credits</span>
-                      <span>·</span>
-                      <span>{project.date}</span>
+              return (
+                <Link 
+                  href={`/dashboard/video/${project.id}`}
+                  key={project.id} 
+                  className="block bg-[#0A1412] border border-[#122823] hover:border-[#225146] rounded-xl p-4 transition-all shadow-2xs group"
+                >
+                  <div className="flex items-center gap-4">
+                    
+                    {/* Thumbnail placeholder */}
+                    <div className="w-12 h-8 rounded bg-[#0A1412] border border-[#122823] flex items-center justify-center flex-shrink-0">
+                      <Play className="w-3.5 h-3.5 text-[#C5B49F] fill-current" />
                     </div>
-                    {/* Progress bar for generating */}
-                    {project.status === 'generating' && (
-                      <div className="mt-2 max-w-md">
-                        <div className="flex justify-between text-[10px] text-[#527E72] mb-1">
-                          <span>Stage: {project.stage}</span>
-                          <span>{project.progress}%</span>
-                        </div>
-                        <div className="w-full bg-[#122823] h-1 rounded-full overflow-hidden">
-                          <div className="bg-[#C5B49F] h-full rounded-full" style={{ width: `${project.progress}%` }} />
-                        </div>
-                      </div>
-                    )}
-                  </div>
 
-                  {/* Status */}
-                  <div className="flex items-center gap-3">
-                    <span className={`text-[10px] font-mono-label font-bold px-2 py-0.5 rounded border ${status.bg} ${status.color}`}>
-                      {status.label}
-                    </span>
+                    {/* Title & info */}
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-sm font-semibold text-[#ECFDF5] truncate mb-0.5 group-hover:text-[#C5B49F] transition-colors">{project.title}</h3>
+                      <div className="flex items-center gap-3 text-xs text-[#527E72]">
+                        <span>{project.format}</span>
+                        <span>·</span>
+                        <span>{project.duration}</span>
+                        <span>·</span>
+                        <span>{project.credits} credits</span>
+                        <span>·</span>
+                        <span>{project.date}</span>
+                      </div>
+                      {/* Progress bar for generating */}
+                      {project.status === 'generating' && (
+                        <div className="mt-2 max-w-md">
+                          <div className="flex justify-between text-[10px] text-[#527E72] mb-1">
+                            <span>Stage: {currentStageName}</span>
+                            <span>{progressVal}%</span>
+                          </div>
+                          <div className="w-full bg-[#122823] h-1 rounded-full overflow-hidden">
+                            <div className="bg-[#C5B49F] h-full rounded-full transition-all duration-300" style={{ width: `${progressVal}%` }} />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Status */}
+                    <div className="flex items-center gap-3">
+                      <span className={`text-[10px] font-mono-label font-bold px-2 py-0.5 rounded border ${status.bg} ${status.color}`}>
+                        {status.label}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </div>
-            );
-          })}
+                </Link>
+              );
+            })
+          )}
         </div>
       </div>
 
     </div>
   );
 }
+

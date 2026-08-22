@@ -6,6 +6,7 @@ import {
   Sparkles, ChevronRight, FileText, Mic, Image, Film, Upload,
   Clock, Layers, Globe, BookOpen, Settings, ArrowRight, Info
 } from 'lucide-react';
+import { useAuth } from '@/components/AuthProvider';
 
 const formats = [
   { id: 'documentary', label: 'Documentary', icon: Film, desc: 'Cinematic narrated documentary' },
@@ -42,6 +43,7 @@ const stages = [
 
 export default function CreateVideoPage() {
   const router = useRouter();
+  const { credits, saveProject, deductCredits } = useAuth();
   const [step, setStep] = useState(1);
   const [topic, setTopic] = useState('');
   const [format, setFormat] = useState('documentary');
@@ -50,15 +52,56 @@ export default function CreateVideoPage() {
   const [aspect, setAspect] = useState('16:9');
   const [includeEbook, setIncludeEbook] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState('');
 
   const estimatedCredits = Math.round(
     (duration.includes('hr') ? parseInt(duration) * 60 : parseInt(duration)) * 5
   );
 
   const handleGenerate = async () => {
+    setError('');
+    if (credits < estimatedCredits) {
+      setError('Insufficient credits. Please top up your account.');
+      return;
+    }
+
     setIsGenerating(true);
-    await new Promise(r => setTimeout(r, 2000));
-    router.push('/dashboard/video/new-1');
+
+    try {
+      const success = await deductCredits(estimatedCredits);
+      if (!success) {
+        setError('Failed to deduct credits. Please try again.');
+        setIsGenerating(false);
+        return;
+      }
+
+      const projectId = 'proj_' + Math.random().toString(36).substr(2, 9);
+      const cleanTitle = topic.trim().split(/[.!?\n]/)[0].slice(0, 60) || 'Untitled Video';
+      const formattedTitle = cleanTitle.charAt(0).toUpperCase() + cleanTitle.slice(1);
+
+      const newProject = {
+        id: projectId,
+        title: formattedTitle,
+        topic: topic,
+        format: formats.find(f => f.id === format)?.label || format,
+        duration: duration,
+        voice: voice.charAt(0).toUpperCase() + voice.slice(1),
+        aspect: aspect,
+        credits: estimatedCredits,
+        status: 'queued',
+        currentStage: 0,
+        stageProgress: 0,
+        includeEbook: includeEbook,
+        views: '0',
+      };
+
+      await saveProject(newProject);
+      router.push(`/dashboard/video/${projectId}`);
+    } catch (e) {
+      console.error(e);
+      setError('An error occurred during project initialization.');
+      setIsGenerating(false);
+    }
   };
 
   return (
@@ -218,6 +261,11 @@ export default function CreateVideoPage() {
 
       {/* Credit estimate + Generate */}
       <div className="glass-card p-6">
+        {error && (
+          <div className="mb-4 p-3 bg-red-950/40 border border-red-800 text-red-400 rounded-xl text-xs font-medium text-center">
+            {error}
+          </div>
+        )}
         <div className="flex items-center justify-between mb-4">
           <div>
             <div className="text-sm text-[#64748B]">Estimated credit cost</div>
@@ -225,7 +273,7 @@ export default function CreateVideoPage() {
           </div>
           <div className="text-right">
             <div className="text-sm text-[#64748B]">Your balance</div>
-            <div className="text-lg font-bold text-[#A855F7]">840 credits</div>
+            <div className="text-lg font-bold text-[#A855F7]">{credits} credits</div>
           </div>
         </div>
         <button

@@ -1,7 +1,9 @@
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
+import Showcase from '@/components/Showcase';
 import About from '@/components/About';
 import HowItWorks from '@/components/HowItWorks';
+import AIWorkingVisual from '@/components/AIWorkingVisual';
 import Features from '@/components/Features';
 import UseCases from '@/components/UseCases';
 import Comparison from '@/components/Comparison';
@@ -15,8 +17,10 @@ export default function Home() {
     <main className="min-h-screen">
       <Navbar />
       <Hero />
+      <Showcase />
       <About />
       <HowItWorks />
+      <AIWorkingVisual />
       <Features />
       <UseCases />
       <Comparison />
