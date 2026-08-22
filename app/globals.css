@@ -22,7 +22,7 @@ body {
   line-height: 1.5;
 }
 
-/* ─── Animated Aurora Background (Shifts between soft shades of cyan, lavender, rose-pink, sky-blue, and silver-white) ─── */
+/* ─── Animated Aurora Background (Shifts between lightest shades of cyan, lavender, rose-pink, sky-blue, and silver-white) ─── */
 .animated-bg {
   position: fixed;
   inset: 0;
@@ -32,11 +32,11 @@ body {
   pointer-events: none;
   background: linear-gradient(
     -45deg,
-    #B4EBF7,   /* Soft ice-cyan */
-    #D4C5F2,   /* Soft lavender */
-    #F3C5D3,   /* Soft rose-pink */
-    #B4DDEB,   /* Soft sky-blue */
-    #EAF0F6    /* Soft silver-white */
+    #E6F9FC,   /* Lightest ice-cyan */
+    #F2EEFC,   /* Lightest lavender */
+    #FBF0F3,   /* Lightest rose-pink */
+    #EBF6FA,   /* Lightest sky-blue */
+    #FAFBFD    /* Lightest silver-white */
   );
   background-size: 400% 400%;
   animation: aurora-shift 15s ease-in-out infinite;
