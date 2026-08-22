@@ -177,27 +177,38 @@ export default function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
           {/* Left Column: Text & Content (Left Aligned) */}
-          <div className="lg:col-span-7 space-y-6 text-left">
+          <div className="lg:col-span-7 space-y-8 text-left">
             
             {/* Top Badge */}
             <div className="inline-flex">
               <span className="badge-indigo">
                 <Sparkles className="w-3.5 h-3.5" />
-                AI LONG-FORM YOUTUBE GENERATOR
+                AUTOMATED VIDEO PRODUCTION ENGINE
               </span>
             </div>
 
             {/* Headline */}
             <div className="space-y-4">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-display-title text-slate-100 leading-[1.12] tracking-tight">
-                The <span className="text-[#C5B49F]">Ten-Hour</span> <br className="hidden sm:inline" />
-                AI Video Generator.
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-display-title text-slate-100 leading-[1.15] tracking-tight">
+                Create long-form <br className="hidden sm:inline" />
+                <span className="text-[#C5B49F] block mt-1.5 tracking-normal">YouTube videos with AI.</span>
               </h1>
             </div>
 
+            {/* Core Promise Banner (Human + AI replaced) */}
+            <div className="border-t border-b border-[#122823] py-4 my-2">
+              <span className="text-xs font-mono-label font-bold text-[#527E72] block tracking-widest uppercase mb-1">THE CORE CO-OPERATION</span>
+              <div className="text-xl sm:text-2xl font-serif-heading text-[#ECFDF5] font-bold">
+                YOU BRING THE IDEA. <span className="text-[#C5B49F]">TUBERAI BUILDS THE VIDEO.</span>
+              </div>
+              <p className="text-xs sm:text-sm text-[#8FAAA6] mt-1 font-sans">
+                Keep your creative direction while TuberAI handles the production.
+              </p>
+            </div>
+
             {/* Subheadline */}
-            <p className="text-base sm:text-lg md:text-xl text-[#8FAAA6] max-w-2xl font-normal leading-relaxed">
-              TuberAI writes, voices, and renders hours of chaptered YouTube content in a single job. No camera, no voice drift — just your topic, automatically packaged to publish.
+            <p className="text-sm sm:text-base md:text-lg text-[#8FAAA6] max-w-2xl font-normal leading-relaxed">
+              Turn one idea into a complete YouTube video — script, narration, visuals and editing included.
             </p>
 
             {/* Action Buttons */}
@@ -209,10 +220,10 @@ export default function Hero() {
                 Create your first video
               </Link>
               <a
-                href="#how-it-works"
+                href="#showcase"
                 className="btn-outline-pill text-sm px-6 py-4 text-center cursor-pointer"
               >
-                See how it works
+                See examples
               </a>
             </div>
 
