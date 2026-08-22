@@ -30,7 +30,9 @@ export default function AIWorkingVisual() {
       }
 
       setCompletedSteps((prev) => {
-        const currentStepId = steps[activeStep].id;
+        const step = steps[activeStep];
+        if (!step) return prev;
+        const currentStepId = step.id;
         if (!prev.includes(currentStepId)) {
           return [...prev, currentStepId];
         }
