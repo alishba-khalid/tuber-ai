@@ -233,12 +233,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <Mail className="w-4 h-4" />
             </button>
 
-            {/* Bell button with notification count */}
+            {/* Bell button */}
             <button className="relative p-2 text-[#6E6259] hover:text-[#2C2621] transition-all cursor-pointer rounded-lg hover:bg-[#EADFC9]/15">
               <Bell className="w-4 h-4" />
-              <span className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-[#A88E75] text-white text-[9px] font-bold flex items-center justify-center border border-[#FAF7F2]">
-                3
-              </span>
             </button>
 
             {/* Credits Capsule */}
