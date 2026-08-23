@@ -66,6 +66,7 @@ const navLinks = [
   { label: 'Showcase', href: '#showcase' },
   { label: 'How it works', href: '#how-it-works' },
   { label: 'Pricing', href: '/pricing' },
+  { label: 'Blog', href: '/blog' },
 ];
 
 export default function Navbar() {
