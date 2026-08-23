@@ -99,7 +99,7 @@ export default function Navbar() {
               <Sparkles className="w-4 h-4 text-[#050B0A]" />
             </div>
             <span className="text-xl font-bold font-serif-heading tracking-tight text-[#ECFDF5]">
-              Tuber<span className="text-[#C5B49F]">AI</span>
+              GenBy<span className="text-[#C5B49F]">Ghost</span>
             </span>
           </Link>
 

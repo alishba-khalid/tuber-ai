@@ -12,7 +12,7 @@ const capabilities = [
     icon: Video,
     label: 'LONG-FORM GENERATION',
     title: 'Generate Videos Far Beyond Typical Limits',
-    desc: 'While other AI video tools limit you to 2-minute shorts, TuberAIs rendering pipeline compiles seamless documentary-style videos ranging from 10 minutes up to 10 hours in length.',
+    desc: "While other AI video tools limit you to 2-minute shorts, Gen by Ghost's rendering pipeline compiles seamless documentary-style videos ranging from 10 minutes up to 10 hours in length.",
     mockupType: 'render'
   },
   {
@@ -36,7 +36,7 @@ const capabilities = [
     icon: ImageIcon,
     label: 'SCENE-MATCHED VISUALS',
     title: 'Automatic illustration mapping per scene',
-    desc: 'TuberAI generates high-resolution widescreen illustrations corresponding scene-by-scene to the narration script. Every paragraph is visualised.',
+    desc: 'Gen by Ghost generates high-resolution widescreen illustrations corresponding scene-by-scene to the narration script. Every paragraph is visualised.',
     mockupType: 'visuals'
   },
   {
@@ -71,10 +71,10 @@ export default function Features() {
             <span>CAPABILITIES</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold font-serif-heading text-[#ECFDF5] mb-4">
-            What TuberAI Handles
+            What Gen by Ghost Handles
           </h2>
           <p className="text-sm sm:text-base text-[#8FAAA6] leading-relaxed">
-            From research to export, TuberAI replaces the entire production crew. Here is a look at what the engine manages under the hood.
+            From research to export, Gen by Ghost replaces the entire production crew. Here is a look at what the engine manages under the hood.
           </p>
         </div>
 
@@ -121,7 +121,7 @@ export default function Features() {
               {/* Mockup Header */}
               <div className="flex items-center justify-between border-b border-[#122823] pb-4 mb-6">
                 <div>
-                  <h4 className="text-xs font-mono-label font-bold text-[#ECFDF5]">TUBERAI ENGINE PREVIEW</h4>
+                  <h4 className="text-xs font-mono-label font-bold text-[#ECFDF5]">GENBYGHOST ENGINE PREVIEW</h4>
                   <p className="text-[10px] text-[#527E72] mt-0.5 font-mono-label">Active view: {activeCap.label}</p>
                 </div>
                 <span className="text-[9px] font-mono-label text-[#030706] bg-[#C5B49F] px-2.5 py-1 rounded font-bold">
@@ -282,7 +282,7 @@ export default function Features() {
               </h3>
 
               <p className="text-[#8FAAA6] leading-relaxed text-sm sm:text-base">
-                Monetize your YouTube channel further by turning every long-form video script into an e-book for Amazon KDP or Gumroad. TuberAI automatically typesets chapter headers, inserts scene art, and exports a print-ready PDF in one click.
+                Monetize your YouTube channel further by turning every long-form video script into an e-book for Amazon KDP or Gumroad. Gen by Ghost automatically typesets chapter headers, inserts scene art, and exports a print-ready PDF in one click.
               </p>
 
               <div className="space-y-3 pt-2">
@@ -334,7 +334,7 @@ export default function Features() {
                     </div>
 
                     <div className="border-t border-white/20 pt-3 flex items-center justify-between">
-                      <span className="text-[9px] font-mono-label text-zinc-400">TUBERAI PUBLISHING</span>
+                      <span className="text-[9px] font-mono-label text-zinc-400">GENBYGHOST PUBLISHING</span>
                       <span className="text-[9px] font-mono-label text-[#030706] bg-[#C5B49F] px-2 py-0.5 rounded font-bold border border-white/10 shadow-xs">
                         PDF READY
                       </span>

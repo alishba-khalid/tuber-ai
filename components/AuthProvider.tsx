@@ -105,18 +105,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               userProjects.push({ id: d.id, ...d.data() });
             });
             
-            if (userProjects.length === 0) {
-              // Seed default projects for demo
-              const batchSeed = defaultMockProjects.map(p => ({
-                ...p,
-                userId: currentUser.uid,
-              }));
-              for (const p of batchSeed) {
-                const projectRef = doc(collection(db, 'projects'), p.id);
-                await setDoc(projectRef, p);
-                userProjects.push(p);
-              }
-            }
+            // We do not automatically seed mock projects for real Firestore accounts to keep it clean.
             setProjects(userProjects.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
           } catch (e) {
             console.error("Firestore projects fetch failed:", e);
@@ -139,26 +128,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } else {
       // --- MOCK MODE: localStorage-based fallback ---
       const loadMockUser = () => {
-        const storedUser = localStorage.getItem('tuber_mock_user');
+        const storedUser = localStorage.getItem('genbyghost_mock_user');
         if (storedUser) {
           const parsedUser = JSON.parse(storedUser);
           setUser(parsedUser);
           
           // Load Credits
-          const storedCredits = localStorage.getItem(`tuber_credits_${parsedUser.uid}`);
+          const storedCredits = localStorage.getItem(`genbyghost_credits_${parsedUser.uid}`);
           if (storedCredits !== null) {
             setCredits(parseInt(storedCredits, 10));
           } else {
-            localStorage.setItem(`tuber_credits_${parsedUser.uid}`, '300');
+            localStorage.setItem(`genbyghost_credits_${parsedUser.uid}`, '300');
             setCredits(300);
           }
 
           // Load Projects
-          const storedProjects = localStorage.getItem(`tuber_projects_${parsedUser.uid}`);
+          const storedProjects = localStorage.getItem(`genbyghost_projects_${parsedUser.uid}`);
           if (storedProjects) {
             setProjects(JSON.parse(storedProjects));
           } else {
-            localStorage.setItem(`tuber_projects_${parsedUser.uid}`, JSON.stringify(defaultMockProjects));
+            localStorage.setItem(`genbyghost_projects_${parsedUser.uid}`, JSON.stringify(defaultMockProjects));
             setProjects(defaultMockProjects);
           }
         } else {
@@ -182,16 +171,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       uid: 'mock-uid-' + email.replace(/[^a-zA-Z0-9]/g, ''),
       email: email,
     };
-    localStorage.setItem('tuber_mock_user', JSON.stringify(mockUser));
+    localStorage.setItem('genbyghost_mock_user', JSON.stringify(mockUser));
     
     // Check if credits exist, otherwise set 300
-    const credKey = `tuber_credits_${mockUser.uid}`;
+    const credKey = `genbyghost_credits_${mockUser.uid}`;
     if (localStorage.getItem(credKey) === null) {
       localStorage.setItem(credKey, '300');
     }
     
     // Check if projects exist, otherwise set default projects
-    const projKey = `tuber_projects_${mockUser.uid}`;
+    const projKey = `genbyghost_projects_${mockUser.uid}`;
     if (localStorage.getItem(projKey) === null) {
       localStorage.setItem(projKey, JSON.stringify(defaultMockProjects));
     }
@@ -210,7 +199,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (isFirebaseConfigured && auth) {
       await signOut(auth);
     } else {
-      localStorage.removeItem('tuber_mock_user');
+      localStorage.removeItem('genbyghost_mock_user');
       setUser(null);
       setCredits(0);
       setProjects([]);
@@ -237,7 +226,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     } else {
       const updatedProjects = [newProject, ...projects];
-      localStorage.setItem(`tuber_projects_${user.uid}`, JSON.stringify(updatedProjects));
+      localStorage.setItem(`genbyghost_projects_${user.uid}`, JSON.stringify(updatedProjects));
       setProjects(updatedProjects);
     }
   };
@@ -271,7 +260,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
         return p;
       });
-      localStorage.setItem(`tuber_projects_${user.uid}`, JSON.stringify(updatedProjects));
+      localStorage.setItem(`genbyghost_projects_${user.uid}`, JSON.stringify(updatedProjects));
       setProjects(updatedProjects);
     }
   };
@@ -292,7 +281,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return false;
       }
     } else {
-      localStorage.setItem(`tuber_credits_${user.uid}`, newBalance.toString());
+      localStorage.setItem(`genbyghost_credits_${user.uid}`, newBalance.toString());
       setCredits(newBalance);
       return true;
     }

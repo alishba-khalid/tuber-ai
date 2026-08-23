@@ -32,7 +32,7 @@ export default function SettingsPage() {
     if (user) {
       setEmail(user.email || '');
       
-      const storedName = localStorage.getItem(`tuber_profile_name_${user.uid}`);
+      const storedName = localStorage.getItem(`genbyghost_profile_name_${user.uid}`);
       if (storedName) {
         setName(storedName);
       } else {
@@ -40,17 +40,17 @@ export default function SettingsPage() {
         setName(defaultName.charAt(0).toUpperCase() + defaultName.slice(1));
       }
 
-      const storedChannel = localStorage.getItem(`tuber_profile_channel_${user.uid}`);
+      const storedChannel = localStorage.getItem(`genbyghost_profile_channel_${user.uid}`);
       if (storedChannel) {
         setChannelName(storedChannel);
       }
 
-      const storedLang = localStorage.getItem(`tuber_profile_lang_${user.uid}`);
+      const storedLang = localStorage.getItem(`genbyghost_profile_lang_${user.uid}`);
       if (storedLang) {
         setLanguage(storedLang);
       }
       
-      const storedNotifications = localStorage.getItem(`tuber_notifications_${user.uid}`);
+      const storedNotifications = localStorage.getItem(`genbyghost_notifications_${user.uid}`);
       if (storedNotifications) {
         setNotifications(JSON.parse(storedNotifications));
       }
@@ -59,9 +59,9 @@ export default function SettingsPage() {
 
   const handleSaveProfile = () => {
     if (!user) return;
-    localStorage.setItem(`tuber_profile_name_${user.uid}`, name);
-    localStorage.setItem(`tuber_profile_channel_${user.uid}`, channelName);
-    localStorage.setItem(`tuber_profile_lang_${user.uid}`, language);
+    localStorage.setItem(`genbyghost_profile_name_${user.uid}`, name);
+    localStorage.setItem(`genbyghost_profile_channel_${user.uid}`, channelName);
+    localStorage.setItem(`genbyghost_profile_lang_${user.uid}`, language);
     setSavedMessage('Profile settings saved successfully!');
     setTimeout(() => setSavedMessage(''), 3000);
   };
@@ -70,7 +70,7 @@ export default function SettingsPage() {
     if (!user) return;
     const updated = { ...notifications, [key]: !notifications[key as keyof typeof notifications] };
     setNotifications(updated);
-    localStorage.setItem(`tuber_notifications_${user.uid}`, JSON.stringify(updated));
+    localStorage.setItem(`genbyghost_notifications_${user.uid}`, JSON.stringify(updated));
   };
 
   const userInitials = name ? name.slice(0, 2).toUpperCase() : 'US';
@@ -205,7 +205,7 @@ export default function SettingsPage() {
                 {[
                   { key: 'videoComplete', label: 'Video completed', desc: 'Get notified when your video finishes generating' },
                   { key: 'creditLow', label: 'Low credits warning', desc: 'Alert when your credit balance drops below 100' },
-                  { key: 'newFeatures', label: 'New features & updates', desc: 'Learn about new TuberAI features' },
+                  { key: 'newFeatures', label: 'New features & updates', desc: 'Learn about new GenByGhost features' },
                   { key: 'marketing', label: 'Marketing & promotions', desc: 'Receive special offers and promotional emails' },
                 ].map(({ key, label, desc }) => (
                   <div key={key} className="flex items-center justify-between py-4 border-b border-[#122823] last:border-0">

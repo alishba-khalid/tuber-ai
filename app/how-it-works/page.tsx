@@ -6,8 +6,8 @@ import CTABanner from '@/components/CTABanner';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'How It Works — TuberAI',
-  description: 'Learn how TuberAI\'s 5-stage AI pipeline generates full-length YouTube videos from a single prompt.',
+  title: 'How It Works — GenByGhost',
+  description: 'Learn how GenByGhost\'s 5-stage AI pipeline generates full-length YouTube videos from a single prompt.',
 };
 
 export default function HowItWorksPage() {
@@ -20,7 +20,7 @@ export default function HowItWorksPage() {
             <span>The Technology</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-[#E6F2F5] mb-4">
-            How <span className="gradient-text">TuberAI</span> works
+            How <span className="gradient-text">GenByGhost</span> works
           </h1>
           <p className="text-[#486E78] text-lg">
             A 5-stage automated pipeline that takes you from idea to a fully produced,

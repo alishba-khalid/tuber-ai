@@ -61,7 +61,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <Sparkles className="w-4 h-4 text-[#030706]" />
             </div>
             <span className="text-lg font-bold font-serif-heading text-[#ECFDF5]">
-              Tuber<span className="text-[#C5B49F]">AI</span>
+              GenBy<span className="text-[#C5B49F]">Ghost</span>
             </span>
           </Link>
         </div>

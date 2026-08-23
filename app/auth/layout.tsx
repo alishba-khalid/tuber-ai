@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Sign In — TuberAI',
-  description: 'Sign in to your TuberAI account and start generating AI-powered YouTube videos.',
+  title: 'Sign In — GenByGhost',
+  description: 'Sign in to your GenByGhost account and start generating AI-powered YouTube videos.',
 };
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {

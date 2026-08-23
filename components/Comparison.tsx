@@ -39,10 +39,10 @@ export default function Comparison() {
             <span>COMPARISON</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold font-serif-heading text-[#ECFDF5] mb-4">
-            TuberAI vs. Long-Form AI Alternatives
+            Gen by Ghost vs. Long-Form AI Alternatives
           </h2>
           <p className="text-sm sm:text-base text-[#8FAAA6] leading-relaxed">
-            How we compare to other YouTube automation tools. While others stop at under an hour, TuberAI is built for true multi-hour automation.
+            How we compare to other YouTube automation tools. While others stop at under an hour, Gen by Ghost is built for true multi-hour automation.
           </p>
         </div>
 
@@ -56,7 +56,7 @@ export default function Comparison() {
                     Capability
                   </th>
                   <th className="py-4 px-6 text-sm font-bold font-serif-heading text-[#C5B49F] bg-[#C5B49F]/10 w-1/3 border-x border-[#122823]">
-                    TuberAI
+                    GenByGhost
                   </th>
                   <th className="py-4 px-6 text-xs font-mono-label font-bold text-[#527E72] uppercase w-1/3">
                     Other AI Video Tools

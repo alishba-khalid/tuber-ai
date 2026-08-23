@@ -6,8 +6,8 @@ import { Play, Clock, Zap, Eye } from 'lucide-react';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Examples — TuberAI',
-  description: 'Browse AI-generated YouTube videos created with TuberAI. See real results across documentaries, sleep stories, explainers, and more.',
+  title: 'Examples — GenByGhost',
+  description: 'Browse AI-generated YouTube videos created with GenByGhost. See real results across documentaries, sleep stories, explainers, and more.',
 };
 
 const examples = [
@@ -34,7 +34,7 @@ export default function ExamplesPage() {
             <span>Real AI-Generated Videos</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-[#E6F2F5] mb-4">
-            See what <span className="gradient-text">TuberAI creates</span>
+            See what <span className="gradient-text">GenByGhost creates</span>
           </h1>
           <p className="text-[#486E78] text-lg">
             Every video below was created from a single prompt — no scripting, no editing, no filming.

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ArrowRight, Calendar, Clock, User } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Blog — TuberAI',
+  title: 'Blog — GenByGhost',
   description: 'Tips, tutorials, and insights for AI YouTube content creators.',
 };
 
@@ -17,7 +17,7 @@ const posts = [
     category: 'Strategy',
     readTime: '8 min read',
     date: 'Aug 15, 2026',
-    author: 'TuberAI Team',
+    author: 'GenByGhost Team',
     color: 'from-[#6C3DFF]/30 to-[#A855F7]/20',
   },
   {
@@ -27,7 +27,7 @@ const posts = [
     category: 'Niches',
     readTime: '6 min read',
     date: 'Aug 10, 2026',
-    author: 'TuberAI Team',
+    author: 'GenByGhost Team',
     color: 'from-[#00D4FF]/20 to-[#6C3DFF]/20',
   },
   {
@@ -37,7 +37,7 @@ const posts = [
     category: 'Algorithm',
     readTime: '10 min read',
     date: 'Aug 5, 2026',
-    author: 'TuberAI Team',
+    author: 'GenByGhost Team',
     color: 'from-[#EC4899]/20 to-[#A855F7]/20',
   },
   {
@@ -47,7 +47,7 @@ const posts = [
     category: 'Research',
     readTime: '5 min read',
     date: 'Jul 28, 2026',
-    author: 'TuberAI Team',
+    author: 'GenByGhost Team',
     color: 'from-[#C5B49F]/20 to-[#6C3DFF]/20',
   },
 ];
@@ -61,7 +61,7 @@ export default function BlogPage() {
           {/* Header */}
           <div className="text-center py-16">
             <h1 className="text-4xl font-black text-[#E6F2F5] mb-4">
-              The <span className="gradient-text">TuberAI</span> Blog
+              The <span className="gradient-text">GenByGhost</span> Blog
             </h1>
             <p className="text-[#486E78] text-lg max-w-xl mx-auto">
               Tips, tutorials, and insights for AI YouTube content creators.

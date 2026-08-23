@@ -9,7 +9,7 @@
     "providers": {
       "emailPassword": true,
       "googleSignIn": {
-        "oAuthBrandDisplayName": "TuberAI",
+        "oAuthBrandDisplayName": "GenByGhost",
         "supportEmail": "alishbakhalid766@gmail.com"
       }
     }

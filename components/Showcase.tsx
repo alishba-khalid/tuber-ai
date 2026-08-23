@@ -44,10 +44,10 @@ export default function Showcase() {
             <span>SHOWCASE</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold font-serif-heading text-[#ECFDF5] mb-4">
-            What Can TuberAI Create?
+            What Can GenByGhost Create?
           </h2>
           <p className="text-sm sm:text-base text-[#8FAAA6] leading-relaxed">
-            See actual long-form videos compiled by the TuberAI engine. These represent the high production value that turns viewers into subscribers.
+            See actual long-form videos compiled by the GenByGhost engine. These represent the high production value that turns viewers into subscribers.
           </p>
         </div>
 

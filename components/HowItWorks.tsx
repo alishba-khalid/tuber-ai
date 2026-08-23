@@ -13,7 +13,7 @@ const stages = [
   {
     num: '02',
     title: 'Generate the script',
-    desc: 'TuberAI creates a structured, highly researched long-form script designed to maximize viewer engagement across chapters.',
+    desc: 'Gen by Ghost creates a structured, highly researched long-form script designed to maximize viewer engagement across chapters.',
     shell: 'script_compiler.sh',
   },
   {
@@ -25,7 +25,7 @@ const stages = [
   {
     num: '04',
     title: 'Create scene-matched visuals',
-    desc: 'TuberAI automatically generates high-resolution widescreen illustrations corresponding scene-by-scene to the narration script.',
+    desc: 'Gen by Ghost automatically generates high-resolution widescreen illustrations corresponding scene-by-scene to the narration script.',
     shell: 'visual_generator.sh',
   },
   {
@@ -37,7 +37,7 @@ const stages = [
   {
     num: '06',
     title: 'Publish to YouTube',
-    desc: 'The finished video is ready. TuberAI auto-publishes it straight to your channel, packed with descriptions, chapters, and tags.',
+    desc: 'The finished video is ready. Gen by Ghost auto-publishes it straight to your channel, packed with descriptions, chapters, and tags.',
     shell: 'publisher_metadata.sh',
   },
 ];

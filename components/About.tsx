@@ -5,7 +5,7 @@ export default function About() {
     {
       icon: Film,
       title: "Built for True Long-Form Content",
-      desc: "While other AI video tools limit you to 2-minute shorts, TuberAI's rendering pipeline compiles seamless documentary-style videos ranging from 10 minutes up to 10 hours in length.",
+      desc: "While other AI video tools limit you to 2-minute shorts, Gen by Ghost's rendering pipeline compiles seamless documentary-style videos ranging from 10 minutes up to 10 hours in length.",
     },
     {
       icon: Cpu,
@@ -33,7 +33,7 @@ export default function About() {
               <div className="inline-flex">
                 <span className="badge-indigo">
                   <Sparkles className="w-3.5 h-3.5" />
-                  WHAT IS TUBERAI?
+                  WHAT IS GENBYGHOST?
                 </span>
               </div>
               
@@ -42,7 +42,7 @@ export default function About() {
               </h2>
               
               <p className="text-[#8FAAA6] leading-relaxed text-sm sm:text-base">
-                TuberAI is the world's first autonomous long-form video engine. We don't just crop clips or generate generic loops. TuberAI researches, outlines, scripts, narrates, edits, and compiles complex multi-hour documentaries and series from a single topic prompt, publishing them straight to your channel while you sleep.
+                Gen by Ghost is the world's first autonomous long-form video engine. We don't just crop clips or generate generic loops. Gen by Ghost researches, outlines, scripts, narrates, edits, and compiles complex multi-hour documentaries and series from a single topic prompt, publishing them straight to your channel while you sleep.
               </p>
             </div>
 

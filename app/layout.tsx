@@ -4,14 +4,14 @@ import "./globals.css";
 import { AuthProvider } from "@/components/AuthProvider";
 
 export const metadata: Metadata = {
-  title: "TuberAI — AI YouTube Video Generator",
+  title: "GenByGhost — AI YouTube Video Generator",
   description: "Turn any idea into a full-length YouTube video automatically. AI-powered script, voice, visuals, and publishing — all in one platform.",
   keywords: "AI video generator, YouTube automation, AI content creation, long-form video AI, faceless YouTube channel",
   openGraph: {
-    title: "TuberAI — AI YouTube Video Generator",
+    title: "GenByGhost — AI YouTube Video Generator",
     description: "Turn any idea into a full-length YouTube video automatically.",
     type: "website",
-    siteName: "TuberAI",
+    siteName: "GenByGhost",
   },
 };
 

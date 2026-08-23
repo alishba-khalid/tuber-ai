@@ -11,7 +11,7 @@ const competitorData: Record<string, {
   price: string;
   pros: string[];
   cons: string[];
-  tuberAiDiff: string;
+  genByGhostDiff: string;
 }> = {
   dreamtuber: {
     name: "DreamTuber",
@@ -19,7 +19,7 @@ const competitorData: Record<string, {
     price: "$29/mo",
     pros: ["Automated kids book creator", "Supports long rendering"],
     cons: ["Limited voice narration choices", "Stock footage repetition", "No interactive video timeline editor"],
-    tuberAiDiff: "TuberAI provides professional-grade voice narration (ElevenLabs integrations), an interactive timeline editor to customize visuals before rendering, and a much wider selection of high-definition templates."
+    genByGhostDiff: "GenByGhost provides professional-grade voice narration (ElevenLabs integrations), an interactive timeline editor to customize visuals before rendering, and a much wider selection of high-definition templates."
   },
   autoshorts: {
     name: "AutoShorts.ai",
@@ -27,7 +27,7 @@ const competitorData: Record<string, {
     price: "$19/mo",
     pros: ["Autopilot uploading to TikTok", "Fast rendering for shorts"],
     cons: ["Only supports vertical short videos", "No editing capabilities", "Repetitive AI visuals"],
-    tuberAiDiff: "TuberAI is built for both long-form YouTube documentaries/explainers and vertical shorts, giving you full-featured video editing suites and advanced text script customizations."
+    genByGhostDiff: "GenByGhost is built for both long-form YouTube documentaries/explainers and vertical shorts, giving you full-featured video editing suites and advanced text script customizations."
   },
   invideo: {
     name: "InVideo AI",
@@ -35,7 +35,7 @@ const competitorData: Record<string, {
     price: "$25/mo",
     pros: ["Good stock library integrations", "User-friendly editor interface"],
     cons: ["No autopilot auto-posting options", "Expensive high-tier plans", "Watermarks on free exports"],
-    tuberAiDiff: "TuberAI has built-in auto-publishing and scheduling options to push videos directly to your YouTube channel on autopilot, with cheaper starting tiers and no export watermarks."
+    genByGhostDiff: "GenByGhost has built-in auto-publishing and scheduling options to push videos directly to your YouTube channel on autopilot, with cheaper starting tiers and no export watermarks."
   },
   pictory: {
     name: "Pictory",
@@ -43,7 +43,7 @@ const competitorData: Record<string, {
     price: "$23/mo",
     pros: ["Converts articles to slides", "Auto subtitle generation"],
     cons: ["Aesthetics look like slide presentations", "Robot-like standard voiceovers", "No advanced visual generator"],
-    tuberAiDiff: "TuberAI uses cutting-edge generative models to build fluid cinematic visuals matching the script context, combined with ultra-realistic human-like voice synthesis."
+    genByGhostDiff: "GenByGhost uses cutting-edge generative models to build fluid cinematic visuals matching the script context, combined with ultra-realistic human-like voice synthesis."
   },
   fliki: {
     name: "Fliki",
@@ -51,7 +51,7 @@ const competitorData: Record<string, {
     price: "$28/mo",
     pros: ["Wide voice library", "Supports podcasting options"],
     cons: ["Limited custom layout customization", "High pricing for export limits", "Basic video transitions"],
-    tuberAiDiff: "TuberAI focuses specifically on maximizing YouTube engagement with cinematic storytelling structures, interactive visual edits, and channel sync."
+    genByGhostDiff: "GenByGhost focuses specifically on maximizing YouTube engagement with cinematic storytelling structures, interactive visual edits, and channel sync."
   }
 };
 
@@ -65,7 +65,7 @@ export default async function VersusPage({ params }: PageProps) {
     price: "Varies",
     pros: ["Automated creation", "Templates"],
     cons: ["Generic templates", "Higher pricing tiers", "Lacks dynamic customization"],
-    tuberAiDiff: "TuberAI offers advanced timeline editing, ultra-realistic voice narration, and direct autopilot publishing to grow your channel hands-free."
+    genByGhostDiff: "GenByGhost offers advanced timeline editing, ultra-realistic voice narration, and direct autopilot publishing to grow your channel hands-free."
   };
 
   return (
@@ -74,7 +74,7 @@ export default async function VersusPage({ params }: PageProps) {
         {/* Breadcrumb / Top Bar */}
         <div className="mb-8">
           <Link href="/" className="text-sm font-mono-label text-[#527E72] hover:text-[#ECFDF5] transition-colors">
-            &larr; Back to TuberAI
+            &larr; Back to GenByGhost
           </Link>
         </div>
 
@@ -84,7 +84,7 @@ export default async function VersusPage({ params }: PageProps) {
             <Zap className="w-3.5 h-3.5" /> Direct Product Comparison
           </span>
           <h1 className="text-4xl sm:text-5xl font-bold font-serif-heading text-[#ECFDF5] tracking-tight leading-tight">
-            TuberAI <span className="text-[#C5B49F] font-light">vs</span> {comp.name}
+            GenByGhost <span className="text-[#C5B49F] font-light">vs</span> {comp.name}
           </h1>
           <p className="mt-4 text-lg text-[#8FAAA6] max-w-2xl mx-auto">
             Comparing features, capabilities, and pricing to help you choose the best AI video automation tool for your business.
@@ -94,10 +94,10 @@ export default async function VersusPage({ params }: PageProps) {
         {/* Dynamic Highlight Card */}
         <div className="bg-[#0A1412] border border-[#225146]/30 rounded-3xl p-8 mb-12 shadow-xl">
           <h2 className="text-xl font-bold font-serif-heading text-[#ECFDF5] mb-4 flex items-center gap-2">
-            <Award className="w-5 h-5 text-[#C5B49F]" /> Why Creators Choose TuberAI over {comp.name}
+            <Award className="w-5 h-5 text-[#C5B49F]" /> Why Creators Choose GenByGhost over {comp.name}
           </h2>
           <p className="text-[#8FAAA6] text-sm leading-relaxed">
-            {comp.tuberAiDiff}
+            {comp.genByGhostDiff}
           </p>
         </div>
 
@@ -105,7 +105,7 @@ export default async function VersusPage({ params }: PageProps) {
         <div className="border border-[#122823] bg-[#0A1412]/80 rounded-2xl overflow-hidden mb-12">
           <div className="grid grid-cols-3 border-b border-[#122823] bg-[#0A1412] p-4 text-sm font-mono-label font-bold text-[#ECFDF5]">
             <div>Feature</div>
-            <div className="text-center text-[#C5B49F]">TuberAI</div>
+            <div className="text-center text-[#C5B49F]">GenByGhost</div>
             <div className="text-center text-slate-400">{comp.name}</div>
           </div>
           
@@ -192,7 +192,7 @@ export default async function VersusPage({ params }: PageProps) {
               Ready to automate your YouTube channel?
             </h2>
             <p className="text-[#8FAAA6] text-sm max-w-lg mx-auto mb-8 leading-relaxed">
-              Create a free account on TuberAI today. Get 300 setup credits immediately—no credit card required.
+              Create a free account on GenByGhost today. Get 300 setup credits immediately—no credit card required.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link href="/auth/signup" className="btn-indigo-pill px-8 py-3 text-sm flex items-center gap-2 w-full sm:w-auto justify-center font-bold">

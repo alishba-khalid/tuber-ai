@@ -32,7 +32,7 @@ export default async function UseCasePage({ params }: PageProps) {
         {/* Breadcrumb */}
         <div className="mb-8">
           <Link href="/" className="text-sm font-mono-label text-[#527E72] hover:text-[#ECFDF5] transition-colors">
-            &larr; Back to TuberAI Home
+            &larr; Back to GenByGhost Home
           </Link>
         </div>
 
@@ -55,7 +55,7 @@ export default async function UseCasePage({ params }: PageProps) {
             <Zap className="w-8 h-8 text-[#C5B49F] mb-4" />
             <h3 className="text-base font-bold text-[#ECFDF5] mb-2">Automated Scripting</h3>
             <p className="text-sm text-[#8FAAA6] leading-relaxed">
-              TuberAI writes context-rich, engaging scripts optimized specifically for YouTube retention rates in the {nicheName} niche.
+              GenByGhost writes context-rich, engaging scripts optimized specifically for YouTube retention rates in the {nicheName} niche.
             </p>
           </div>
 
@@ -102,7 +102,7 @@ export default async function UseCasePage({ params }: PageProps) {
               <div>
                 <h3 className="text-base font-bold text-[#ECFDF5] mb-1">Generate Script & Narration</h3>
                 <p className="text-sm text-[#8FAAA6] leading-relaxed">
-                  TuberAI generates a formatted chapter script and creates voiceover narration using ultra-realistic text-to-speech models.
+                  GenByGhost generates a formatted chapter script and creates voiceover narration using ultra-realistic text-to-speech models.
                 </p>
               </div>
             </div>
@@ -140,7 +140,7 @@ export default async function UseCasePage({ params }: PageProps) {
               Start building your channel today
             </h2>
             <p className="text-[#8FAAA6] text-sm max-w-lg mx-auto mb-8 leading-relaxed">
-              Create an account on TuberAI today and get 300 setup credits free. Scale your YouTube automation business on autopilot.
+              Create an account on GenByGhost today and get 300 setup credits free. Scale your YouTube automation business on autopilot.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link href="/auth/signup" className="btn-indigo-pill px-8 py-3 text-sm flex items-center gap-2 w-full sm:w-auto justify-center font-bold">

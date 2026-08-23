@@ -53,14 +53,14 @@ export default function CreditsPage() {
     } else {
       // LocalStorage mock transactions
       const loadLocalTransactions = () => {
-        const stored = localStorage.getItem(`tuber_transactions_${user.uid}`);
+        const stored = localStorage.getItem(`genbyghost_transactions_${user.uid}`);
         if (stored) {
           setTransactions(JSON.parse(stored));
         } else {
           const defaultTx = [
             { id: '1', desc: 'Setup founding user credits', credits: 300, date: 'Aug 19, 2026', type: 'renewal', amount: 0 }
           ];
-          localStorage.setItem(`tuber_transactions_${user.uid}`, JSON.stringify(defaultTx));
+          localStorage.setItem(`genbyghost_transactions_${user.uid}`, JSON.stringify(defaultTx));
           setTransactions(defaultTx);
         }
       };
@@ -120,11 +120,11 @@ export default function CreditsPage() {
           }
         } else {
           // Write to LocalStorage
-          localStorage.setItem(`tuber_credits_${user.uid}`, newCredits.toString());
-          const stored = localStorage.getItem(`tuber_transactions_${user.uid}`);
+          localStorage.setItem(`genbyghost_credits_${user.uid}`, newCredits.toString());
+          const stored = localStorage.getItem(`genbyghost_transactions_${user.uid}`);
           const currentTxs = stored ? JSON.parse(stored) : [];
           const updatedTxs = [newTx, ...currentTxs];
-          localStorage.setItem(`tuber_transactions_${user.uid}`, JSON.stringify(updatedTxs));
+          localStorage.setItem(`genbyghost_transactions_${user.uid}`, JSON.stringify(updatedTxs));
           
           // Trigger storage event to sync state
           window.dispatchEvent(new Event('storage'));

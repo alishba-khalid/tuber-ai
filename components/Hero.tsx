@@ -89,7 +89,7 @@ const pipelineSteps = [
   {
     num: '02',
     label: 'SCRIPT',
-    subtitle: 'TuberAI creates:',
+    subtitle: 'GenByGhost creates:',
     desc: 'The long-form chaptered narration script.',
     color: 'border-[#122823] text-[#8FAAA6]'
   },
@@ -103,14 +103,14 @@ const pipelineSteps = [
   {
     num: '04',
     label: 'SCENES',
-    subtitle: 'TuberAI creates:',
+    subtitle: 'GenByGhost creates:',
     desc: 'Scene-matched widescreen visuals.',
     color: 'border-[#122823] text-[#8FAAA6]'
   },
   {
     num: '05',
     label: 'VIDEO',
-    subtitle: 'TuberAI compiles:',
+    subtitle: 'GenByGhost compiles:',
     desc: 'Everything is auto-edited and timed.',
     color: 'border-[#122823] text-[#8FAAA6]'
   },
@@ -132,7 +132,7 @@ export default function Hero() {
 
   const selectedChapter = chapterTabs.find(c => c.id === activeTab) || chapterTabs[0];
 
-  // Auto-simulate TuberAI engine activities in the right widget
+  // Auto-simulate GenByGhost engine activities in the right widget
   useEffect(() => {
     if (!isPlaying) return;
 
@@ -199,10 +199,10 @@ export default function Hero() {
             <div className="border-t border-b border-[#122823] py-4 my-2">
               <span className="text-xs font-mono-label font-bold text-[#527E72] block tracking-widest uppercase mb-1">THE CORE CO-OPERATION</span>
               <div className="text-xl sm:text-2xl font-serif-heading text-[#ECFDF5] font-bold">
-                YOU BRING THE IDEA. <span className="text-[#C5B49F]">TUBERAI BUILDS THE VIDEO.</span>
+                YOU BRING THE IDEA. <span className="text-[#C5B49F]">GENBYGHOST BUILDS THE VIDEO.</span>
               </div>
               <p className="text-xs sm:text-sm text-[#8FAAA6] mt-1 font-sans">
-                Keep your creative direction while TuberAI handles the production.
+                Keep your creative direction while GenByGhost handles the production.
               </p>
             </div>
 
@@ -446,7 +446,7 @@ export default function Hero() {
           <div className="text-center max-w-3xl mx-auto mb-12">
             <span className="text-[10px] font-mono-label font-bold text-[#C5B49F] tracking-widest uppercase block mb-2">AUTOMATION PIPELINE</span>
             <h2 className="text-3xl font-bold font-serif-heading text-[#ECFDF5]">One Idea. Complete Video.</h2>
-            <p className="text-sm text-[#8FAAA6] mt-2">See how TuberAI takes your single text idea and builds a cinematic masterwork.</p>
+            <p className="text-sm text-[#8FAAA6] mt-2">See how GenByGhost takes your single text idea and builds a cinematic masterwork.</p>
           </div>
           
           <div className="relative">

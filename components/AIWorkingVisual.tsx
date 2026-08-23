@@ -68,7 +68,7 @@ export default function AIWorkingVisual() {
             Watch the Production Engine Work
           </h2>
           <p className="text-sm sm:text-base text-[#8FAAA6] leading-relaxed">
-            TuberAI runs an autonomous multi-stage timeline render. See how a single topic is parsed into a fully compiled video.
+            Gen by Ghost runs an autonomous multi-stage timeline render. See how a single topic is parsed into a fully compiled video.
           </p>
         </div>
 
@@ -80,7 +80,7 @@ export default function AIWorkingVisual() {
             <div className="flex items-center gap-2">
               <Terminal className="w-4 h-4 text-[#C5B49F]" />
               <span className="text-xs font-mono-label font-bold text-[#ECFDF5] tracking-wider">
-                TUBERAI // PRODUCTION_MONITOR.LOG
+                GENBYGHOST // PRODUCTION_MONITOR.LOG
               </span>
             </div>
             <div className="flex items-center gap-1.5">

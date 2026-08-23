@@ -15,12 +15,12 @@ export default function Footer() {
                 <Sparkles className="w-3.5 h-3.5 text-[#030706]" />
               </div>
               <span className="text-lg font-bold font-serif-heading text-[#ECFDF5]">
-                Tuber<span className="text-[#C5B49F]">AI</span>
+                GenBy<span className="text-[#C5B49F]">Ghost</span>
               </span>
             </Link>
 
             <p className="text-xs text-[#527E72] max-w-sm leading-relaxed">
-              TuberAI is an automated long-form AI video generator that scripts, voices, renders, and packages 10-minute to 10-hour YouTube content from a single prompt.
+              Gen by Ghost is an automated long-form AI video generator that scripts, voices, renders, and packages 10-minute to 10-hour YouTube content from a single prompt.
             </p>
           </div>
 
@@ -66,8 +66,8 @@ export default function Footer() {
 
         {/* Copyright Bar */}
         <div className="pt-8 border-t border-[#122823] flex flex-col sm:flex-row items-center justify-between text-xs text-[#527E72] gap-4">
-          <p>© {new Date().getFullYear()} TuberAI Inc. All rights reserved.</p>
-          <p className="font-mono-label text-[11px] text-[#C5B49F]">THE TEN-HOUR AI VIDEO GENERATOR</p>
+          <p>© {new Date().getFullYear()} Gen by Ghost Inc. All rights reserved.</p>
+          <p className="font-mono-label text-[11px] text-[#C5B49F]">THE GHOST CHANNEL AUTOMATOR</p>
         </div>
 
       </div>

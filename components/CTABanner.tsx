@@ -11,7 +11,7 @@ export default function CTABanner() {
           <div className="relative z-10 max-w-2xl mx-auto space-y-8">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#C5B49F]/15 text-[#C5B49F] border border-[#C5B49F]/30 text-xs font-mono-label">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>TUBERAI ENGINE GATEWAY</span>
+              <span>GENBYGHOST ENGINE GATEWAY</span>
             </div>
 
             <h2 className="text-3xl sm:text-5xl font-bold font-serif-heading text-[#ECFDF5] leading-tight uppercase tracking-tight">
@@ -20,7 +20,7 @@ export default function CTABanner() {
             </h2>
 
             <p className="text-sm sm:text-lg text-[#8FAAA6] font-light max-w-lg mx-auto leading-relaxed">
-              Give TuberAI the topic. We'll handle the production.
+              Give Gen by Ghost the topic. We'll handle the production.
             </p>
 
             <div className="pt-4">
