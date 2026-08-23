@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import LogoIcon from './LogoIcon';
 import {
   Menu, X, Sparkles, ChevronDown,
   FileText, Mic, Image, Film, Youtube,
@@ -95,9 +96,7 @@ export default function Navbar() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
-            <div className="w-8 h-8 rounded-lg bg-[#C5B49F] flex items-center justify-center shadow-xs">
-              <Sparkles className="w-4 h-4 text-[#050B0A]" />
-            </div>
+            <LogoIcon />
             <span className="text-xl font-bold font-serif-heading tracking-tight text-[#ECFDF5]">
               GenBy<span className="text-[#C5B49F]">Ghost</span>
             </span>

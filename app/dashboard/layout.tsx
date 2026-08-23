@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
+import LogoIcon from '@/components/LogoIcon';
 import { 
   Sparkles, LayoutDashboard, FolderOpen, PlusCircle, 
   CreditCard, Settings, LogOut, ChevronRight, Bell, Search,
@@ -54,12 +55,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Sidebar */}
       <aside className="w-60 border-r border-[#122823] flex flex-col bg-[#0A1412]">
         
-        {/* Logo */}
         <div className="p-4 border-b border-[#122823]">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#C5B49F] flex items-center justify-center text-[#030706]">
-              <Sparkles className="w-4 h-4 text-[#030706]" />
-            </div>
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <LogoIcon />
             <span className="text-lg font-bold font-serif-heading text-[#ECFDF5]">
               GenBy<span className="text-[#C5B49F]">Ghost</span>
             </span>

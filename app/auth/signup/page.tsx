@@ -7,6 +7,7 @@ import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } f
 import { auth, isFirebaseConfigured } from '@/lib/firebase';
 import { useAuth } from '@/components/AuthProvider';
 import { Sparkles } from 'lucide-react';
+import LogoIcon from '@/components/LogoIcon';
 
 export default function SignupPage() {
   const [email, setEmail] = useState('');
@@ -89,10 +90,8 @@ export default function SignupPage() {
         
         {/* Header / Logo */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 rounded-lg bg-[#C5B49F] flex items-center justify-center text-[#030706]">
-              <Sparkles className="w-4 h-4 text-[#030706]" />
-            </div>
+          <Link href="/" className="inline-flex items-center gap-2 mb-4 group">
+            <LogoIcon />
             <span className="text-xl font-bold font-serif-heading text-[#ECFDF5]">
               GenBy<span className="text-[#C5B49F]">Ghost</span>
             </span>

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Sparkles } from 'lucide-react';
+import LogoIcon from './LogoIcon';
 
 export default function Footer() {
   return (
@@ -10,10 +11,8 @@ export default function Footer() {
           
           {/* Brand Column */}
           <div className="md:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-[#C5B49F] flex items-center justify-center text-[#030706]">
-                <Sparkles className="w-3.5 h-3.5 text-[#030706]" />
-              </div>
+            <Link href="/" className="flex items-center gap-2.5 group">
+              <LogoIcon className="w-7 h-7" iconClassName="w-4 h-4" />
               <span className="text-lg font-bold font-serif-heading text-[#ECFDF5]">
                 GenBy<span className="text-[#C5B49F]">Ghost</span>
               </span>
