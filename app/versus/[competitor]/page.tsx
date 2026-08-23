@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Check, X, Zap, CreditCard, ArrowRight, Video, Shield, Award } from 'lucide-react';
 
@@ -55,18 +56,39 @@ const competitorData: Record<string, {
   }
 };
 
+function getCompetitor(competitor: string) {
+  const compKey = competitor.toLowerCase();
+  return (
+    competitorData[compKey] || {
+      name: competitor.charAt(0).toUpperCase() + competitor.slice(1),
+      tagline: 'automated AI video generator',
+      price: 'Varies',
+      pros: ['Automated creation', 'Templates'],
+      cons: ['Generic templates', 'Higher pricing tiers', 'Lacks dynamic customization'],
+      genByGhostDiff:
+        'GenByGhost offers advanced timeline editing, ultra-realistic voice narration, and direct autopilot publishing to grow your channel hands-free.',
+    }
+  );
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { competitor } = await params;
+  const comp = getCompetitor(competitor);
+  const title = `GenByGhost vs ${comp.name} — Which AI Video Tool Wins?`;
+  const description = `Compare GenByGhost and ${comp.name} (${comp.tagline}) on pricing, voice quality, editing, and auto-publishing to find the right AI video tool for your channel.`;
+
+  return {
+    title,
+    description,
+    openGraph: { title, description, type: 'website' },
+    twitter: { card: 'summary_large_image', title, description },
+  };
+}
+
 export default async function VersusPage({ params }: PageProps) {
   const { competitor } = await params;
+  const comp = getCompetitor(competitor);
   const compKey = competitor.toLowerCase();
-  
-  const comp = competitorData[compKey] || {
-    name: competitor.charAt(0).toUpperCase() + competitor.slice(1),
-    tagline: "automated AI video generator",
-    price: "Varies",
-    pros: ["Automated creation", "Templates"],
-    cons: ["Generic templates", "Higher pricing tiers", "Lacks dynamic customization"],
-    genByGhostDiff: "GenByGhost offers advanced timeline editing, ultra-realistic voice narration, and direct autopilot publishing to grow your channel hands-free."
-  };
 
   return (
     <div className="min-h-screen bg-[#050B0A] text-slate-100 py-16 px-4 sm:px-6 lg:px-8">

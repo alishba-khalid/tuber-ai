@@ -3,7 +3,10 @@ import "./globals.css";
 
 import { AuthProvider } from "@/components/AuthProvider";
 
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://genbyghost.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
   title: "GenByGhost — AI YouTube Video Generator",
   description: "Turn any idea into a full-length YouTube video automatically. AI-powered script, voice, visuals, and publishing — all in one platform.",
   keywords: "AI video generator, YouTube automation, AI content creation, long-form video AI, faceless YouTube channel",
@@ -12,6 +15,16 @@ export const metadata: Metadata = {
     description: "Turn any idea into a full-length YouTube video automatically.",
     type: "website",
     siteName: "GenByGhost",
+    url: baseUrl,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GenByGhost — AI YouTube Video Generator",
+    description: "Turn any idea into a full-length YouTube video automatically.",
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
 };
 

@@ -41,11 +41,12 @@ export default function Footer() {
             <h4 className="text-xs font-mono-label font-bold text-[#ECFDF5] uppercase tracking-wider mb-4">
               Comparisons
             </h4>
-            <ul className="space-y-2.5 text-xs text-[#527E72]">
-              <li><span>vs. StoryShort</span></li>
-              <li><span>vs. Mootion</span></li>
-              <li><span>vs. MagicLight</span></li>
-              <li><span>vs. InVideo AI</span></li>
+            <ul className="space-y-2.5 text-xs">
+              <li><Link href="/versus/invideo" className="hover:text-[#C5B49F] transition-colors">vs. InVideo AI</Link></li>
+              <li><Link href="/versus/pictory" className="hover:text-[#C5B49F] transition-colors">vs. Pictory</Link></li>
+              <li><Link href="/versus/fliki" className="hover:text-[#C5B49F] transition-colors">vs. Fliki</Link></li>
+              <li><Link href="/versus/dreamtuber" className="hover:text-[#C5B49F] transition-colors">vs. DreamTuber</Link></li>
+              <li><Link href="/versus/autoshorts" className="hover:text-[#C5B49F] transition-colors">vs. AutoShorts.ai</Link></li>
             </ul>
           </div>
 
@@ -54,10 +55,10 @@ export default function Footer() {
             <h4 className="text-xs font-mono-label font-bold text-[#ECFDF5] uppercase tracking-wider mb-4">
               Legal
             </h4>
-            <ul className="space-y-2.5 text-xs text-[#527E72]">
-              <li><span>Terms of Service</span></li>
-              <li><span>Privacy Policy</span></li>
-              <li><span>Cookie Policy</span></li>
+            <ul className="space-y-2.5 text-xs">
+              <li><Link href="/terms" className="hover:text-[#C5B49F] transition-colors">Terms of Service</Link></li>
+              <li><Link href="/privacy" className="hover:text-[#C5B49F] transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/privacy#cookies" className="hover:text-[#C5B49F] transition-colors">Cookie Policy</Link></li>
             </ul>
           </div>
 

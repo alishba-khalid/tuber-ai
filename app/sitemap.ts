@@ -1,8 +1,9 @@
 import { MetadataRoute } from 'next';
+import { blogPosts } from '@/lib/blog-posts';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://genbyghost.com';
-  
+
   const competitors = [
     'dreamtuber', 'autoshorts', 'invideo', 'pictory', 'fliki', 
     'designs', 'veed', 'capcut', 'descript', 'kapwing', 
@@ -23,12 +24,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'youtube-automation-script-writer'
   ];
 
-  const coreRoutes = ['', '/pricing', '/auth/login', '/auth/signup'];
-  
+  const coreRoutes = [
+    '', '/pricing', '/how-it-works', '/examples', '/blog',
+    '/terms', '/privacy', '/auth/login', '/auth/signup',
+  ];
+
   const versusRoutes = competitors.map(c => `/versus/${c}`);
   const useCaseRoutes = useCases.map(u => `/use-cases/${u}`);
-  
-  const allRoutes = [...coreRoutes, ...versusRoutes, ...useCaseRoutes];
+  const blogRoutes = blogPosts.map(p => `/blog/${p.slug}`);
+
+  const allRoutes = [...coreRoutes, ...versusRoutes, ...useCaseRoutes, ...blogRoutes];
 
   return allRoutes.map((route) => ({
     url: `${baseUrl}${route}`,

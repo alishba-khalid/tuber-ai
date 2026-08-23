@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Play, CheckCircle, Clock, Zap, Video, Volume2, Calendar } from 'lucide-react';
 
@@ -5,12 +6,10 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export default async function UseCasePage({ params }: PageProps) {
-  const { slug } = await params;
-  
-  // Format slug to a human readable title
-  // e.g. "faceless-history-video-generator" -> "Faceless History Video Generator"
-  const formattedTitle = slug
+// Format slug to a human readable title
+// e.g. "faceless-history-video-generator" -> "Faceless History Video Generator"
+function formatSlugTitle(slug: string) {
+  return slug
     .split('-')
     .map(word => {
       if (word === 'ai') return 'AI';
@@ -18,13 +17,36 @@ export default async function UseCasePage({ params }: PageProps) {
       return word.charAt(0).toUpperCase() + word.slice(1);
     })
     .join(' ');
+}
 
-  const nicheName = formattedTitle
+function getNicheName(formattedTitle: string) {
+  return formattedTitle
     .replace(' Video Generator', '')
     .replace(' Generator', '')
     .replace(' How To Make ', '')
     .replace(' How To ', '')
     .replace(' With AI', '');
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const formattedTitle = formatSlugTitle(slug);
+  const nicheName = getNicheName(formattedTitle);
+  const title = `${formattedTitle} — GenByGhost`;
+  const description = `Create professional-grade, high-retention videos for the ${nicheName} niche in seconds using GenByGhost's AI video generation pipeline.`;
+
+  return {
+    title,
+    description,
+    openGraph: { title, description, type: 'website' },
+    twitter: { card: 'summary_large_image', title, description },
+  };
+}
+
+export default async function UseCasePage({ params }: PageProps) {
+  const { slug } = await params;
+  const formattedTitle = formatSlugTitle(slug);
+  const nicheName = getNicheName(formattedTitle);
 
   return (
     <div className="min-h-screen bg-[#050B0A] text-slate-100 py-16 px-4 sm:px-6 lg:px-8">

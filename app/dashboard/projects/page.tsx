@@ -50,7 +50,7 @@ export default function ProjectsPage() {
             placeholder="Search projects..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="input-field pl-9 py-2 text-sm"
+            className="w-full bg-[#0A1412] border border-[#122823] rounded-xl text-sm text-[#ECFDF5] placeholder-[#527E72] focus:outline-none focus:border-[#225146] pl-9 py-2"
           />
         </div>
         
@@ -58,7 +58,7 @@ export default function ProjectsPage() {
           <select
             value={filterFormat}
             onChange={e => setFilterFormat(e.target.value)}
-            className="input-field py-2 text-sm pr-8 cursor-pointer"
+            className="bg-[#0A1412] border border-[#122823] rounded-xl text-sm text-[#ECFDF5] focus:outline-none focus:border-[#225146] py-2 pr-8 cursor-pointer"
             style={{ width: 'auto' }}
           >
             {formats.map(f => <option key={f} value={f}>{f}</option>)}
@@ -66,7 +66,7 @@ export default function ProjectsPage() {
           <select
             value={filterStatus}
             onChange={e => setFilterStatus(e.target.value)}
-            className="input-field py-2 text-sm pr-8 cursor-pointer"
+            className="bg-[#0A1412] border border-[#122823] rounded-xl text-sm text-[#ECFDF5] focus:outline-none focus:border-[#225146] py-2 pr-8 cursor-pointer"
             style={{ width: 'auto' }}
           >
             {['All', 'Completed', 'Generating', 'Queued', 'Failed'].map(s => <option key={s} value={s.toLowerCase()}>{s}</option>)}
@@ -77,7 +77,7 @@ export default function ProjectsPage() {
       {/* Projects list */}
       <div className="space-y-3">
         {filtered.length === 0 ? (
-          <div className="glass-card p-12 text-center">
+          <div className="bg-[#0A1412] border border-[#122823] rounded-2xl p-12 text-center">
             <Play className="w-12 h-12 text-[#527E72] mx-auto mb-4" />
             <h3 className="text-white font-medium mb-2">No projects found</h3>
             <p className="text-[#8FAAA6] text-xs">Try adjusting your filters or create a new video.</p>
@@ -89,7 +89,7 @@ export default function ProjectsPage() {
           filtered.map((project) => {
             const status = statusConfig[project.status];
             return (
-              <div key={project.id} className="glass-card glass-card-hover p-4">
+              <div key={project.id} className="bg-[#0A1412] border border-[#122823] hover:border-[#225146] rounded-2xl p-4 transition-all">
                 <div className="flex items-center gap-4">
                   {/* Thumbnail */}
                   <div className="w-20 h-12 rounded-lg bg-[#122823] flex items-center justify-center flex-shrink-0">

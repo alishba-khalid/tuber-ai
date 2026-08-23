@@ -107,7 +107,7 @@ export default function VideoDetailPage() {
       </Link>
 
       {/* Header */}
-      <div className="glass-card p-6">
+      <div className="bg-[#0A1412] border border-[#122823] rounded-2xl p-6">
         <div className="flex items-start gap-4">
           <div className="w-16 h-10 rounded-lg bg-[#C5B49F]/10 border border-[#C5B49F]/20 flex items-center justify-center flex-shrink-0">
             <Play className="w-5 h-5 text-[#C5B49F] fill-current" />
@@ -137,7 +137,7 @@ export default function VideoDetailPage() {
 
       {/* Completed Video Player Card */}
       {isCompleted && (
-        <div className="glass-card p-6 space-y-4">
+        <div className="bg-[#0A1412] border border-[#122823] rounded-2xl p-6 space-y-4">
           <h2 className="text-base font-bold text-[#ECFDF5] mb-2 font-serif-heading">🎬 Generated Video Preview</h2>
           <div className="relative aspect-video rounded-xl overflow-hidden bg-[#122823] border border-[#122823] group">
             <img
@@ -165,7 +165,7 @@ export default function VideoDetailPage() {
       )}
 
       {/* Stage pipeline */}
-      <div className="glass-card p-6">
+      <div className="bg-[#0A1412] border border-[#122823] rounded-2xl p-6">
         <h2 className="text-base font-bold text-white mb-5 font-serif-heading">Generation Pipeline</h2>
         <div className="space-y-4">
           {stages.map((stage, index) => {
@@ -235,7 +235,7 @@ export default function VideoDetailPage() {
 
       {/* Estimated completion */}
       {!isCompleted && (
-        <div className="glass-card p-4 flex items-center gap-4">
+        <div className="bg-[#0A1412] border border-[#122823] rounded-2xl p-4 flex items-center gap-4">
           <RefreshCw className="w-5 h-5 text-[#C5B49F] animate-spin" style={{ animationDuration: '3s' }} />
           <div>
             <div className="text-sm font-medium text-white">Generating your long-form video package</div>
@@ -245,7 +245,7 @@ export default function VideoDetailPage() {
       )}
 
       {/* Completed state actions */}
-      <div className={`glass-card p-6 transition-all duration-500 ${!isCompleted ? 'opacity-40' : ''}`}>
+      <div className={`bg-[#0A1412] border border-[#122823] rounded-2xl p-6 transition-all duration-500 ${!isCompleted ? 'opacity-40' : ''}`}>
         <h2 className="text-base font-bold text-white mb-4 font-serif-heading">📦 Your Video Package {!isCompleted && '(available when complete)'}</h2>
         <div className="grid grid-cols-2 gap-3">
           <button 

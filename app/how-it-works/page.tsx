@@ -16,13 +16,13 @@ export default function HowItWorksPage() {
       <Navbar />
       <div className="pt-24">
         <div className="text-center py-16 max-w-3xl mx-auto px-4">
-          <div className="badge badge-purple inline-flex mb-4">
+          <div className="badge-indigo inline-flex mb-4">
             <span>The Technology</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black text-[#E6F2F5] mb-4">
-            How <span className="gradient-text">GenByGhost</span> works
+          <h1 className="text-3xl sm:text-4xl font-bold font-serif-heading text-[#ECFDF5] mb-4">
+            How <span className="text-[#C5B49F]">GenByGhost</span> works
           </h1>
-          <p className="text-[#486E78] text-lg">
+          <p className="text-[#8FAAA6] text-lg">
             A 5-stage automated pipeline that takes you from idea to a fully produced,
             ready-to-publish YouTube video — without any manual work.
           </p>
