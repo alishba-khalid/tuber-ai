@@ -5,25 +5,37 @@ interface LogoIconProps {
   iconClassName?: string;
 }
 
-export default function LogoIcon({ className = "w-8 h-8", iconClassName = "w-4.5 h-4.5" }: LogoIconProps) {
+export default function LogoIcon({ className = "w-9 h-9", iconClassName = "w-5.5 h-5.5" }: LogoIconProps) {
   return (
-    <div className={`${className} rounded-lg bg-gradient-to-br from-[#C5B49F] to-[#a4927d] flex items-center justify-center shadow-md shadow-black/20 transition-all duration-300 group-hover:shadow-[#C5B49F]/20 group-hover:scale-105`}>
+    <div className={`${className} rounded-xl bg-gradient-to-b from-[#122823] to-[#050B0A] border border-[#225146] flex items-center justify-center shadow-lg shadow-black/40 group-hover:border-[#C5B49F]/60 group-hover:shadow-[0_0_12px_rgba(197,180,159,0.15)] transition-all duration-300`}>
       <svg 
-        className={`${iconClassName} text-[#050B0A]`} 
+        className={`${iconClassName} text-[#C5B49F] transition-all duration-500 group-hover:scale-110`}
         viewBox="0 0 24 24" 
         fill="none" 
         stroke="currentColor" 
-        strokeWidth="2.2" 
+        strokeWidth="1.8"
         strokeLinecap="round" 
         strokeLinejoin="round"
       >
-        {/* Stylized minimalist ghost outline */}
-        <path d="M18 10a6 6 0 0 0-12 0v8l2-1.5 2 1.5 2-1.5 2 1.5 2-1.5 2 1.5V10z" fill="currentColor" fillOpacity="0.2" />
-        {/* Glowing/sparkling eye points */}
-        <circle cx="9.5" cy="9.5" r="1" fill="currentColor" />
-        <circle cx="14.5" cy="9.5" r="1" fill="currentColor" />
-        {/* Subtle camera shutter/generative line in the background */}
-        <path d="M12 5v2m-3.5 6.5h7" strokeWidth="1.2" strokeOpacity="0.6" />
+        {/* Ghost Hood */}
+        <path d="M6 12C6 7.5 8.5 4 12 4s6 3.5 6 8" />
+        
+        {/* Floating wavy sheets */}
+        <path d="M6 12c-0.5 3 0.5 6 2.5 7.5" />
+        <path d="M18 12c0.5 3-0.5 6-2.5 7.5" />
+        
+        {/* Wavy bottom border */}
+        <path d="M8.5 19.5c1.5 1 4.5 1 6 0" strokeWidth="1" strokeDasharray="2 2" className="opacity-60" />
+
+        {/* Video Play Button in the center (representing video generation) */}
+        <path d="M10.5 9.5l4 2.5-4 2.5v-5z" fill="currentColor" />
+
+        {/* Generative AI Sparkle Star */}
+        <path 
+          d="M17.5 2.5l0.6 1 1 0.6-1 0.6-0.6 1-0.6-1-1-0.6 1-0.6z" 
+          fill="currentColor" 
+          stroke="none" 
+        />
       </svg>
     </div>
   );
