@@ -1,14 +1,43 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { X, Zap, Check } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { plans } from '@/lib/plans';
 
 export default function PaywallModal() {
-  const { paywallOpen, paywallReason, closePaywall } = useAuth();
+  const { user, paywallOpen, paywallReason, closePaywall } = useAuth();
+  const [processingPlanId, setProcessingPlanId] = useState<string | null>(null);
 
   if (!paywallOpen) return null;
+
+  const handlePlanClick = async (planId: string) => {
+    if (!user || processingPlanId) return;
+    setProcessingPlanId(planId);
+
+    try {
+      const res = await fetch('/api/checkout/polar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          planId,
+          userId: user.uid,
+          email: user.email,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.url) {
+        window.location.assign(data.url); // Redirect to Polar checkout
+      } else {
+        setProcessingPlanId(null);
+      }
+    } catch (err) {
+      console.error('Paywall checkout error:', err);
+      setProcessingPlanId(null);
+    }
+  };
 
   return (
     <div
@@ -44,29 +73,32 @@ export default function PaywallModal() {
 
         {/* Plans */}
         <div className="p-6 sm:p-8 pt-6 grid grid-cols-2 sm:grid-cols-5 gap-3">
-          {plans.map((plan) => (
-            <Link
-              key={plan.id}
-              href={`/dashboard/credits?planId=${plan.id}`}
-              onClick={closePaywall}
-              className={`relative p-3.5 rounded-xl border text-center transition-all cursor-pointer group ${
-                plan.popular
-                  ? 'border-2 border-[#A88E75] bg-[#A88E75]/10 shadow-xs'
-                  : 'border-[#EADFC9] bg-white hover:border-[#C5B49F]'
-              }`}
-            >
-              {plan.popular && (
-                <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[#A88E75] text-white text-[8px] font-mono-label font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
-                  Best value
+          {plans.map((plan) => {
+            const isProcessing = processingPlanId === plan.id;
+            return (
+              <button
+                key={plan.id}
+                onClick={() => handlePlanClick(plan.id)}
+                disabled={processingPlanId !== null}
+                className={`relative p-3.5 rounded-xl border text-center transition-all cursor-pointer disabled:cursor-not-allowed group ${
+                  plan.popular
+                    ? 'border-2 border-[#A88E75] bg-[#A88E75]/10 shadow-xs'
+                    : 'border-[#EADFC9] bg-white hover:border-[#C5B49F] disabled:opacity-50'
+                }`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[#A88E75] text-white text-[8px] font-mono-label font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
+                    Best value
+                  </div>
+                )}
+                <div className="text-xs font-bold text-[#2C2621]">{plan.name}</div>
+                <div className="text-base font-extrabold text-[#8C6D4F] mt-1">${plan.price}</div>
+                <div className="text-[9px] text-[#82796D] mt-1.5 font-mono-label font-semibold">
+                  {isProcessing ? 'Redirecting…' : `${plan.credits.toLocaleString()} credits`}
                 </div>
-              )}
-              <div className="text-xs font-bold text-[#2C2621]">{plan.name}</div>
-              <div className="text-base font-extrabold text-[#8C6D4F] mt-1">${plan.price}</div>
-              <div className="text-[9px] text-[#82796D] mt-1.5 font-mono-label font-semibold">
-                {plan.credits.toLocaleString()} credits
-              </div>
-            </Link>
-          ))}
+              </button>
+            );
+          })}
         </div>
 
         {/* Footer */}
