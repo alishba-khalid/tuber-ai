@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { 
-  Sparkles, ChevronRight, FileText, Mic, Image, Film, Upload,
-  Clock, Layers, Globe, BookOpen, Settings, ArrowRight, Info
+import {
+  Sparkles, FileText, Mic, Image, Film, Upload,
+  Clock, BookOpen, ArrowRight
 } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 
@@ -29,8 +29,8 @@ const voices = [
 ];
 
 const aspects = [
-  { id: '16:9', label: 'YouTube (16:9)', icon: '▬', desc: 'Standard widescreen' },
-  { id: '9:16', label: 'Shorts (9:16)', icon: '▬', desc: 'Vertical mobile format' },
+  { id: '16:9', label: 'YouTube (16:9)', desc: 'Standard widescreen' },
+  { id: '9:16', label: 'Shorts (9:16)', desc: 'Vertical mobile format' },
 ];
 
 const stages = [
@@ -43,8 +43,7 @@ const stages = [
 
 export default function CreateVideoPage() {
   const router = useRouter();
-  const { credits, saveProject, deductCredits } = useAuth();
-  const [step, setStep] = useState(1);
+  const { credits, saveProject, deductCredits, requireCredits } = useAuth();
   const [topic, setTopic] = useState('');
   const [format, setFormat] = useState('documentary');
   const [duration, setDuration] = useState('1 hr');
@@ -54,14 +53,26 @@ export default function CreateVideoPage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState('');
 
+  // Deep-link into the relevant section when arriving via a sidebar/dashboard tool
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const deepLinkStep = params.get('step');
+    if (deepLinkStep) {
+      const el = document.getElementById(`step-${deepLinkStep}`);
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+      }
+    }
+  }, []);
+
   const estimatedCredits = Math.round(
     (duration.includes('hr') ? parseInt(duration) * 60 : parseInt(duration)) * 5
   );
 
   const handleGenerate = async () => {
     setError('');
-    if (credits < estimatedCredits) {
-      setError('Insufficient credits. Please top up your account.');
+    if (!requireCredits(estimatedCredits, 'generate this video')) {
+      setError('Insufficient credits. Please buy more to continue.');
       return;
     }
 
@@ -108,68 +119,69 @@ export default function CreateVideoPage() {
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white">Create New Video</h1>
-        <p className="text-[#94A3B8] text-sm mt-0.5">Configure your AI video generation settings below</p>
+        <h1 className="text-2xl font-bold font-serif-heading text-[#2C2621]">Create New Video</h1>
+        <p className="text-[#82796D] text-sm mt-0.5">Configure your AI video generation settings below</p>
       </div>
 
       {/* Pipeline stages indicator */}
-      <div className="glass-card p-4">
+      <div className="bg-white/70 backdrop-blur-sm border border-[#EADFC9] rounded-2xl p-4 shadow-2xs">
         <div className="flex items-center gap-2">
           {stages.map((s, i) => {
             const Icon = s.icon;
             return (
               <div key={s.label} className="flex items-center gap-2 flex-1">
                 <div className="flex flex-col items-center flex-1">
-                  <div className="step-circle pending text-[10px] w-7 h-7">
-                    <Icon className="w-3 h-3" />
+                  <div className="w-8 h-8 rounded-full border-2 border-[#EADFC9] bg-white flex items-center justify-center text-[#9C8F84]">
+                    <Icon className="w-3.5 h-3.5" />
                   </div>
-                  <span className="text-[9px] text-[#64748B] mt-1 hidden sm:block">{s.label}</span>
+                  <span className="text-[9px] text-[#82796D] mt-1 hidden sm:block font-medium">{s.label}</span>
                 </div>
-                {i < stages.length - 1 && <div className="h-px flex-1 bg-[rgba(255,255,255,0.06)]" />}
+                {i < stages.length - 1 && <div className="h-px flex-1 bg-[#EADFC9]" />}
               </div>
             );
           })}
         </div>
-        <p className="text-center text-xs text-[#64748B] mt-2">These stages run automatically after you hit Generate</p>
+        <p className="text-center text-xs text-[#82796D] mt-2">These stages run automatically after you hit Generate</p>
       </div>
 
       {/* Topic input */}
-      <div className="glass-card p-6">
-        <h2 className="text-base font-bold text-white mb-1">1. Your Topic</h2>
-        <p className="text-[#64748B] text-xs mb-4">Be specific for best results. Include key themes, angle, or audience.</p>
+      <div id="step-script" className="bg-white/70 backdrop-blur-sm border border-[#EADFC9] rounded-2xl p-6 shadow-2xs scroll-mt-6">
+        <h2 className="text-base font-bold text-[#2C2621] mb-1">1. Your Topic</h2>
+        <p className="text-[#82796D] text-xs mb-4">Be specific for best results. Include key themes, angle, or audience.</p>
         <textarea
           value={topic}
           onChange={e => setTopic(e.target.value)}
           placeholder='e.g. "The complete story of the Roman Empire, from its founding to its fall — focusing on the key emperors, battles, and the reasons for collapse. Audience: history enthusiasts."'
           rows={4}
-          className="input-field resize-none text-sm"
+          className="w-full bg-white border border-[#EADFC9] rounded-xl px-4 py-3 text-sm text-[#2C2621] placeholder-[#9C8F84] focus:outline-none focus:border-[#A88E75] resize-none"
         />
-        <div className="flex justify-between mt-2 text-xs text-[#64748B]">
+        <div className="flex justify-between mt-2 text-xs text-[#82796D]">
           <span>💡 More detail = better output</span>
           <span>{topic.length} chars</span>
         </div>
       </div>
 
       {/* Format */}
-      <div className="glass-card p-6">
-        <h2 className="text-base font-bold text-white mb-1">2. Format</h2>
-        <p className="text-[#64748B] text-xs mb-4">Choose the narrative style for your video</p>
+      <div id="step-visuals" className="bg-white/70 backdrop-blur-sm border border-[#EADFC9] rounded-2xl p-6 shadow-2xs scroll-mt-6">
+        <h2 className="text-base font-bold text-[#2C2621] mb-1">2. Format</h2>
+        <p className="text-[#82796D] text-xs mb-4">Choose the narrative style for your video</p>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {formats.map((f) => {
             const Icon = f.icon;
+            const active = format === f.id;
             return (
               <button
                 key={f.id}
                 onClick={() => setFormat(f.id)}
-                className={`p-3 rounded-xl border text-left transition-all ${
-                  format === f.id
-                    ? 'border-[#6C3DFF] bg-[#6C3DFF]/15 text-white'
-                    : 'border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] text-[#94A3B8] hover:border-[#6C3DFF]/40'
+                className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                  active
+                    ? 'border-[#A88E75] bg-[#A88E75]/10'
+                    : 'border-[#EADFC9] bg-white hover:border-[#C5B49F]'
                 }`}
               >
-                <Icon className={`w-4 h-4 mb-2 ${format === f.id ? 'text-[#A855F7]' : 'text-[#64748B]'}`} />
-                <div className="text-sm font-medium">{f.label}</div>
-                <div className="text-[10px] text-[#64748B] mt-0.5">{f.desc}</div>
+                <Icon className={`w-4 h-4 mb-2 ${active ? 'text-[#A88E75]' : 'text-[#9C8F84]'}`} />
+                <div className={`text-sm font-medium ${active ? 'text-[#2C2621]' : 'text-[#6E6259]'}`}>{f.label}</div>
+                <div className="text-[10px] text-[#9C8F84] mt-0.5">{f.desc}</div>
               </button>
             );
           })}
@@ -177,109 +189,121 @@ export default function CreateVideoPage() {
       </div>
 
       {/* Duration */}
-      <div className="glass-card p-6">
-        <h2 className="text-base font-bold text-white mb-1">3. Duration</h2>
-        <p className="text-[#64748B] text-xs mb-4">Select the total runtime for your video</p>
+      <div className="bg-white/70 backdrop-blur-sm border border-[#EADFC9] rounded-2xl p-6 shadow-2xs">
+        <h2 className="text-base font-bold text-[#2C2621] mb-1">3. Duration</h2>
+        <p className="text-[#82796D] text-xs mb-4">Select the total runtime for your video</p>
         <div className="flex flex-wrap gap-2">
-          {durations.map((d) => (
-            <button
-              key={d}
-              onClick={() => setDuration(d)}
-              className={`px-4 py-2 rounded-xl text-sm border transition-all ${
-                duration === d
-                  ? 'border-[#6C3DFF] bg-[#6C3DFF]/15 text-white font-medium'
-                  : 'border-[rgba(255,255,255,0.08)] text-[#94A3B8] hover:border-[#6C3DFF]/40'
-              }`}
-            >
-              {d}
-            </button>
-          ))}
+          {durations.map((d) => {
+            const active = duration === d;
+            return (
+              <button
+                key={d}
+                onClick={() => setDuration(d)}
+                className={`px-4 py-2 rounded-xl text-sm border transition-all cursor-pointer ${
+                  active
+                    ? 'border-[#A88E75] bg-[#A88E75]/10 text-[#2C2621] font-semibold'
+                    : 'border-[#EADFC9] text-[#6E6259] bg-white hover:border-[#C5B49F]'
+                }`}
+              >
+                {d}
+              </button>
+            );
+          })}
         </div>
       </div>
 
       {/* Voice */}
-      <div className="glass-card p-6">
-        <h2 className="text-base font-bold text-white mb-1">4. Voice</h2>
-        <p className="text-[#64748B] text-xs mb-4">Select your narrator's voice</p>
+      <div id="step-voice" className="bg-white/70 backdrop-blur-sm border border-[#EADFC9] rounded-2xl p-6 shadow-2xs scroll-mt-6">
+        <h2 className="text-base font-bold text-[#2C2621] mb-1">4. Voice</h2>
+        <p className="text-[#82796D] text-xs mb-4">Select your narrator&apos;s voice</p>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-          {voices.map((v) => (
-            <button
-              key={v.id}
-              onClick={() => setVoice(v.id)}
-              className={`p-3 rounded-xl border text-left transition-all ${
-                voice === v.id
-                  ? 'border-[#6C3DFF] bg-[#6C3DFF]/15'
-                  : 'border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] hover:border-[#6C3DFF]/40'
-              }`}
-            >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#6C3DFF] to-[#A855F7] flex items-center justify-center text-xs font-bold text-white mb-2">
-                {v.name[0]}
-              </div>
-              <div className={`text-sm font-medium ${voice === v.id ? 'text-white' : 'text-[#94A3B8]'}`}>{v.name}</div>
-              <div className="text-[10px] text-[#64748B]">{v.style}</div>
-              <div className="text-[10px] text-[#64748B]">{v.gender}</div>
-            </button>
-          ))}
+          {voices.map((v) => {
+            const active = voice === v.id;
+            return (
+              <button
+                key={v.id}
+                onClick={() => setVoice(v.id)}
+                className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                  active
+                    ? 'border-[#A88E75] bg-[#A88E75]/10'
+                    : 'border-[#EADFC9] bg-white hover:border-[#C5B49F]'
+                }`}
+              >
+                <div className="w-8 h-8 rounded-full bg-[#124D3E] flex items-center justify-center text-xs font-bold text-white mb-2">
+                  {v.name[0]}
+                </div>
+                <div className={`text-sm font-medium ${active ? 'text-[#2C2621]' : 'text-[#6E6259]'}`}>{v.name}</div>
+                <div className="text-[10px] text-[#9C8F84]">{v.style}</div>
+                <div className="text-[10px] text-[#9C8F84]">{v.gender}</div>
+              </button>
+            );
+          })}
         </div>
       </div>
 
       {/* Aspect ratio */}
-      <div className="glass-card p-6">
-        <h2 className="text-base font-bold text-white mb-1">5. Format & Aspect Ratio</h2>
+      <div className="bg-white/70 backdrop-blur-sm border border-[#EADFC9] rounded-2xl p-6 shadow-2xs">
+        <h2 className="text-base font-bold text-[#2C2621] mb-1">5. Format & Aspect Ratio</h2>
         <div className="grid grid-cols-2 gap-3 mt-4">
-          {aspects.map((a) => (
-            <button
-              key={a.id}
-              onClick={() => setAspect(a.id)}
-              className={`p-4 rounded-xl border text-center transition-all ${
-                aspect === a.id
-                  ? 'border-[#6C3DFF] bg-[#6C3DFF]/15 text-white'
-                  : 'border-[rgba(255,255,255,0.08)] text-[#94A3B8] hover:border-[#6C3DFF]/40'
-              }`}
-            >
-              <div className="text-lg mb-1">{a.id === '16:9' ? '🖥️' : '📱'}</div>
-              <div className="text-sm font-medium">{a.label}</div>
-              <div className="text-[10px] text-[#64748B]">{a.desc}</div>
-            </button>
-          ))}
+          {aspects.map((a) => {
+            const active = aspect === a.id;
+            return (
+              <button
+                key={a.id}
+                onClick={() => setAspect(a.id)}
+                className={`p-4 rounded-xl border text-center transition-all cursor-pointer ${
+                  active
+                    ? 'border-[#A88E75] bg-[#A88E75]/10'
+                    : 'border-[#EADFC9] text-[#6E6259] bg-white hover:border-[#C5B49F]'
+                }`}
+              >
+                <div className="text-lg mb-1">{a.id === '16:9' ? '🖥️' : '📱'}</div>
+                <div className={`text-sm font-medium ${active ? 'text-[#2C2621]' : 'text-[#6E6259]'}`}>{a.label}</div>
+                <div className="text-[10px] text-[#9C8F84]">{a.desc}</div>
+              </button>
+            );
+          })}
         </div>
 
         {/* E-book option */}
-        <div className="mt-4 flex items-center justify-between p-3 rounded-xl border border-[rgba(255,255,255,0.08)] hover:border-[#6C3DFF]/30 transition-all cursor-pointer" onClick={() => setIncludeEbook(!includeEbook)}>
+        <div
+          className="mt-4 flex items-center justify-between p-3 rounded-xl border border-[#EADFC9] hover:border-[#C5B49F] bg-white transition-all cursor-pointer"
+          onClick={() => setIncludeEbook(!includeEbook)}
+        >
           <div className="flex items-center gap-3">
-            <BookOpen className="w-4 h-4 text-[#64748B]" />
+            <BookOpen className="w-4 h-4 text-[#9C8F84]" />
             <div>
-              <div className="text-sm font-medium text-white">Include E-book PDF</div>
-              <div className="text-xs text-[#64748B]">Generate a print-ready e-book from your script (+20–60 credits)</div>
+              <div className="text-sm font-medium text-[#2C2621]">Include E-book PDF</div>
+              <div className="text-xs text-[#82796D]">Generate a print-ready e-book from your script (+20–60 credits)</div>
             </div>
           </div>
-          <div className={`w-10 h-5 rounded-full transition-all ${includeEbook ? 'bg-[#6C3DFF]' : 'bg-[rgba(255,255,255,0.1)]'}`}>
+          <div className={`w-10 h-5 rounded-full transition-all flex-shrink-0 ${includeEbook ? 'bg-[#124D3E]' : 'bg-[#EADFC9]'}`}>
             <div className={`w-4 h-4 rounded-full bg-white transition-all mt-0.5 ${includeEbook ? 'translate-x-5' : 'translate-x-0.5'}`} />
           </div>
         </div>
       </div>
 
       {/* Credit estimate + Generate */}
-      <div className="glass-card p-6">
+      <div className="bg-white/70 backdrop-blur-sm border border-[#EADFC9] rounded-2xl p-6 shadow-2xs">
         {error && (
-          <div className="mb-4 p-3 bg-red-950/40 border border-red-800 text-red-400 rounded-xl text-xs font-medium text-center">
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-xl text-xs font-medium text-center">
             {error}
           </div>
         )}
         <div className="flex items-center justify-between mb-4">
           <div>
-            <div className="text-sm text-[#64748B]">Estimated credit cost</div>
-            <div className="text-2xl font-black text-white">~{estimatedCredits} <span className="text-sm font-normal text-[#64748B]">credits</span></div>
+            <div className="text-sm text-[#82796D]">Estimated credit cost</div>
+            <div className="text-2xl font-black text-[#2C2621]">~{estimatedCredits} <span className="text-sm font-normal text-[#82796D]">credits</span></div>
           </div>
           <div className="text-right">
-            <div className="text-sm text-[#64748B]">Your balance</div>
-            <div className="text-lg font-bold text-[#A855F7]">{credits} credits</div>
+            <div className="text-sm text-[#82796D]">Your balance</div>
+            <div className="text-lg font-bold text-[#124D3E]">{credits} credits</div>
           </div>
         </div>
         <button
           onClick={handleGenerate}
           disabled={!topic.trim() || isGenerating}
-          className="btn-primary w-full py-4 text-base flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-[#124D3E] text-white hover:bg-[#0e3c31] py-4 rounded-full text-base font-bold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-xs cursor-pointer"
         >
           {isGenerating ? (
             <>
@@ -294,7 +318,7 @@ export default function CreateVideoPage() {
             </>
           )}
         </button>
-        <p className="text-center text-xs text-[#64748B] mt-3">
+        <p className="text-center text-xs text-[#82796D] mt-3">
           Credits are only charged after successful completion. Failed renders are refunded automatically.
         </p>
       </div>

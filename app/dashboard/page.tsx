@@ -1,141 +1,229 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
-import { PlusCircle, TrendingUp, Video, Clock, Zap, BarChart3, ArrowRight, Play } from 'lucide-react';
-
-const recentProjects = [
-  {
-    id: '1',
-    title: 'The Complete History of Ancient Rome',
-    status: 'completed',
-    duration: '2h 15m',
-    format: 'Documentary',
-    credits: 405,
-    date: '2 hours ago',
-    progress: 100,
-  },
-  {
-    id: '2',
-    title: 'How Black Holes Actually Work — Full Explainer',
-    status: 'generating',
-    duration: '45 min',
-    format: 'Explainer',
-    credits: 225,
-    date: '1 hour ago',
-    progress: 67,
-    stage: 'Visuals',
-  },
-];
+import {
+  PlusCircle, FileText, Mic, Image as ImageIcon, Zap,
+  ArrowRight, Play, Youtube
+} from 'lucide-react';
 
 const statusConfig = {
-  completed: { label: 'Completed', color: 'text-emerald-400', bg: 'bg-emerald-950/30 border-emerald-800/40' },
-  generating: { label: 'Generating', color: 'text-[#C5B49F]', bg: 'bg-[#C5B49F]/15 border-[#C5B49F]/30' },
-  queued: { label: 'Queued', color: 'text-amber-400', bg: 'bg-amber-950/30 border-amber-800/40' },
-  failed: { label: 'Failed', color: 'text-red-400', bg: 'bg-red-950/30 border-red-800/40' },
+  completed: { label: 'Completed', color: 'text-emerald-700', bg: 'bg-emerald-50 border-emerald-200' },
+  generating: { label: 'Generating', color: 'text-[#A88E75]', bg: 'bg-[#FAF6F0] border-[#EADFC9]' },
+  queued: { label: 'Queued', color: 'text-amber-700', bg: 'bg-amber-50 border-amber-200' },
+  failed: { label: 'Failed', color: 'text-red-700', bg: 'bg-red-50 border-red-200' },
 };
 
 const stageNames = ['Script', 'Voice', 'Visuals', 'Render', 'Publish'];
 
-export default function DashboardPage() {
-  const { user, projects } = useAuth();
-  const displayName = user?.email ? user.email.split('@')[0] : 'Creator';
+const pipelineSteps = [
+  {
+    icon: FileText,
+    label: 'Scripts',
+    status: 'LIVE',
+    desc: 'Turn one topic into a chaptered, narration-ready script.',
+    step: 'script',
+  },
+  {
+    icon: Mic,
+    label: 'Voiceover',
+    status: 'LIVE',
+    desc: 'Narrate any script in a natural, expressive voice.',
+    step: 'voice',
+  },
+  {
+    icon: ImageIcon,
+    label: 'Image / B-roll',
+    status: 'LIVE',
+    desc: 'Generate a scene image or clip for every moment of the story.',
+    step: 'visuals',
+  },
+  {
+    icon: Youtube,
+    label: 'YouTube Publishing',
+    status: 'LIVE',
+    desc: 'Auto-upload the finished video straight to your channel.',
+    step: 'publish',
+  },
+];
 
-  // Calculate dynamic stats
-  const getDurationMinutes = (durStr: string) => {
-    let mins = 0;
-    const hMatch = durStr.match(/(\d+)\s*h/i);
-    const mMatch = durStr.match(/(\d+)\s*m/i);
-    if (hMatch) mins += parseInt(hMatch[1]) * 60;
-    if (mMatch) mins += parseInt(mMatch[1]);
-    if (!hMatch && !mMatch) {
-      const parsed = parseInt(durStr);
-      if (!isNaN(parsed)) {
-        if (durStr.includes('hr') || durStr.includes('hour')) mins += parsed * 60;
-        else mins += parsed;
-      }
+export default function DashboardPage() {
+  const router = useRouter();
+  const { user, projects, requireCredits } = useAuth();
+  const rawName = user?.email ? user.email.split('@')[0] : 'Alishba';
+  const displayName = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+
+  const goToPipelineStep = (step: string, label: string) => {
+    if (!requireCredits(1, `use ${label}`)) return;
+    if (step === 'publish') {
+      router.push('/dashboard/projects');
+    } else {
+      router.push(`/dashboard/create?step=${step}`);
     }
-    return mins;
   };
 
-  const totalVideos = projects.length;
-  const completedMinutes = projects
-    .filter(p => p.status === 'completed')
-    .reduce((acc, p) => acc + getDurationMinutes(p.duration), 0);
-  const totalHours = Math.round((completedMinutes / 60) * 10) / 10;
+  const handleGatedNav = (e: React.MouseEvent, reason: string) => {
+    if (!requireCredits(1, reason)) {
+      e.preventDefault();
+    }
+  };
 
-  const stats = [
-    { label: 'Videos Created', value: totalVideos.toString(), icon: Video, change: 'Total in account' },
-    { label: 'Hours Generated', value: `${totalHours}h`, icon: Clock, change: 'Rendered runtime' },
-    { label: 'Avg Watch Time', value: '68%', icon: TrendingUp, change: 'Optimal performance' },
-  ];
+  // Dynamic stats calculation
+  const inProgressCount = projects.filter(p => p.status === 'generating' || p.status === 'queued').length;
+  const readyToUseCount = projects.filter(p => p.status === 'completed').length;
+  const finishedCount = projects.filter(p => p.status === 'completed').length;
+  const totalProjectsCount = projects.length;
 
   const recent = projects.slice(0, 4);
 
   return (
-    <div className="space-y-6 max-w-5xl text-slate-100">
+    <div className="space-y-8 max-w-5xl text-[#2C2621]">
       
-      {/* Header */}
-      <div className="flex items-center justify-between">
+      {/* Welcome Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold font-serif-heading text-[#ECFDF5]">Dashboard</h1>
-          <p className="text-[#8FAAA6] text-sm mt-0.5 capitalize font-mono-label">Welcome back, {displayName}. Ready to create?</p>
+          <h1 className="text-3xl sm:text-4xl font-bold font-serif-heading text-[#2C2621]">
+            Welcome, {displayName}!
+          </h1>
+          <p className="text-[#6E6259] text-sm mt-1 font-sans">
+            Let&apos;s make your first video — it starts with a single topic.
+          </p>
         </div>
-        <Link href="/dashboard/create" className="btn-indigo-pill text-xs px-4 py-2 flex items-center gap-1.5 cursor-pointer">
+        <Link
+          href="/dashboard/create"
+          onClick={(e) => handleGatedNav(e, 'write a new script')}
+          className="border border-[#EADFC9] text-[#2C2621] hover:bg-[#EADFC9]/25 text-xs px-4 py-2.5 rounded-xl font-bold transition-all flex items-center gap-1.5 shadow-2xs bg-white/70 backdrop-blur-sm"
+        >
           <PlusCircle className="w-3.5 h-3.5" />
-          New Video
+          <span>New script</span>
         </Link>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {stats.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <div key={stat.label} className="bg-[#0A1412] border border-[#122823] p-4 rounded-xl shadow-2xs">
-              <div className="flex items-start justify-between mb-3">
-                <div className="w-8 h-8 rounded-lg bg-[#C5B49F]/10 border border-[#C5B49F]/25 flex items-center justify-center text-[#C5B49F]">
-                  <Icon className="w-4 h-4" />
-                </div>
-                <BarChart3 className="w-3.5 h-3.5 text-[#527E72]" />
-              </div>
-              <div className="text-3xl font-bold font-serif-heading text-[#ECFDF5] mb-0.5">{stat.value}</div>
-              <div className="text-xs text-[#8FAAA6]">{stat.label}</div>
-              <div className="text-[10px] font-mono-label font-bold text-[#C5B49F] mt-1">{stat.change}</div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Quick Create Banner */}
-      <div className="relative rounded-2xl bg-[#0A1412] border border-[#122823] p-6 shadow-2xs overflow-hidden">
-        <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-[#C5B49F]/3 rounded-full blur-[60px] pointer-events-none -z-10" />
-
-        <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h3 className="text-lg font-bold font-serif-heading text-[#ECFDF5] mb-1">Start a new project</h3>
-            <p className="text-[#8FAAA6] text-sm">Enter a topic and generate a full-length YouTube video in minutes.</p>
+      {/* Autopilot Hero Banner Card */}
+      <div className="bg-[#EAF3EE]/80 backdrop-blur-md border border-[#D4E5DC] rounded-3xl p-6 relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-2xs">
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-[#124D3E] flex items-center justify-center text-white flex-shrink-0 shadow-xs">
+            <Zap className="w-6 h-6 fill-current text-white" />
           </div>
-          <Link href="/dashboard/create" className="btn-indigo-pill text-xs px-5 py-2.5 flex items-center gap-2 flex-shrink-0 cursor-pointer">
-            Create Now
+          <div>
+            <h3 className="text-lg font-bold text-[#124D3E] font-serif-heading">
+              Make a whole video with Autopilot
+            </h3>
+            <p className="text-[#1E463C] text-sm mt-0.5 max-w-lg leading-relaxed">
+              One topic → script, voice, images, render, and publish — hands-free.
+            </p>
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-4 flex-shrink-0">
+          <span className="text-[10px] font-mono-label font-bold text-[#124D3E] bg-[#D4E5DC] px-2.5 py-1 rounded border border-[#124D3E]/10 uppercase tracking-wider">
+            1-CLICK
+          </span>
+          <Link
+            href="/dashboard/create"
+            onClick={(e) => handleGatedNav(e, 'use Autopilot')}
+            className="bg-[#124D3E] text-white hover:bg-[#0e3c31] text-sm px-6 py-2.5 rounded-full font-bold transition-all flex items-center gap-2 shadow-xs cursor-pointer"
+          >
+            <span>Start</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </div>
 
+      {/* Stats Cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          { label: 'In progress', value: inProgressCount },
+          { label: 'Ready to use', value: readyToUseCount },
+          { label: 'Finished videos', value: finishedCount },
+          { label: 'Total projects', value: totalProjectsCount },
+        ].map((stat) => (
+          <div
+            key={stat.label}
+            className="bg-white/70 backdrop-blur-sm border border-[#EADFC9] p-5 rounded-2xl shadow-2xs flex flex-col justify-between min-h-[110px]"
+          >
+            <div className="text-xs text-[#82796D] font-medium tracking-wide">
+              {stat.label}
+            </div>
+            <div className="text-4xl font-extrabold text-[#2C2621] mt-2 font-serif-heading">
+              {stat.value}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Your Production Line Section */}
+      <div>
+        <div className="flex items-center justify-between border-b border-[#EADFC9] pb-3 mb-6">
+          <h2 className="text-xl font-bold font-serif-heading text-[#2C2621]">
+            Your production line
+          </h2>
+          <span className="text-[10px] font-mono-label font-bold text-[#82796D] tracking-widest uppercase">
+            One Topic → Finished Film
+          </span>
+        </div>
+
+        <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+          {/* Connecting step line (desktop) */}
+          <div className="hidden lg:block absolute top-9 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-[#D4E5DC] via-[#EADFC9] to-[#D4E5DC]" />
+
+          {pipelineSteps.map((s, i) => {
+            const Icon = s.icon;
+            return (
+              <button
+                key={s.label}
+                onClick={() => goToPipelineStep(s.step, s.label)}
+                className="text-left bg-white/70 backdrop-blur-sm border border-[#EADFC9] hover:border-[#C5B49F] p-6 rounded-2xl shadow-2xs hover:shadow-md relative flex flex-col justify-between min-h-[170px] transition-all cursor-pointer group"
+              >
+                <div className="absolute top-4 right-4 text-xs font-mono-label text-[#EADFC9] font-bold group-hover:text-[#C5B49F] transition-colors">
+                  {String(i + 1).padStart(2, '0')}
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-8 h-8 rounded-lg bg-[#EAF3EE] flex items-center justify-center text-[#124D3E] flex-shrink-0">
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <h3 className="font-bold text-sm text-[#2C2621]">{s.label}</h3>
+                  </div>
+                  <span className="text-[8px] font-mono-label font-bold text-[#124D3E] bg-[#D4E5DC] px-1.5 py-0.5 rounded uppercase">
+                    {s.status}
+                  </span>
+                  <p className="text-xs text-[#6E6259] leading-relaxed mt-3">
+                    {s.desc}
+                  </p>
+                </div>
+                <div className="text-xs font-bold text-[#124D3E] group-hover:underline inline-flex items-center gap-1.5 mt-4">
+                  <span>Open</span>
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                </div>
+              </button>
+            );
+          })}
+
+        </div>
+      </div>
+
       {/* Recent Projects */}
       <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold font-serif-heading text-[#ECFDF5]">Recent Projects</h2>
-          <Link href="/dashboard/projects" className="text-xs text-[#C5B49F] font-semibold hover:underline flex items-center gap-1">
-            View all <ArrowRight className="w-3 h-3" />
+        <div className="flex items-center justify-between mb-4 mt-4">
+          <h2 className="text-xl font-bold font-serif-heading text-[#2C2621]">
+            Recent Projects
+          </h2>
+          <Link 
+            href="/dashboard/projects" 
+            className="text-xs text-[#A88E75] font-semibold hover:underline flex items-center gap-1"
+          >
+            <span>View all</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
         <div className="space-y-3">
           {recent.length === 0 ? (
-            <div className="bg-[#0A1412] border border-[#122823] border-dashed rounded-xl p-8 text-center text-[#527E72]">
-              No projects yet. Click "New Video" above to launch your first generation.
+            <div className="bg-white/70 backdrop-blur-sm border border-[#EADFC9] border-dashed rounded-2xl p-8 text-center text-[#9C8F84]">
+              No projects yet. Click &quot;New script&quot; above or start Autopilot to launch your first generation.
             </div>
           ) : (
             recent.map((project) => {
@@ -144,22 +232,24 @@ export default function DashboardPage() {
               const progressVal = project.progress ?? 0;
 
               return (
-                <Link 
+                <Link
                   href={`/dashboard/video/${project.id}`}
-                  key={project.id} 
-                  className="block bg-[#0A1412] border border-[#122823] hover:border-[#225146] rounded-xl p-4 transition-all shadow-2xs group"
+                  key={project.id}
+                  className="block bg-white/70 backdrop-blur-sm border border-[#EADFC9] hover:border-[#C5B49F] rounded-2xl p-4 transition-all shadow-2xs group"
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                     
-                    {/* Thumbnail placeholder */}
-                    <div className="w-12 h-8 rounded bg-[#0A1412] border border-[#122823] flex items-center justify-center flex-shrink-0">
-                      <Play className="w-3.5 h-3.5 text-[#C5B49F] fill-current" />
+                    {/* Thumbnail icon */}
+                    <div className="w-12 h-8 rounded bg-[#F3F0E9] border border-[#EADFC9] flex items-center justify-center flex-shrink-0">
+                      <Play className="w-3.5 h-3.5 text-[#A88E75] fill-current" />
                     </div>
 
                     {/* Title & info */}
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-sm font-semibold text-[#ECFDF5] truncate mb-0.5 group-hover:text-[#C5B49F] transition-colors">{project.title}</h3>
-                      <div className="flex items-center gap-3 text-xs text-[#527E72]">
+                      <h3 className="text-sm font-semibold text-[#2C2621] truncate mb-0.5 group-hover:text-[#A88E75] transition-colors">
+                        {project.title}
+                      </h3>
+                      <div className="flex items-center gap-3 text-xs text-[#82796D]">
                         <span>{project.format}</span>
                         <span>·</span>
                         <span>{project.duration}</span>
@@ -168,22 +258,26 @@ export default function DashboardPage() {
                         <span>·</span>
                         <span>{project.date}</span>
                       </div>
-                      {/* Progress bar for generating */}
+                      
+                      {/* Progress bar */}
                       {project.status === 'generating' && (
                         <div className="mt-2 max-w-md">
-                          <div className="flex justify-between text-[10px] text-[#527E72] mb-1">
+                          <div className="flex justify-between text-[10px] text-[#82796D] mb-1">
                             <span>Stage: {currentStageName}</span>
                             <span>{progressVal}%</span>
                           </div>
-                          <div className="w-full bg-[#122823] h-1 rounded-full overflow-hidden">
-                            <div className="bg-[#C5B49F] h-full rounded-full transition-all duration-300" style={{ width: `${progressVal}%` }} />
+                          <div className="w-full bg-[#FAF6F0] h-1 rounded-full overflow-hidden border border-[#EADFC9]/50">
+                            <div 
+                              className="bg-[#124D3E] h-full rounded-full transition-all duration-300" 
+                              style={{ width: `${progressVal}%` }} 
+                            />
                           </div>
                         </div>
                       )}
                     </div>
 
-                    {/* Status */}
-                    <div className="flex items-center gap-3">
+                    {/* Status badge */}
+                    <div className="flex items-center gap-3 self-start sm:self-center">
                       <span className={`text-[10px] font-mono-label font-bold px-2 py-0.5 rounded border ${status.bg} ${status.color}`}>
                         {status.label}
                       </span>
@@ -199,4 +293,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-

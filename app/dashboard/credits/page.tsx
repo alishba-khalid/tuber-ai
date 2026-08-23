@@ -2,17 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/components/AuthProvider';
-import { Zap, TrendingUp, History, CreditCard } from 'lucide-react';
+import { Zap, History, CreditCard } from 'lucide-react';
 import { collection, query, orderBy, onSnapshot, doc, updateDoc, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-
-const plans = [
-  { id: 'starter', name: 'Starter', price: 29, credits: 300, desc: '1 hour video' },
-  { id: 'plus', name: 'Plus', price: 49, credits: 660, desc: '2 hours video' },
-  { id: 'creator', name: 'Creator', price: 89, credits: 1500, desc: '5 hours video' },
-  { id: 'studio', name: 'Studio', price: 139, credits: 2700, desc: '9 hours video' },
-  { id: 'pro', name: 'Pro', price: 259, credits: 6000, desc: '20 hours video' },
-];
+import { plans } from '@/lib/plans';
 
 export default function CreditsPage() {
   const { user, credits, isMock } = useAuth();
@@ -71,6 +64,15 @@ export default function CreditsPage() {
       return () => window.removeEventListener('storage', loadLocalTransactions);
     }
   }, [user, isMock]);
+
+  // Pre-select plan if planId is in URL query parameters on load
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const planId = urlParams.get('planId');
+    if (planId && plans.some(p => p.id === planId)) {
+      setSelectedPlan(planId);
+    }
+  }, []);
 
   // Handle mock checkout success callback
   useEffect(() => {
@@ -186,13 +188,13 @@ export default function CreditsPage() {
             </div>
             <div className="text-3xl font-bold font-serif-heading text-[#ECFDF5]">{credits}</div>
             <div className="text-xs text-[#527E72] mt-2">
-              Founding member tier — active balance
+              {credits > 0 ? 'Active balance — ready to generate' : 'No credits yet — buy a plan to get started'}
             </div>
           </div>
           <div className="sm:text-right">
-            <div className="text-[10px] font-mono-label text-[#527E72] uppercase">Active Plan</div>
-            <div className="text-lg font-bold font-serif-heading text-[#ECFDF5]">Free Tier</div>
-            <div className="text-xs text-[#C5B49F] font-semibold mt-0.5">300 free setup credits</div>
+            <div className="text-[10px] font-mono-label text-[#527E72] uppercase">Billing model</div>
+            <div className="text-lg font-bold font-serif-heading text-[#ECFDF5]">Pay as you go</div>
+            <div className="text-xs text-[#C5B49F] font-semibold mt-0.5">No subscription, no free trial</div>
           </div>
         </div>
       </div>
@@ -230,6 +232,51 @@ export default function CreditsPage() {
           ))}
         </div>
 
+        {/* Payment Method Selector */}
+        <div className="mb-6 border-t border-[#122823] pt-6">
+          <label className="block text-xs font-mono-label font-bold text-[#8FAAA6] mb-3 uppercase tracking-wider">
+            Select Payment Provider
+          </label>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button
+              onClick={() => setPaymentMethod('stripe')}
+              className={`flex-1 flex items-center gap-4 p-4 rounded-xl border text-left transition-all cursor-pointer ${
+                paymentMethod === 'stripe'
+                  ? 'border-2 border-[#C5B49F] bg-[#C5B49F]/10 shadow-xs'
+                  : 'border-[#122823] hover:border-[#225146] bg-[#0A1412]'
+              }`}
+            >
+              <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+                paymentMethod === 'stripe' ? 'border-[#C5B49F]' : 'border-[#527E72]'
+              }`}>
+                {paymentMethod === 'stripe' && <div className="w-2 h-2 rounded-full bg-[#C5B49F]" />}
+              </div>
+              <div>
+                <div className="text-sm font-bold text-[#ECFDF5]">Stripe</div>
+                <div className="text-[10px] text-[#527E72] mt-0.5">Pay securely with Credit Cards, Apple Pay, or Google Pay</div>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setPaymentMethod('polar')}
+              className={`flex-1 flex items-center gap-4 p-4 rounded-xl border text-left transition-all cursor-pointer ${
+                paymentMethod === 'polar'
+                  ? 'border-2 border-[#C5B49F] bg-[#C5B49F]/10 shadow-xs'
+                  : 'border-[#122823] hover:border-[#225146] bg-[#0A1412]'
+              }`}
+            >
+              <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+                paymentMethod === 'polar' ? 'border-[#C5B49F]' : 'border-[#527E72]'
+              }`}>
+                {paymentMethod === 'polar' && <div className="w-2 h-2 rounded-full bg-[#C5B49F]" />}
+              </div>
+              <div>
+                <div className="text-sm font-bold text-[#ECFDF5]">Polar.sh</div>
+                <div className="text-[10px] text-[#527E72] mt-0.5">Checkout via Polar for developer-first regional payment options</div>
+              </div>
+            </button>
+          </div>
+        </div>
 
         <button
           onClick={handleCheckout}

@@ -100,7 +100,7 @@ export default function SignupPage() {
             Create your account
           </h2>
           <p className="text-xs text-[#8FAAA6] mt-1">
-            Get started with 300 free founding credits
+            Buy credits and start generating in minutes
           </p>
         </div>
 

@@ -18,6 +18,10 @@ interface AuthContextType {
   saveProject: (project: any) => Promise<void>;
   updateProjectProgress: (id: string, status: string, stageIndex: number, progressPercent: number) => Promise<void>;
   deductCredits: (amount: number) => Promise<boolean>;
+  paywallOpen: boolean;
+  paywallReason: string;
+  closePaywall: () => void;
+  requireCredits: (amount: number, reason?: string) => boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -32,6 +36,10 @@ const AuthContext = createContext<AuthContextType>({
   saveProject: async () => {},
   updateProjectProgress: async () => {},
   deductCredits: async () => false,
+  paywallOpen: false,
+  paywallReason: '',
+  closePaywall: () => {},
+  requireCredits: () => false,
 });
 
 const defaultMockProjects = [
@@ -49,7 +57,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [credits, setCredits] = useState(0);
   const [projects, setProjects] = useState<any[]>([]);
+  const [paywallOpen, setPaywallOpen] = useState(false);
+  const [paywallReason, setPaywallReason] = useState('');
   const router = useRouter();
+
+  const closePaywall = () => setPaywallOpen(false);
+
+  const requireCredits = (amount: number, reason?: string): boolean => {
+    if (credits >= amount) return true;
+    setPaywallReason(reason || '');
+    setPaywallOpen(true);
+    return false;
+  };
 
   // Load and subscribe to authentication changes
   useEffect(() => {
@@ -67,20 +86,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             if (!userDoc.exists()) {
               await setDoc(userRef, {
                 email: currentUser.email,
-                credits: 300,
+                credits: 0,
                 createdAt: new Date().toISOString(),
-              });
-
-              // Seed initial transaction history
-              const txRef = doc(collection(db, 'users', currentUser.uid, 'transactions'));
-              await setDoc(txRef, {
-                id: txRef.id,
-                desc: 'Setup founding user credits',
-                credits: 300,
-                amount: 0,
-                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-                createdAt: new Date().toISOString(),
-                type: 'renewal'
               });
             }
           } catch (e) {
@@ -138,8 +145,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (storedCredits !== null) {
             setCredits(parseInt(storedCredits, 10));
           } else {
-            localStorage.setItem(`genbyghost_credits_${parsedUser.uid}`, '300');
-            setCredits(300);
+            localStorage.setItem(`genbyghost_credits_${parsedUser.uid}`, '0');
+            setCredits(0);
           }
 
           // Load Projects
@@ -173,10 +180,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
     localStorage.setItem('genbyghost_mock_user', JSON.stringify(mockUser));
     
-    // Check if credits exist, otherwise set 300
+    // Check if credits exist, otherwise start at 0 (paid-only model)
     const credKey = `genbyghost_credits_${mockUser.uid}`;
     if (localStorage.getItem(credKey) === null) {
-      localStorage.setItem(credKey, '300');
+      localStorage.setItem(credKey, '0');
     }
     
     // Check if projects exist, otherwise set default projects
@@ -187,7 +194,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Trigger state update
     setUser(mockUser);
-    setCredits(parseInt(localStorage.getItem(credKey) || '300', 10));
+    setCredits(parseInt(localStorage.getItem(credKey) || '0', 10));
     setProjects(JSON.parse(localStorage.getItem(projKey) || '[]'));
   };
 
@@ -299,7 +306,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       signupMockUser,
       saveProject,
       updateProjectProgress,
-      deductCredits
+      deductCredits,
+      paywallOpen,
+      paywallReason,
+      closePaywall,
+      requireCredits
     }}>
       {children}
     </AuthContext.Provider>

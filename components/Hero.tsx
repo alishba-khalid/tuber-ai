@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useAuth } from '@/components/AuthProvider';
 import { Play, Sparkles, Clock, Volume2, FileText, Mic, Image as ImageIcon, Film, Upload, Video, Loader2 } from 'lucide-react';
 
 const chapterTabs = [
@@ -124,6 +125,7 @@ const pipelineSteps = [
 ];
 
 export default function Hero() {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('cold-open');
   const [isPlaying, setIsPlaying] = useState(true);
   const [progressVal, setProgressVal] = useState(15);
@@ -214,10 +216,10 @@ export default function Hero() {
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
               <Link
-                href="/auth/signup"
+                href={user ? "/dashboard" : "/auth/signup"}
                 className="btn-indigo-pill text-sm px-6 py-4 flex items-center justify-center gap-2 group font-mono-label shadow-[0_0_15px_rgba(197, 180, 159,0.25)] hover:shadow-[0_0_25px_rgba(197, 180, 159,0.45)]"
               >
-                Create your first video
+                {user ? "Go to Dashboard" : "Create your first video"}
               </Link>
               <a
                 href="#showcase"

@@ -1,13 +1,6 @@
 import { Webhooks } from '@polar-sh/nextjs';
 import { adminDb } from '@/lib/firebase-admin';
-
-const plans: Record<string, { price: number; credits: number; name: string }> = {
-  starter: { price: 29, credits: 300, name: 'Starter Plan' },
-  plus: { price: 49, credits: 660, name: 'Plus Plan' },
-  creator: { price: 89, credits: 1500, name: 'Creator Plan' },
-  studio: { price: 139, credits: 2700, name: 'Studio Plan' },
-  pro: { price: 259, credits: 6000, name: 'Pro Plan' },
-};
+import { getPlan } from '@/lib/plans';
 
 export const POST = Webhooks({
   webhookSecret: process.env.POLAR_WEBHOOK_SECRET || '',
@@ -23,7 +16,7 @@ export const POST = Webhooks({
           const userRef = adminDb.collection('users').doc(userId);
           const transactionRef = userRef.collection('transactions').doc();
           
-          const planInfo = plans[planId] || { name: 'Premium Plan', price: 0 };
+          const planInfo = getPlan(planId) || { name: 'Premium Plan', price: 0 };
 
           await adminDb.runTransaction(async (transaction: any) => {
             const userDoc = await transaction.get(userRef);

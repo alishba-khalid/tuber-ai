@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import { Check } from 'lucide-react';
+import { useAuth } from '@/components/AuthProvider';
 
 const plans = [
   {
@@ -55,6 +58,7 @@ const plans = [
 ];
 
 export default function Pricing() {
+  const { user } = useAuth();
   return (
     <section id="pricing" className="py-20 bg-transparent border-t border-[#122823]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -128,7 +132,7 @@ export default function Pricing() {
               </div>
 
               <Link
-                href="/auth/signup"
+                href={user ? `/dashboard/credits?planId=${plan.name.toLowerCase()}` : "/auth/signup"}
                 className={`w-full text-center text-xs py-3 rounded-full font-semibold transition-all cursor-pointer ${
                   plan.popular
                     ? 'btn-indigo-pill'

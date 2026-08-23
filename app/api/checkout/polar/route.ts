@@ -1,13 +1,6 @@
 import { NextResponse } from 'next/server';
 import { polar } from '@/lib/polar';
-
-const plans: Record<string, { price: number; credits: number; name: string }> = {
-  starter: { price: 29, credits: 300, name: 'Starter Plan' },
-  plus: { price: 49, credits: 660, name: 'Plus Plan' },
-  creator: { price: 89, credits: 1500, name: 'Creator Plan' },
-  studio: { price: 139, credits: 2700, name: 'Studio Plan' },
-  pro: { price: 259, credits: 6000, name: 'Pro Plan' },
-};
+import { getPlan } from '@/lib/plans';
 
 const polarProductIds: Record<string, string> = {
   starter: process.env.POLAR_PRODUCT_ID_STARTER || 'polar_prod_starter_placeholder',
@@ -18,16 +11,20 @@ const polarProductIds: Record<string, string> = {
 };
 
 export async function POST(request: Request) {
+  let planId = '';
+  let host = 'http://localhost:3000';
   try {
-    const { planId, userId, email } = await request.json();
+    const body = await request.json();
+    planId = body.planId;
+    const { userId, email } = body;
 
-    if (!userId || !planId || !plans[planId]) {
+    const selectedPlan = getPlan(planId);
+    if (!userId || !planId || !selectedPlan) {
       return NextResponse.json({ error: 'Missing parameters or invalid plan.' }, { status: 400 });
     }
 
-    const selectedPlan = plans[planId];
     const productId = polarProductIds[planId];
-    const host = request.headers.get('origin') || 'http://localhost:3000';
+    host = request.headers.get('origin') || 'http://localhost:3000';
 
     // Mock checkout fallback
     const isMockMode = !process.env.POLAR_ACCESS_TOKEN || process.env.POLAR_ACCESS_TOKEN.includes('placeholder');
@@ -50,6 +47,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ url: session.url });
   } catch (err: any) {
     console.error('Polar session creation error:', err);
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn('Polar API failed. Falling back to Mock Mode in development.');
+      return NextResponse.json({ 
+        url: `${host}/dashboard/credits?polar-mock-success=true&planId=${planId}`,
+        warning: 'Polar API failed. Using local mock mode.' 
+      });
+    }
     return NextResponse.json({ error: err.message || 'Internal server error' }, { status: 500 });
   }
 }

@@ -1,7 +1,11 @@
+'use client';
+
 import Link from 'next/link';
 import { Sparkles } from 'lucide-react';
+import { useAuth } from '@/components/AuthProvider';
 
 export default function CTABanner() {
+  const { user } = useAuth();
   return (
     <section className="py-28 bg-transparent border-t border-[#122823]">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -25,10 +29,10 @@ export default function CTABanner() {
 
             <div className="pt-4">
               <Link
-                href="/auth/signup"
+                href={user ? "/dashboard" : "/auth/signup"}
                 className="btn-indigo-pill text-sm px-10 py-4.5 inline-flex items-center gap-2 shadow-[0_0_20px_rgba(197, 180, 159,0.25)] hover:shadow-[0_0_35px_rgba(197, 180, 159,0.45)] transition-all cursor-pointer font-bold"
               >
-                Start creating
+                {user ? "Go to Dashboard" : "Start creating"}
               </Link>
             </div>
           </div>

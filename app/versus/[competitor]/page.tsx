@@ -192,11 +192,11 @@ export default async function VersusPage({ params }: PageProps) {
               Ready to automate your YouTube channel?
             </h2>
             <p className="text-[#8FAAA6] text-sm max-w-lg mx-auto mb-8 leading-relaxed">
-              Create a free account on GenByGhost today. Get 300 setup credits immediately—no credit card required.
+              Create your GenByGhost account today. Buy credits and generate your first video in minutes.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link href="/auth/signup" className="btn-indigo-pill px-8 py-3 text-sm flex items-center gap-2 w-full sm:w-auto justify-center font-bold">
-                Get Started Free <ArrowRight className="w-4 h-4" />
+                Get Started <ArrowRight className="w-4 h-4" />
               </Link>
               <Link href="/pricing" className="text-sm font-semibold text-[#C5B49F] hover:text-[#ECFDF5] transition-colors px-6 py-2.5">
                 View Pricing Plans

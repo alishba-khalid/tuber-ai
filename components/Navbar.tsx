@@ -3,10 +3,12 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import LogoIcon from './LogoIcon';
+import { useAuth } from '@/components/AuthProvider';
 import {
-  Menu, X, Sparkles, ChevronDown,
+  Menu, X, ChevronDown,
   FileText, Mic, Image, Film, Youtube,
-  BarChart2, Wand2, VideoIcon, ArrowRight
+  BarChart2, Wand2, VideoIcon, ArrowRight,
+  LayoutDashboard, CreditCard, Settings, LogOut, Zap
 } from 'lucide-react';
 
 const tools = [
@@ -67,10 +69,15 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  const { user, credits, logout } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
+
+  const userInitials = user?.email ? user.email.slice(0, 1).toUpperCase() : 'A';
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -78,11 +85,14 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setToolsOpen(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
+        setProfileOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -175,19 +185,90 @@ export default function Navbar() {
           </nav>
 
           {/* Action Buttons */}
-          <div className="hidden md:flex items-center gap-4 flex-shrink-0">
-            <Link
-              href="/auth/login"
-              className="text-sm font-medium text-[#8FAAA6] hover:text-[#ECFDF5] transition-colors px-2"
-            >
-              Log in
-            </Link>
-            <Link
-              href="/auth/signup"
-              className="btn-indigo-pill text-xs px-4 py-2"
-            >
-              Get started
-            </Link>
+          <div className="hidden md:flex items-center gap-3 flex-shrink-0">
+            {user ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="text-sm font-medium text-[#8FAAA6] hover:text-[#ECFDF5] transition-colors px-2"
+                >
+                  Studio
+                </Link>
+
+                {/* Profile Menu */}
+                <div className="relative" ref={profileRef}>
+                  <button
+                    onClick={() => setProfileOpen(!profileOpen)}
+                    className="w-9 h-9 rounded-full bg-[#C5B49F] text-[#030706] font-bold flex items-center justify-center text-xs shadow-xs hover:opacity-90 transition-all cursor-pointer focus:outline-none"
+                    aria-label="Account menu"
+                  >
+                    {userInitials}
+                  </button>
+
+                  {profileOpen && (
+                    <div className="absolute top-full right-0 mt-3 w-64 bg-[#0A1412] border border-[#122823] rounded-2xl shadow-xl overflow-hidden z-50 animate-fade-in">
+                      <div className="p-4 border-b border-[#122823]">
+                        <div className="text-sm font-semibold text-[#ECFDF5] truncate">{user.email}</div>
+                        <div className="inline-flex items-center gap-1.5 mt-2 text-xs font-bold text-[#C5B49F] bg-[#C5B49F]/10 border border-[#C5B49F]/20 px-2.5 py-1 rounded-full">
+                          <Zap className="w-3 h-3 fill-current" />
+                          {credits} credits
+                        </div>
+                      </div>
+                      <div className="p-2">
+                        <Link
+                          href="/dashboard"
+                          onClick={() => setProfileOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-[#ECFDF5] rounded-xl hover:bg-[#122823] transition-colors"
+                        >
+                          <LayoutDashboard className="w-4 h-4 text-[#C5B49F]" />
+                          Studio
+                        </Link>
+                        <Link
+                          href="/dashboard/credits"
+                          onClick={() => setProfileOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-[#ECFDF5] rounded-xl hover:bg-[#122823] transition-colors"
+                        >
+                          <CreditCard className="w-4 h-4 text-[#C5B49F]" />
+                          Buy credits
+                        </Link>
+                        <Link
+                          href="/dashboard/settings"
+                          onClick={() => setProfileOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-[#ECFDF5] rounded-xl hover:bg-[#122823] transition-colors"
+                        >
+                          <Settings className="w-4 h-4 text-[#C5B49F]" />
+                          Settings
+                        </Link>
+                      </div>
+                      <div className="p-2 border-t border-[#122823]">
+                        <button
+                          onClick={() => { setProfileOpen(false); logout(); }}
+                          className="w-full flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-950/30 rounded-xl transition-colors cursor-pointer text-left"
+                        >
+                          <LogOut className="w-4 h-4" />
+                          Log out
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/auth/login"
+                  className="text-sm font-medium text-[#8FAAA6] hover:text-[#ECFDF5] transition-colors px-2"
+                >
+                  Log in
+                </Link>
+                <Link
+                  href="/auth/signup"
+                  className="btn-indigo-pill text-xs px-4 py-2"
+                >
+                  Get started
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Toggle */}
@@ -238,20 +319,55 @@ export default function Navbar() {
               ))}
 
               <div className="pt-3 border-t border-[#122823] flex flex-col gap-2 mt-1">
-                <Link
-                  href="/auth/login"
-                  className="btn-outline-pill w-full text-center text-sm py-2.5"
-                  onClick={() => setIsMobileOpen(false)}
-                >
-                  Log in
-                </Link>
-                <Link
-                  href="/auth/signup"
-                  className="btn-indigo-pill w-full text-center text-sm py-2.5"
-                  onClick={() => setIsMobileOpen(false)}
-                >
-                  Get started
-                </Link>
+                {user ? (
+                  <>
+                    <div className="flex items-center justify-between px-3 py-2 text-xs">
+                      <span className="text-[#8FAAA6] truncate">{user.email}</span>
+                      <span className="inline-flex items-center gap-1 font-bold text-[#C5B49F] flex-shrink-0">
+                        <Zap className="w-3 h-3 fill-current" />
+                        {credits} credits
+                      </span>
+                    </div>
+                    <Link
+                      href="/dashboard"
+                      className="btn-indigo-pill w-full text-center text-sm py-2.5"
+                      onClick={() => setIsMobileOpen(false)}
+                    >
+                      Studio
+                    </Link>
+                    <Link
+                      href="/dashboard/settings"
+                      className="btn-outline-pill w-full text-center text-sm py-2.5"
+                      onClick={() => setIsMobileOpen(false)}
+                    >
+                      Settings
+                    </Link>
+                    <button
+                      onClick={() => { setIsMobileOpen(false); logout(); }}
+                      className="w-full flex items-center justify-center gap-2 text-sm py-2.5 text-red-400 hover:text-red-300 cursor-pointer"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Log out
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/auth/login"
+                      className="btn-outline-pill w-full text-center text-sm py-2.5"
+                      onClick={() => setIsMobileOpen(false)}
+                    >
+                      Log in
+                    </Link>
+                    <Link
+                      href="/auth/signup"
+                      className="btn-indigo-pill w-full text-center text-sm py-2.5"
+                      onClick={() => setIsMobileOpen(false)}
+                    >
+                      Get started
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>

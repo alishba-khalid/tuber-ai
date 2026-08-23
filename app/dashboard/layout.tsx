@@ -4,25 +4,34 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
+import PaywallModal from '@/components/PaywallModal';
 import LogoIcon from '@/components/LogoIcon';
-import { 
-  Sparkles, LayoutDashboard, FolderOpen, PlusCircle, 
-  CreditCard, Settings, LogOut, ChevronRight, Bell, Search,
-  Zap
+import {
+  Sparkles, LayoutDashboard,
+  CreditCard, Settings, LogOut, Bell, Search,
+  Zap, FileText, Mic, Image, Youtube, Globe, BookOpen, Mail
 } from 'lucide-react';
 
-const sidebarLinks = [
-  { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard' },
-  { icon: FolderOpen, label: 'My Projects', href: '/dashboard/projects' },
-  { icon: PlusCircle, label: 'Create Video', href: '/dashboard/create' },
-  { icon: CreditCard, label: 'Credits', href: '/dashboard/credits' },
-  { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
+const sidebarTools = [
+  { label: 'Scripts', icon: FileText, step: 'script' },
+  { label: 'Voice Generation', icon: Mic, step: 'voice' },
+  { label: 'Visuals', icon: Image, step: 'visuals' },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { user, loading, logout, credits } = useAuth();
+  const { user, loading, logout, credits, requireCredits } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
+
+  const openTool = (step: string, label: string) => {
+    if (!requireCredits(1, `use ${label}`)) return;
+    router.push(`/dashboard/create?step=${step}`);
+  };
+
+  const openPublishing = () => {
+    if (!requireCredits(1, 'publish to YouTube')) return;
+    router.push('/dashboard/projects');
+  };
 
   useEffect(() => {
     if (!loading && !user) {
@@ -32,10 +41,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#050B0A]">
+      <div className="min-h-screen flex items-center justify-center bg-[#FAF6F0]">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 rounded-full border-4 border-[#C5B49F]/30 border-t-[#C5B49F] animate-spin" />
-          <span className="text-xs font-mono-label font-bold text-[#8FAAA6]">LOADING SESSION...</span>
+          <div className="w-8 h-8 rounded-full border-4 border-[#A88E75]/30 border-t-[#A88E75] animate-spin" />
+          <span className="text-xs font-mono-label font-bold text-[#6E6259]">LOADING SESSION...</span>
         </div>
       </div>
     );
@@ -46,138 +55,222 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   // Get user initials for avatar
-  const userInitials = user.email ? user.email.slice(0, 2).toUpperCase() : 'US';
-  const displayName = user.email ? user.email.split('@')[0] : 'Creator';
+  const userInitials = user.email ? user.email.slice(0, 1).toUpperCase() : 'A';
 
   return (
-    <div className="flex h-screen bg-[#050B0A] overflow-hidden text-slate-100">
+    <div className="flex h-screen bg-[#FAF6F0] overflow-hidden text-[#2C2621]">
       
       {/* Sidebar */}
-      <aside className="w-60 border-r border-[#122823] flex flex-col bg-[#0A1412]">
+      <aside className="w-60 border-r border-[#EADFC9] flex flex-col bg-[#F3F0E9]">
         
-        <div className="p-4 border-b border-[#122823]">
+        {/* Brand Header */}
+        <div className="p-4 border-b border-[#EADFC9]">
           <Link href="/" className="flex items-center gap-2.5 group">
             <LogoIcon />
-            <span className="text-lg font-bold font-serif-heading text-[#ECFDF5]">
-              GenBy<span className="text-[#C5B49F]">Ghost</span>
+            <span className="text-lg font-bold font-serif-heading text-[#2C2621]">
+              GenBy<span className="text-[#A88E75]">Ghost</span>
             </span>
           </Link>
         </div>
 
-        {/* Credits Widget */}
-        <div className="p-4 border-b border-[#122823] bg-[#0A1412]">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-1.5 text-[#C5B49F]">
-              <Zap className="w-3.5 h-3.5 fill-current" />
-              <span className="text-xs font-bold font-mono-label">CREDITS</span>
-            </div>
-            <Link href="/dashboard/credits" className="text-xs text-[#C5B49F] font-semibold hover:underline">
-              Top up
-            </Link>
-          </div>
-          <div className="text-3xl font-bold font-serif-heading text-[#ECFDF5] mb-1">
-            {credits}
-          </div>
-          <div className="text-[10px] text-[#527E72] mb-2 font-mono-label">
-            FOUNDING ACCESS
-          </div>
-          <div className="w-full bg-[#122823] h-1.5 rounded-full overflow-hidden">
-            <div 
-              className="bg-[#C5B49F] h-full rounded-full transition-all duration-300" 
-              style={{ width: `${Math.min(100, (credits / 300) * 100)}%` }} 
+        {/* Search */}
+        <div className="px-4 py-3 border-b border-[#EADFC9]">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#9C8F84]" />
+            <input
+              placeholder="Search"
+              disabled
+              className="w-full bg-[#FAF6F0] border border-[#EADFC9] rounded-xl pl-9 pr-12 py-1.5 text-xs text-[#2C2621] placeholder-[#9C8F84] focus:outline-none"
             />
+            <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-[#9C8F84] font-mono border border-[#EADFC9] px-1 py-0.5 rounded bg-[#FAF6F0]">ctrl K</span>
           </div>
         </div>
 
-        {/* Nav Links */}
-        <nav className="flex-1 p-3 space-y-1">
-          {sidebarLinks.map(({ icon: Icon, label, href }) => {
-            const isActive = pathname === href || (href !== '/dashboard' && pathname.startsWith(href));
-            return (
-              <Link
-                key={href}
-                href={href}
-                className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl transition-all ${
-                  isActive 
-                    ? 'bg-[#C5B49F]/10 text-[#C5B49F] font-semibold border-l-2 border-[#C5B49F]'
-                    : 'text-[#8FAAA6] hover:text-[#ECFDF5] hover:bg-[#122823]/50'
-                }`}
+        {/* Navigation Menu */}
+        <div className="flex-1 overflow-y-auto p-3 space-y-4">
+          
+          {/* Main Links */}
+          <div className="space-y-1">
+            <Link
+              href="/dashboard"
+              className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl transition-all ${
+                pathname === '/dashboard'
+                  ? 'bg-[#E4ECE7] text-[#124D3E] font-semibold'
+                  : 'text-[#6E6259] hover:text-[#2C2621] hover:bg-[#EADFC9]/20'
+              }`}
+            >
+              <LayoutDashboard className="w-4 h-4" />
+              <span>Home</span>
+            </Link>
+
+            <Link
+              href="/dashboard/create"
+              className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl transition-all ${
+                pathname === '/dashboard/create'
+                  ? 'bg-[#E4ECE7] text-[#124D3E] font-semibold'
+                  : 'text-[#6E6259] hover:text-[#2C2621] hover:bg-[#EADFC9]/20'
+              }`}
+            >
+              <Sparkles className="w-4 h-4 text-[#A88E75]" />
+              <span>Autopilot</span>
+              <span className="ml-auto text-[9px] font-mono-label font-bold text-[#124D3E] bg-[#D4E5DC] px-1.5 py-0.5 rounded-sm uppercase">1-CLICK</span>
+            </Link>
+          </div>
+
+          {/* TOOLS Section */}
+          <div className="space-y-1">
+            <div className="px-3 text-[10px] font-mono-label font-bold text-[#9C8F84] uppercase tracking-wider mb-2">
+              Tools
+            </div>
+
+            {sidebarTools.map(({ label, icon: Icon, step }) => (
+              <button
+                key={label}
+                onClick={() => openTool(step, label)}
+                className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl text-[#6E6259] hover:text-[#2C2621] hover:bg-[#EADFC9]/20 transition-all cursor-pointer text-left"
               >
                 <Icon className="w-4 h-4" />
                 <span>{label}</span>
-                {isActive && <ChevronRight className="w-3.5 h-3.5 ml-auto text-[#C5B49F]" />}
-              </Link>
-            );
-          })}
-        </nav>
+                {credits <= 0 && (
+                  <Zap className="ml-auto w-3 h-3 text-[#A88E75]" />
+                )}
+              </button>
+            ))}
+          </div>
 
-        {/* Bottom User Actions & Logout */}
-        <div className="p-3 border-t border-[#122823]">
-          <div className="flex items-center justify-between p-2 rounded-xl hover:bg-[#122823]/40 group transition-all">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-[#C5B49F]/10 border border-[#C5B49F]/25 flex items-center justify-center text-xs font-bold text-[#C5B49F]">
-                {userInitials}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-xs font-bold text-[#ECFDF5] truncate capitalize">
-                  {displayName}
-                </div>
-                <div className="text-[10px] text-[#527E72] truncate font-mono-label">
-                  FREE PLAN
-                </div>
-              </div>
+          {/* PUBLISH Section */}
+          <div className="space-y-1">
+            <div className="px-3 text-[10px] font-mono-label font-bold text-[#9C8F84] uppercase tracking-wider mb-2">
+              Publish
             </div>
-            <button 
-              onClick={logout}
-              title="Logout" 
-              className="p-1 text-[#527E72] hover:text-red-400 transition-colors rounded-lg hover:bg-red-950/20 cursor-pointer"
+
+            <button
+              onClick={openPublishing}
+              className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl text-[#6E6259] hover:text-[#2C2621] hover:bg-[#EADFC9]/20 transition-all cursor-pointer text-left"
             >
-              <LogOut className="w-4 h-4" />
+              <Youtube className="w-4 h-4" />
+              <span>YouTube Publishing</span>
+              {credits <= 0 && (
+                <Zap className="ml-auto w-3 h-3 text-[#A88E75]" />
+              )}
             </button>
           </div>
+
+          {/* MONETIZE Section */}
+          <div className="space-y-1">
+            <div className="px-3 text-[10px] font-mono-label font-bold text-[#9C8F84] uppercase tracking-wider mb-2">
+              Monetize
+            </div>
+            
+            <div className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl text-[#9C8F84] cursor-not-allowed">
+              <BookOpen className="w-4 h-4" />
+              <span>E-books</span>
+              <span className="ml-auto text-[9px] font-mono-label font-bold text-[#9C8F84] bg-[#EADFC9]/30 px-1.5 py-0.5 rounded-sm">BETA</span>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Bottom Menu */}
+        <div className="p-3 border-t border-[#EADFC9] space-y-1">
+          <Link
+            href="/dashboard/credits"
+            className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl transition-all ${
+              pathname === '/dashboard/credits'
+                ? 'bg-[#E4ECE7] text-[#124D3E] font-semibold'
+                : 'text-[#6E6259] hover:text-[#2C2621] hover:bg-[#EADFC9]/20'
+            }`}
+          >
+            <CreditCard className="w-4 h-4" />
+            <span>Buy credits</span>
+          </Link>
+
+          <Link
+            href="/"
+            className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl text-[#6E6259] hover:text-[#2C2621] hover:bg-[#EADFC9]/20 transition-all"
+          >
+            <Globe className="w-4 h-4" />
+            <span>Back to site</span>
+          </Link>
+
+          <Link
+            href="/dashboard/settings"
+            className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl transition-all ${
+              pathname === '/dashboard/settings'
+                ? 'bg-[#E4ECE7] text-[#124D3E] font-semibold'
+                : 'text-[#6E6259] hover:text-[#2C2621] hover:bg-[#EADFC9]/20'
+            }`}
+          >
+            <Settings className="w-4 h-4" />
+            <span>Settings</span>
+          </Link>
+
+          <button
+            onClick={logout}
+            className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl text-red-600 hover:text-red-700 hover:bg-red-50 transition-all cursor-pointer text-left"
+          >
+            <LogOut className="w-4 h-4" />
+            <span>Logout</span>
+          </button>
         </div>
 
       </aside>
 
-      {/* Main Content */}
+      {/* Main Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         
         {/* Top Header */}
-        <header className="h-14 border-b border-[#122823] flex items-center px-6 gap-4 bg-[#0A1412]">
+        <header className="h-16 border-b border-[#EADFC9] flex items-center justify-between px-6 bg-white/50 backdrop-blur-md sticky top-0 z-30">
           
-          {/* Search bar */}
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#527E72]" />
-            <input
-              placeholder="Search projects..."
-              className="w-full bg-[#0A1412] border border-[#122823] rounded-xl pl-9 pr-4 py-1.5 text-sm text-[#ECFDF5] placeholder-[#527E72] focus:outline-none focus:border-[#225146]"
-            />
+          <div className="text-sm font-bold text-[#2C2621] capitalize font-serif-heading italic">
+            {pathname === '/dashboard' ? 'Home' : pathname.split('/').pop()}
           </div>
           
-          {/* Right side icons */}
-          <div className="ml-auto flex items-center gap-3">
-            <button className="relative p-2 rounded-xl hover:bg-[#122823]/50 text-[#527E72] hover:text-[#ECFDF5] transition-all cursor-pointer">
-              <Bell className="w-4 h-4" />
-              <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-[#C5B49F]" />
-            </button>
+          <div className="flex items-center gap-4">
             
-            <Link 
-              href="/dashboard/create" 
-              className="btn-indigo-pill text-xs px-4 py-2 flex items-center gap-1.5 shadow-[0_0_10px_rgba(197, 180, 159,0.15)]"
+            {/* Mail button */}
+            <button className="p-2 text-[#6E6259] hover:text-[#2C2621] transition-all cursor-pointer rounded-lg hover:bg-[#EADFC9]/15">
+              <Mail className="w-4 h-4" />
+            </button>
+
+            {/* Bell button with notification count */}
+            <button className="relative p-2 text-[#6E6259] hover:text-[#2C2621] transition-all cursor-pointer rounded-lg hover:bg-[#EADFC9]/15">
+              <Bell className="w-4 h-4" />
+              <span className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-[#124D3E] text-white text-[9px] font-bold flex items-center justify-center border border-[#FAF7F2]">
+                3
+              </span>
+            </button>
+
+            {/* Credits Capsule */}
+            <Link
+              href="/dashboard/credits"
+              className="bg-white/60 backdrop-blur-md border border-[#D4E5DC] text-[#124D3E] text-xs font-bold pl-1 pr-3.5 py-1 rounded-full flex items-center gap-2 hover:bg-white/80 hover:border-[#124D3E]/30 shadow-2xs transition-all"
             >
-              <PlusCircle className="w-3.5 h-3.5" />
-              New Video
+              <span className="w-6 h-6 rounded-full bg-[#124D3E] flex items-center justify-center flex-shrink-0">
+                <Zap className="w-3 h-3 text-white fill-current" />
+              </span>
+              <span className="tabular-nums">{credits.toLocaleString()}</span>
+              <span className="text-[9px] font-mono-label uppercase text-[#124D3E]/70 tracking-wider">credits</span>
+              <span className="bg-[#124D3E] text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-extrabold flex-shrink-0">+</span>
             </Link>
+
+            {/* User Avatar */}
+            <Link href="/dashboard/settings" className="w-8 h-8 rounded-full bg-[#A88E75] text-white font-bold flex items-center justify-center text-xs shadow-xs hover:opacity-90 transition-all">
+              {userInitials}
+            </Link>
+            
           </div>
 
         </header>
 
-        {/* Page Content View */}
-        <main className="flex-1 overflow-auto p-6 bg-[#050B0A]">
+        {/* Children Render */}
+        <main className="flex-1 overflow-auto p-6 bg-[#FAF7F2]">
           {children}
         </main>
 
       </div>
+
+      <PaywallModal />
     </div>
   );
 }

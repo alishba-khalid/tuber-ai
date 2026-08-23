@@ -79,7 +79,7 @@ export default function ExamplesPage() {
             <Link href="/auth/signup" className="btn-primary px-8 py-4 text-[#E6F2F5]ase inline-flex items-center gap-2">
               Start Creating Your Videos →
             </Link>
-            <p className="text-[#74969E] text-sm mt-3">No credit card required. Free to get started.</p>
+            <p className="text-[#74969E] text-sm mt-3">Buy credits and start generating in minutes.</p>
           </div>
         </div>
 
