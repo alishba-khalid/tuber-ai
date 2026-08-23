@@ -73,9 +73,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Load and subscribe to authentication changes
   useEffect(() => {
     let unsubscribeUser: (() => void) | null = null;
+    let settled = false;
+
+    // Safety net: if the Firebase Auth SDK never calls back (a known SDK-internal
+    // IndexedDB persistence issue can silently hang init on some sessions), don't
+    // leave the UI stuck on "Loading session..." forever — fall back to logged-out.
+    const failSafe = setTimeout(() => {
+      if (!settled) {
+        settled = true;
+        console.warn('Firebase auth did not respond in time; falling back to logged-out state.');
+        setUser(null);
+        setCredits(0);
+        setProjects([]);
+        setLoading(false);
+      }
+    }, 8000);
 
     if (isFirebaseConfigured && auth) {
       const unsubscribeAuth = onAuthStateChanged(auth, async (currentUser) => {
+        settled = true;
+        clearTimeout(failSafe);
         if (currentUser) {
           setUser(currentUser);
           
@@ -129,10 +146,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setLoading(false);
       });
       return () => {
+        clearTimeout(failSafe);
         unsubscribeAuth();
         if (unsubscribeUser) unsubscribeUser();
       };
     } else {
+      clearTimeout(failSafe);
       // --- MOCK MODE: localStorage-based fallback ---
       const loadMockUser = () => {
         const storedUser = localStorage.getItem('genbyghost_mock_user');
