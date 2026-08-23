@@ -35,7 +35,7 @@ export async function POST(request: Request) {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: `TuberAI ${selectedPlan.name}`,
+              name: `GenByGhost ${selectedPlan.name}`,
               description: `Get ${selectedPlan.credits.toLocaleString()} video generation credits`,
             },
             unit_amount: selectedPlan.price * 100, // in cents

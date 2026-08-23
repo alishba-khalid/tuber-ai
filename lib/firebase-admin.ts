@@ -17,7 +17,7 @@ const app = getApps().length === 0
             }),
           }
         : {
-            projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'tuberai-fallback',
+            projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'genbyghost-fallback',
           }
     )
   : getApp();

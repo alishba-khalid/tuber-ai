@@ -17,7 +17,7 @@ const plans = [
 export default function CreditsPage() {
   const { user, credits, isMock } = useAuth();
   const [selectedPlan, setSelectedPlan] = useState('creator');
-  const [paymentMethod, setPaymentMethod] = useState<'stripe' | 'polar'>('stripe');
+  const [paymentMethod, setPaymentMethod] = useState<'stripe' | 'polar'>('polar');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [transactions, setTransactions] = useState<any[]>([]);
@@ -230,34 +230,6 @@ export default function CreditsPage() {
           ))}
         </div>
 
-        {/* Payment Method Selector */}
-        <div className="mb-6">
-          <div className="text-xs font-mono-label text-[#527E72] uppercase mb-2">Select Payment Method</div>
-          <div className="flex gap-4">
-            <label className="flex items-center gap-2 cursor-pointer bg-[#0A1412] border border-[#122823] px-4 py-2.5 rounded-xl hover:border-[#225146] transition-all">
-              <input
-                type="radio"
-                name="paymentMethod"
-                value="stripe"
-                checked={paymentMethod === 'stripe'}
-                onChange={() => setPaymentMethod('stripe')}
-                className="accent-[#C5B49F]"
-              />
-              <span className="text-sm font-semibold text-[#ECFDF5]">Stripe</span>
-            </label>
-            <label className="flex items-center gap-2 cursor-pointer bg-[#0A1412] border border-[#122823] px-4 py-2.5 rounded-xl hover:border-[#225146] transition-all">
-              <input
-                type="radio"
-                name="paymentMethod"
-                value="polar"
-                checked={paymentMethod === 'polar'}
-                onChange={() => setPaymentMethod('polar')}
-                className="accent-[#C5B49F]"
-              />
-              <span className="text-sm font-semibold text-[#ECFDF5]">Polar.sh</span>
-            </label>
-          </div>
-        </div>
 
         <button
           onClick={handleCheckout}
