@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${post.title} — GenByGhost Blog`,
     description: post.excerpt,
+    keywords: post.keywords?.join(', '),
     openGraph: {
       title: post.title,
       description: post.excerpt,
