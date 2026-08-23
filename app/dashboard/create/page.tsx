@@ -229,7 +229,7 @@ export default function CreateVideoPage() {
                     : 'border-[#EADFC9] bg-white hover:border-[#C5B49F]'
                 }`}
               >
-                <div className="w-8 h-8 rounded-full bg-[#124D3E] flex items-center justify-center text-xs font-bold text-white mb-2">
+                <div className="w-8 h-8 rounded-full bg-[#A88E75] flex items-center justify-center text-xs font-bold text-white mb-2">
                   {v.name[0]}
                 </div>
                 <div className={`text-sm font-medium ${active ? 'text-[#2C2621]' : 'text-[#6E6259]'}`}>{v.name}</div>
@@ -277,7 +277,7 @@ export default function CreateVideoPage() {
               <div className="text-xs text-[#82796D]">Generate a print-ready e-book from your script (+20–60 credits)</div>
             </div>
           </div>
-          <div className={`w-10 h-5 rounded-full transition-all flex-shrink-0 ${includeEbook ? 'bg-[#124D3E]' : 'bg-[#EADFC9]'}`}>
+          <div className={`w-10 h-5 rounded-full transition-all flex-shrink-0 ${includeEbook ? 'bg-[#A88E75]' : 'bg-[#EADFC9]'}`}>
             <div className={`w-4 h-4 rounded-full bg-white transition-all mt-0.5 ${includeEbook ? 'translate-x-5' : 'translate-x-0.5'}`} />
           </div>
         </div>
@@ -297,13 +297,13 @@ export default function CreateVideoPage() {
           </div>
           <div className="text-right">
             <div className="text-sm text-[#82796D]">Your balance</div>
-            <div className="text-lg font-bold text-[#124D3E]">{credits} credits</div>
+            <div className="text-lg font-bold text-[#8C6D4F]">{credits} credits</div>
           </div>
         </div>
         <button
           onClick={handleGenerate}
           disabled={!topic.trim() || isGenerating}
-          className="w-full bg-[#124D3E] text-white hover:bg-[#0e3c31] py-4 rounded-full text-base font-bold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-xs cursor-pointer"
+          className="w-full bg-[#A88E75] text-white hover:bg-[#8C7761] py-4 rounded-full text-base font-bold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-xs cursor-pointer"
         >
           {isGenerating ? (
             <>

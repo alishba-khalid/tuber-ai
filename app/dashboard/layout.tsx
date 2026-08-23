@@ -95,7 +95,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               href="/dashboard"
               className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl transition-all ${
                 pathname === '/dashboard'
-                  ? 'bg-[#E4ECE7] text-[#124D3E] font-semibold'
+                  ? 'bg-[#EADFC9] text-[#8C6D4F] font-semibold'
                   : 'text-[#6E6259] hover:text-[#2C2621] hover:bg-[#EADFC9]/20'
               }`}
             >
@@ -107,13 +107,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               href="/dashboard/create"
               className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl transition-all ${
                 pathname === '/dashboard/create'
-                  ? 'bg-[#E4ECE7] text-[#124D3E] font-semibold'
+                  ? 'bg-[#EADFC9] text-[#8C6D4F] font-semibold'
                   : 'text-[#6E6259] hover:text-[#2C2621] hover:bg-[#EADFC9]/20'
               }`}
             >
               <Sparkles className="w-4 h-4 text-[#A88E75]" />
               <span>Autopilot</span>
-              <span className="ml-auto text-[9px] font-mono-label font-bold text-[#124D3E] bg-[#D4E5DC] px-1.5 py-0.5 rounded-sm uppercase">1-CLICK</span>
+              <span className="ml-auto text-[9px] font-mono-label font-bold text-[#8C6D4F] bg-[#EADFC9] px-1.5 py-0.5 rounded-sm uppercase">1-CLICK</span>
             </Link>
           </div>
 
@@ -177,7 +177,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             href="/dashboard/credits"
             className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl transition-all ${
               pathname === '/dashboard/credits'
-                ? 'bg-[#E4ECE7] text-[#124D3E] font-semibold'
+                ? 'bg-[#EADFC9] text-[#8C6D4F] font-semibold'
                 : 'text-[#6E6259] hover:text-[#2C2621] hover:bg-[#EADFC9]/20'
             }`}
           >
@@ -197,7 +197,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             href="/dashboard/settings"
             className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl transition-all ${
               pathname === '/dashboard/settings'
-                ? 'bg-[#E4ECE7] text-[#124D3E] font-semibold'
+                ? 'bg-[#EADFC9] text-[#8C6D4F] font-semibold'
                 : 'text-[#6E6259] hover:text-[#2C2621] hover:bg-[#EADFC9]/20'
             }`}
           >
@@ -236,7 +236,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {/* Bell button with notification count */}
             <button className="relative p-2 text-[#6E6259] hover:text-[#2C2621] transition-all cursor-pointer rounded-lg hover:bg-[#EADFC9]/15">
               <Bell className="w-4 h-4" />
-              <span className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-[#124D3E] text-white text-[9px] font-bold flex items-center justify-center border border-[#FAF7F2]">
+              <span className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-[#A88E75] text-white text-[9px] font-bold flex items-center justify-center border border-[#FAF7F2]">
                 3
               </span>
             </button>
@@ -244,14 +244,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {/* Credits Capsule */}
             <Link
               href="/dashboard/credits"
-              className="bg-white/60 backdrop-blur-md border border-[#D4E5DC] text-[#124D3E] text-xs font-bold pl-1 pr-3.5 py-1 rounded-full flex items-center gap-2 hover:bg-white/80 hover:border-[#124D3E]/30 shadow-2xs transition-all"
+              className="bg-white/60 backdrop-blur-md border border-[#EADFC9] text-[#8C6D4F] text-xs font-bold pl-1 pr-3.5 py-1 rounded-full flex items-center gap-2 hover:bg-white/80 hover:border-[#A88E75]/30 shadow-2xs transition-all"
             >
-              <span className="w-6 h-6 rounded-full bg-[#124D3E] flex items-center justify-center flex-shrink-0">
+              <span className="w-6 h-6 rounded-full bg-[#A88E75] flex items-center justify-center flex-shrink-0">
                 <Zap className="w-3 h-3 text-white fill-current" />
               </span>
               <span className="tabular-nums">{credits.toLocaleString()}</span>
-              <span className="text-[9px] font-mono-label uppercase text-[#124D3E]/70 tracking-wider">credits</span>
-              <span className="bg-[#124D3E] text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-extrabold flex-shrink-0">+</span>
+              <span className="text-[9px] font-mono-label uppercase text-[#8C6D4F]/70 tracking-wider">credits</span>
+              <span className="bg-[#A88E75] text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-extrabold flex-shrink-0">+</span>
             </Link>
 
             {/* User Avatar */}

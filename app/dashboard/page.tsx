@@ -101,29 +101,29 @@ export default function DashboardPage() {
       </div>
 
       {/* Autopilot Hero Banner Card */}
-      <div className="bg-[#EAF3EE]/80 backdrop-blur-md border border-[#D4E5DC] rounded-3xl p-6 relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-2xs">
+      <div className="bg-[#EADFC9]/50 backdrop-blur-md border border-[#EADFC9] rounded-3xl p-6 relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-2xs">
         <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-[#124D3E] flex items-center justify-center text-white flex-shrink-0 shadow-xs">
+          <div className="w-12 h-12 rounded-2xl bg-[#A88E75] flex items-center justify-center text-white flex-shrink-0 shadow-xs">
             <Zap className="w-6 h-6 fill-current text-white" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-[#124D3E] font-serif-heading">
+            <h3 className="text-lg font-bold text-[#2C2621] font-serif-heading">
               Make a whole video with Autopilot
             </h3>
-            <p className="text-[#1E463C] text-sm mt-0.5 max-w-lg leading-relaxed">
+            <p className="text-[#6E6259] text-sm mt-0.5 max-w-lg leading-relaxed">
               One topic → script, voice, images, render, and publish — hands-free.
             </p>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-4 flex-shrink-0">
-          <span className="text-[10px] font-mono-label font-bold text-[#124D3E] bg-[#D4E5DC] px-2.5 py-1 rounded border border-[#124D3E]/10 uppercase tracking-wider">
+          <span className="text-[10px] font-mono-label font-bold text-[#8C6D4F] bg-[#EADFC9] px-2.5 py-1 rounded border border-[#8C6D4F]/20 uppercase tracking-wider">
             1-CLICK
           </span>
           <Link
             href="/dashboard/create"
             onClick={(e) => handleGatedNav(e, 'use Autopilot')}
-            className="bg-[#124D3E] text-white hover:bg-[#0e3c31] text-sm px-6 py-2.5 rounded-full font-bold transition-all flex items-center gap-2 shadow-xs cursor-pointer"
+            className="bg-[#A88E75] text-white hover:bg-[#8C7761] text-sm px-6 py-2.5 rounded-full font-bold transition-all flex items-center gap-2 shadow-xs cursor-pointer"
           >
             <span>Start</span>
             <ArrowRight className="w-4 h-4" />
@@ -167,7 +167,7 @@ export default function DashboardPage() {
         <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
           {/* Connecting step line (desktop) */}
-          <div className="hidden lg:block absolute top-9 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-[#D4E5DC] via-[#EADFC9] to-[#D4E5DC]" />
+          <div className="hidden lg:block absolute top-9 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-[#EADFC9] via-[#C5B49F] to-[#EADFC9]" />
 
           {pipelineSteps.map((s, i) => {
             const Icon = s.icon;
@@ -182,19 +182,19 @@ export default function DashboardPage() {
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="w-8 h-8 rounded-lg bg-[#EAF3EE] flex items-center justify-center text-[#124D3E] flex-shrink-0">
+                    <div className="w-8 h-8 rounded-lg bg-[#EADFC9]/60 flex items-center justify-center text-[#8C6D4F] flex-shrink-0">
                       <Icon className="w-4 h-4" />
                     </div>
                     <h3 className="font-bold text-sm text-[#2C2621]">{s.label}</h3>
                   </div>
-                  <span className="text-[8px] font-mono-label font-bold text-[#124D3E] bg-[#D4E5DC] px-1.5 py-0.5 rounded uppercase">
+                  <span className="text-[8px] font-mono-label font-bold text-[#8C6D4F] bg-[#EADFC9] px-1.5 py-0.5 rounded uppercase">
                     {s.status}
                   </span>
                   <p className="text-xs text-[#6E6259] leading-relaxed mt-3">
                     {s.desc}
                   </p>
                 </div>
-                <div className="text-xs font-bold text-[#124D3E] group-hover:underline inline-flex items-center gap-1.5 mt-4">
+                <div className="text-xs font-bold text-[#8C6D4F] group-hover:underline inline-flex items-center gap-1.5 mt-4">
                   <span>Open</span>
                   <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
                 </div>
@@ -268,7 +268,7 @@ export default function DashboardPage() {
                           </div>
                           <div className="w-full bg-[#FAF6F0] h-1 rounded-full overflow-hidden border border-[#EADFC9]/50">
                             <div 
-                              className="bg-[#124D3E] h-full rounded-full transition-all duration-300" 
+                              className="bg-[#A88E75] h-full rounded-full transition-all duration-300" 
                               style={{ width: `${progressVal}%` }} 
                             />
                           </div>
