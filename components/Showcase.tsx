@@ -45,10 +45,10 @@ export default function Showcase() {
             <span>EXAMPLE FORMATS</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold font-serif-heading text-[#ECFDF5] mb-4">
-            What Can GenByGhost Create?
+            The kinds of videos GenByGhost produces
           </h2>
           <p className="text-sm sm:text-base text-[#8FAAA6] leading-relaxed">
-            A look at the long-form formats GenByGhost is built to produce, from multi-hour documentaries to short explainers.
+            Example formats built for long-form, faceless channels — history, documentary, education, and storytelling.
           </p>
           <Link href="/examples" className="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-[#C5B49F] hover:text-[#ECFDF5] transition-colors">
             Browse the full example gallery <ArrowRight className="w-3.5 h-3.5" />
@@ -98,11 +98,6 @@ export default function Showcase() {
                 <h3 className="text-lg sm:text-xl font-bold font-serif-heading text-[#ECFDF5] group-hover:text-[#C5B49F] transition-colors leading-tight">
                   {vid.title}
                 </h3>
-                <div className="flex items-center gap-2 text-xs text-[#8FAAA6]">
-                  <span>Format example</span>
-                  <span>·</span>
-                  <span>4K render supported</span>
-                </div>
               </div>
 
             </div>
