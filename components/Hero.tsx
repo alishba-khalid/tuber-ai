@@ -207,7 +207,7 @@ export default function Hero() {
 
             {/* Subheadline */}
             <p className="text-sm sm:text-base md:text-lg text-[#8FAAA6] max-w-2xl font-normal leading-relaxed">
-              Give GenByGhost a topic and it researches the subject, writes a chaptered narration-ready script, generates cinematic AI voice narration, and renders scene-matched visuals — producing a complete AI documentary or faceless YouTube video, ready to publish on your schedule.
+              With GenByGhost, you can turn a simple idea into a complete YouTube video without doing all the work yourself. Just enter the topic you want to make a video about, and GenByGhost takes care of the rest — from developing the story and writing the script to generating the narration, creating visuals for each part, and putting everything together into a polished long-form video. Whether you want to create a 10-minute video, a full documentary, or hours of content, GenByGhost handles the entire production process for you. Once your video is ready, you can publish it directly to YouTube and keep creating more videos without having to manually edit every single one.
             </p>
 
             {/* Action Buttons */}
