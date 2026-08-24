@@ -192,8 +192,8 @@ export default function Hero() {
             {/* Headline */}
             <div className="space-y-4">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display-title text-slate-100 leading-[1.15] tracking-tight">
-                Generate long-form video content <br className="hidden sm:inline" />
-                <span className="text-[#C5B49F] block mt-1.5 tracking-normal">for your YouTube channels.</span>
+                Generate long documentaries <br className="hidden sm:inline" />
+                <span className="text-[#C5B49F] block mt-1.5 tracking-normal">and long-form videos for YouTube.</span>
               </h1>
             </div>
 
