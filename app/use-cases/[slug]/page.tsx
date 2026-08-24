@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, Play, CheckCircle, Clock, Zap, Video, Volume2, Calendar } from 'lucide-react';
+import { ArrowRight, Zap, Volume2, Lightbulb } from 'lucide-react';
+import { getUseCase } from '@/lib/use-cases';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Format slug to a human readable title
-// e.g. "faceless-history-video-generator" -> "Faceless History Video Generator"
+// Fallback for any slug not in lib/use-cases.ts
 function formatSlugTitle(slug: string) {
   return slug
     .split('-')
@@ -30,10 +30,12 @@ function getNicheName(formattedTitle: string) {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const formattedTitle = formatSlugTitle(slug);
-  const nicheName = getNicheName(formattedTitle);
-  const title = `${formattedTitle} — GenByGhost`;
-  const description = `Create professional-grade, high-retention videos for the ${nicheName} niche in seconds using GenByGhost's AI video generation pipeline.`;
+  const useCase = getUseCase(slug);
+
+  const title = useCase ? `${useCase.title} — GenByGhost` : `${formatSlugTitle(slug)} — GenByGhost`;
+  const description = useCase
+    ? useCase.intro
+    : `Create professional-grade, high-retention videos for the ${getNicheName(formatSlugTitle(slug))} niche in seconds using GenByGhost's AI video generation pipeline.`;
 
   return {
     title,
@@ -45,8 +47,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function UseCasePage({ params }: PageProps) {
   const { slug } = await params;
-  const formattedTitle = formatSlugTitle(slug);
-  const nicheName = getNicheName(formattedTitle);
+  const useCase = getUseCase(slug);
+
+  const formattedTitle = useCase?.title ?? formatSlugTitle(slug);
+  const nicheName = useCase?.nicheName ?? getNicheName(formattedTitle);
+  const intro = useCase?.intro ?? `Create professional-grade, high-retention videos for the ${nicheName} niche in seconds using advanced artificial intelligence.`;
+  const valueProps = useCase?.valueProps ?? [
+    { title: 'Automated Scripting', body: `GenByGhost writes context-rich, engaging scripts optimized specifically for YouTube retention rates in the ${nicheName} niche.` },
+    { title: 'AI Narration', body: `Pair your ${nicheName} videos with natural-sounding AI voice narration built for long-form storytelling.` },
+    { title: 'Autopilot Scheduling', body: 'Generate a batch of videos and sync them directly to upload to your channel on a recurring automated calendar schedule.' },
+  ];
 
   return (
     <div className="min-h-screen bg-[#050B0A] text-slate-100 py-16 px-4 sm:px-6 lg:px-8">
@@ -59,51 +69,64 @@ export default async function UseCasePage({ params }: PageProps) {
         </div>
 
         {/* Hero Section */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#225146]/20 border border-[#225146]/50 text-[#C5B49F] mb-4">
-            <Video className="w-3.5 h-3.5" /> Automated Video Solutions
+            <Zap className="w-3.5 h-3.5" /> Automated Video Solutions
           </span>
           <h1 className="text-4xl sm:text-5xl font-bold font-serif-heading text-[#ECFDF5] tracking-tight leading-tight max-w-3xl mx-auto">
             {formattedTitle}
           </h1>
-          <p className="mt-4 text-lg text-[#8FAAA6] max-w-2xl mx-auto">
-            Create professional-grade, high-retention videos for the <span className="text-[#C5B49F] font-semibold">{nicheName}</span> niche in seconds using advanced artificial intelligence.
+          <p className="mt-4 text-lg text-[#8FAAA6] max-w-2xl mx-auto leading-relaxed">
+            {intro}
           </p>
         </div>
 
-        {/* Dynamic Video Value Props Grid */}
+        {/* Why it works */}
+        {useCase && (
+          <div className="bg-[#0A1412] border border-[#122823] rounded-2xl p-6 mb-12">
+            <div className="flex items-start gap-3">
+              <Lightbulb className="w-5 h-5 text-[#C5B49F] flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-[#8FAAA6] leading-relaxed">
+                <span className="text-[#ECFDF5] font-semibold">Why this niche works: </span>
+                {useCase.whyItWorks}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Value Props Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-          <div className="bg-[#0A1412] border border-[#122823] rounded-2xl p-6">
-            <Zap className="w-8 h-8 text-[#C5B49F] mb-4" />
-            <h3 className="text-base font-bold text-[#ECFDF5] mb-2">Automated Scripting</h3>
-            <p className="text-sm text-[#8FAAA6] leading-relaxed">
-              GenByGhost writes context-rich, engaging scripts optimized specifically for YouTube retention rates in the {nicheName} niche.
-            </p>
-          </div>
-
-          <div className="bg-[#0A1412] border border-[#122823] rounded-2xl p-6">
-            <Volume2 className="w-8 h-8 text-[#C5B49F] mb-4" />
-            <h3 className="text-base font-bold text-[#ECFDF5] mb-2">ElevenLabs Voiceover</h3>
-            <p className="text-sm text-[#8FAAA6] leading-relaxed">
-              Pair your {nicheName} videos with ultra-realistic AI voice actors that clone emotional cadence and human pacing.
-            </p>
-          </div>
-
-          <div className="bg-[#0A1412] border border-[#122823] rounded-2xl p-6">
-            <Calendar className="w-8 h-8 text-[#C5B49F] mb-4" />
-            <h3 className="text-base font-bold text-[#ECFDF5] mb-2">Autopilot Scheduling</h3>
-            <p className="text-sm text-[#8FAAA6] leading-relaxed">
-              Generate a batch of videos and sync them directly to upload to your channel on a recurring automated calendar schedule.
-            </p>
-          </div>
+          {valueProps.map((vp) => (
+            <div key={vp.title} className="bg-[#0A1412] border border-[#122823] rounded-2xl p-6">
+              <Volume2 className="w-8 h-8 text-[#C5B49F] mb-4" />
+              <h3 className="text-base font-bold text-[#ECFDF5] mb-2">{vp.title}</h3>
+              <p className="text-sm text-[#8FAAA6] leading-relaxed">{vp.body}</p>
+            </div>
+          ))}
         </div>
+
+        {/* Example topics */}
+        {useCase && (
+          <div className="mb-16">
+            <h2 className="text-xl font-bold font-serif-heading text-[#ECFDF5] mb-4">
+              {nicheName} video ideas to get started
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {useCase.exampleTopics.map((topic) => (
+                <div key={topic} className="bg-[#0A1412] border border-[#122823] rounded-xl p-4 text-sm text-[#8FAAA6]">
+                  {topic}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Step-by-Step Production Guide */}
         <div className="bg-[#0A1412] border border-[#122823] rounded-3xl p-8 sm:p-10 mb-16">
           <h2 className="text-2xl font-bold font-serif-heading text-[#ECFDF5] mb-8 text-center">
             How to Make {nicheName} Videos in 4 Simple Steps
           </h2>
-          
+
           <div className="space-y-8">
             <div className="flex gap-4">
               <div className="flex-none w-8 h-8 rounded-full bg-[#225146]/30 border border-[#225146] text-[#C5B49F] flex items-center justify-center font-bold font-mono-label text-sm">
@@ -112,7 +135,7 @@ export default async function UseCasePage({ params }: PageProps) {
               <div>
                 <h3 className="text-base font-bold text-[#ECFDF5] mb-1">Enter Your Video Concept</h3>
                 <p className="text-sm text-[#8FAAA6] leading-relaxed">
-                  Provide a simple text prompt describing the video topic you want to make (e.g., <i>&ldquo;The fall of Constantinople from the perspective of a soldier&rdquo;</i>).
+                  Provide a simple text prompt describing the video topic you want to make{useCase ? ', for example:' : ' (e.g.,'} <i>&ldquo;{useCase?.examplePrompt.replace(/^"|"$/g, '') ?? 'The fall of Constantinople from the perspective of a soldier'}&rdquo;</i>{useCase ? '' : ')'}.
                 </p>
               </div>
             </div>
@@ -124,7 +147,7 @@ export default async function UseCasePage({ params }: PageProps) {
               <div>
                 <h3 className="text-base font-bold text-[#ECFDF5] mb-1">Generate Script & Narration</h3>
                 <p className="text-sm text-[#8FAAA6] leading-relaxed">
-                  GenByGhost generates a formatted chapter script and creates voiceover narration using ultra-realistic text-to-speech models.
+                  GenByGhost generates a formatted chapter script and creates voiceover narration using natural-sounding AI voice models.
                 </p>
               </div>
             </div>
@@ -162,11 +185,11 @@ export default async function UseCasePage({ params }: PageProps) {
               Start building your channel today
             </h2>
             <p className="text-[#8FAAA6] text-sm max-w-lg mx-auto mb-8 leading-relaxed">
-              Create an account on GenByGhost today and get 300 setup credits free. Scale your YouTube automation business on autopilot.
+              Create an account on GenByGhost and buy credits to start generating {nicheName.toLowerCase()} videos in minutes.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link href="/auth/signup" className="btn-indigo-pill px-8 py-3 text-sm flex items-center gap-2 w-full sm:w-auto justify-center font-bold">
-                Create Free Video <ArrowRight className="w-4 h-4" />
+                Get Started <ArrowRight className="w-4 h-4" />
               </Link>
               <Link href="/pricing" className="text-sm font-semibold text-[#C5B49F] hover:text-[#ECFDF5] transition-colors px-6 py-2.5">
                 View Pricing Plans
