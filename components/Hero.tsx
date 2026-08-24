@@ -192,8 +192,8 @@ export default function Hero() {
             {/* Headline */}
             <div className="space-y-4">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display-title text-slate-100 leading-[1.15] tracking-tight">
-                Generate long documentaries <br className="hidden sm:inline" />
-                <span className="text-[#C5B49F] block mt-1.5 tracking-normal">and long-form videos for YouTube.</span>
+                Build Faceless YouTube Videos <br className="hidden sm:inline" />
+                <span className="text-[#C5B49F] block mt-1.5 tracking-normal">Without Doing the Production</span>
               </h1>
             </div>
 
@@ -207,7 +207,7 @@ export default function Hero() {
 
             {/* Subheadline */}
             <p className="text-sm sm:text-base md:text-lg text-[#8FAAA6] max-w-2xl font-normal leading-relaxed">
-              With GenByGhost, you can turn a simple idea into a complete YouTube video without doing all the work yourself. Just enter the topic you want to make a video about, and GenByGhost takes care of the rest — from developing the story and writing the script to generating the narration, creating visuals for each part, and putting everything together into a polished long-form video. Whether you want to create a 10-minute video, a full documentary, or hours of content, GenByGhost handles the entire production process for you. Once your video is ready, you can publish it directly to YouTube and keep creating more videos without having to manually edit every single one.
+              With GenByGhost, you can turn a simple idea into a complete YouTube video without doing all the work yourself. Enter the topic you want to create, and GenByGhost takes care of the entire production — from developing the story and writing the script to generating natural narration, creating visuals for every part, and bringing everything together into a polished long-form video. Whether you're creating a 10-minute video, a full documentary, or hours of content, GenByGhost handles the production for you. When your video is ready, you can publish it directly to YouTube and keep creating without spending hours scripting, recording, sourcing visuals, and editing every video yourself.
             </p>
 
             {/* Action Buttons */}

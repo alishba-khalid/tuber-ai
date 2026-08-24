@@ -70,7 +70,7 @@ export default function OpengraphImage() {
             marginTop: 20,
           }}
         >
-          AI Documentary & Faceless Channel Generator
+          AI Long-Form YouTube Video Generator
         </div>
       </div>
     ),
