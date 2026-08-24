@@ -12,9 +12,39 @@ import FAQ from '@/components/FAQ';
 import CTABanner from '@/components/CTABanner';
 import Footer from '@/components/Footer';
 
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'GenByGhost',
+  url: 'https://www.genbyghost.com',
+  logo: 'https://www.genbyghost.com/icon',
+};
+
+const softwareApplicationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'GenByGhost',
+  applicationCategory: 'MultimediaApplication',
+  operatingSystem: 'Web',
+  description: 'AI documentary and faceless YouTube channel generator that scripts, narrates, renders, and publishes long-form videos up to 10 hours.',
+  offers: {
+    '@type': 'Offer',
+    price: '20',
+    priceCurrency: 'USD',
+  },
+};
+
 export default function Home() {
   return (
     <main className="min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationJsonLd) }}
+      />
       <Navbar />
       <Hero />
       <Showcase />

@@ -76,7 +76,7 @@ export default function Pricing() {
           </p>
 
           <div className="bg-[#0A1412] border border-[#122823] p-4 rounded-xl text-xs sm:text-sm text-[#8FAAA6] inline-block shadow-2xs">
-            <span className="font-semibold text-[#C5B49F]">The old way:</span> $300–$1,000 per video with a freelance team. Gen by Ghost does the whole thing for a few dollars — while you sleep.
+            <span className="font-semibold text-[#C5B49F]">The old way:</span> $300–$1,000 per video with a freelance team. GenByGhost does the whole thing for a few dollars — while you sleep.
           </div>
         </div>
 

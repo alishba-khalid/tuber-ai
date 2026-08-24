@@ -3,6 +3,7 @@ export interface UseCase {
   title: string;
   nicheName: string;
   intro: string;
+  metaDescription: string;
   whyItWorks: string;
   examplePrompt: string;
   exampleTopics: string[];
@@ -15,6 +16,7 @@ export const useCases: UseCase[] = [
     title: 'Faceless History Video Generator',
     nicheName: 'History',
     intro: 'History is one of the most durable faceless YouTube niches — an effectively infinite supply of source material, an audience that skews older and more valuable to advertisers, and stories that naturally sustain hour-long runtimes without losing viewers.',
+    metaDescription: 'Turn any historical topic into a scripted, narrated documentary video with GenByGhost — built for faceless history channels.',
     whyItWorks: 'Unlike trend-driven niches, history content doesn\'t expire. A well-made video about the fall of Rome performs the same in year three as it does in week one, which means every video you generate keeps compounding views instead of fading out.',
     examplePrompt: '"The fall of Constantinople, told from the perspective of a soldier defending the walls — focus on the final 24 hours before the city fell."',
     exampleTopics: [
@@ -34,6 +36,7 @@ export const useCases: UseCase[] = [
     title: 'Automated Book Summary Videos',
     nicheName: 'Book Summaries',
     intro: 'Book summary channels have a built-in, never-ending content calendar — every bestseller list, business book, or self-help release is a new video idea, and the audience is actively searching for exactly this kind of content.',
+    metaDescription: 'Turn any book into a scripted, narrated summary video with GenByGhost — built for faceless book-summary YouTube channels.',
     whyItWorks: 'Viewers come to book summary videos to learn, which means they tend to watch longer, engage more in comments, and convert well into newsletter subscribers or product buyers if you build a funnel around the channel.',
     examplePrompt: '"A complete breakdown of Atomic Habits by James Clear — the four laws of behavior change, with practical examples for each."',
     exampleTopics: [
@@ -53,6 +56,7 @@ export const useCases: UseCase[] = [
     title: 'Best AI Tool for Long-Form YouTube Videos',
     nicheName: 'Long-Form YouTube',
     intro: 'Most "AI video generator" tools are built for 30-second clips and social ads. Long-form YouTube — the 10-minute to 10-hour range that actually drives watch time and ad revenue — needs a fundamentally different pipeline, one that can sustain pacing, structure, and visual variety across a much longer runtime.',
+    metaDescription: 'GenByGhost is built for true long-form YouTube video, from 10 minutes to 10 hours — not 30-second AI clips.',
     whyItWorks: 'YouTube\'s recommendation system rewards total watch time and session duration. A single well-paced long-form video contributes more to both than a dozen short clips, which is why long-form-first tools have a structural advantage on the platform.',
     examplePrompt: '"A 2-hour documentary covering the complete history of the Roman Empire, from founding to collapse, structured in clear chapters."',
     exampleTopics: [
@@ -72,6 +76,7 @@ export const useCases: UseCase[] = [
     title: 'How to Create a Faceless History Channel',
     nicheName: 'Faceless History Channel',
     intro: 'Starting a faceless history channel means solving three problems at once: consistent research and scriptwriting, narration that holds attention for an hour or more, and a publishing cadence you can actually sustain — without ever appearing on camera.',
+    metaDescription: 'A step-by-step guide to launching a faceless history YouTube channel using GenByGhost\'s research, script, and narration pipeline.',
     whyItWorks: 'History channels succeed on consistency more than virality. A channel that reliably publishes one solid documentary a week builds algorithmic trust faster than one that posts sporadically, even if individual videos perform well.',
     examplePrompt: '"Launch a channel focused on ancient civilizations — first video: the construction and mystery of the Great Pyramid of Giza."',
     exampleTopics: [
@@ -91,6 +96,7 @@ export const useCases: UseCase[] = [
     title: 'Generate Automated Documentaries with AI',
     nicheName: 'Documentaries',
     intro: 'Documentary-style storytelling works across far more niches than just history — true crime, science, nature, business, and biography all follow the same narrative structure: a clear arc, escalating stakes, and a satisfying resolution.',
+    metaDescription: 'Generate automated, narrated documentaries on any topic with GenByGhost — research, script, visuals, and publishing included.',
     whyItWorks: 'The documentary format is built for retention by design — a mystery or arc that unfolds over the runtime naturally keeps viewers watching to see how it resolves, which is exactly what YouTube\'s algorithm rewards.',
     examplePrompt: '"A documentary-style investigation into the collapse of a major company, structured as a mystery with a clear timeline of events."',
     exampleTopics: [
@@ -110,6 +116,7 @@ export const useCases: UseCase[] = [
     title: 'Automated Faceless Channel Ideas',
     nicheName: 'Faceless Channel Ideas',
     intro: 'The best faceless channel ideas share three traits: a topic with effectively unlimited source material, a format that supports long watch times, and a niche narrow enough to build a recognizable audience without running dry on content within a few months.',
+    metaDescription: 'Explore faceless YouTube channel ideas and let GenByGhost script, narrate, and produce the videos for you.',
     whyItWorks: 'Channels that pick niches requiring constant "fresh" input (trending news, viral events) burn out fast. Evergreen niches — history, true crime, book summaries, sleep content, finance — can be batch-produced indefinitely.',
     examplePrompt: '"Give me a full year of video topic ideas for a faceless true crime channel, ranked by likely audience interest."',
     exampleTopics: [
@@ -129,6 +136,7 @@ export const useCases: UseCase[] = [
     title: 'Scary Stories Video Generator',
     nicheName: 'Scary Stories',
     intro: 'Horror and scary-story content is one of the highest-retention formats on YouTube — the tension of "what happens next" keeps viewers locked in for the full runtime, and the format works at both 20 minutes and 3 hours.',
+    metaDescription: 'Generate narrated scary story videos with GenByGhost — tension-paced scripts and atmospheric AI narration for horror channels.',
     whyItWorks: 'Scary stories rely on pacing and voice performance more than visuals, which makes them especially well-suited to AI narration — a steady, controlled delivery often builds tension more effectively than an inconsistent human read.',
     examplePrompt: '"A collection of true unsolved disappearances in national parks, narrated in a slow-building, unsettling tone."',
     exampleTopics: [
@@ -148,6 +156,7 @@ export const useCases: UseCase[] = [
     title: 'Luxury Lifestyle Shorts Generator',
     nicheName: 'Luxury Lifestyle Shorts',
     intro: 'Luxury lifestyle content — cars, real estate, travel, high-end fashion — performs exceptionally well in short vertical formats, where fast visual payoff matters more than narrative depth, and it attracts some of the highest-value advertisers on the platform.',
+    metaDescription: 'Generate short-form luxury lifestyle videos with GenByGhost — vertical, high-energy content ready to publish.',
     whyItWorks: 'Short-form luxury content spreads through the algorithm on sheer visual appeal and aspirational value, making it one of the fastest formats to build initial reach with, even from a brand-new channel.',
     examplePrompt: '"A 45-second vertical video showcasing the world\'s most exclusive supercars, with punchy facts and a driving beat."',
     exampleTopics: [
@@ -167,6 +176,7 @@ export const useCases: UseCase[] = [
     title: 'Automated News Video Creator',
     nicheName: 'News Recap',
     intro: 'News recap and commentary channels turn public-domain events and published reporting into narrated video summaries — useful for explainer-style breakdowns of ongoing stories, though accuracy and sourcing matter more here than in any other niche.',
+    metaDescription: 'Generate narrated news recap videos with GenByGhost — clear, explainer-style scripts sourced from public reporting.',
     whyItWorks: 'Viewers turn to recap-style channels for a fast, digestible summary of a topic they\'ve already heard about elsewhere — which rewards clarity and structure over speed of publishing.',
     examplePrompt: '"An explainer-style breakdown of a major economic policy change and its likely effects, sourced from public reporting."',
     exampleTopics: [
@@ -186,6 +196,7 @@ export const useCases: UseCase[] = [
     title: 'YouTube Automation Script Writer',
     nicheName: 'Script Writing',
     intro: 'Scriptwriting is the bottleneck most creators hit first — research, structure, and pacing take longer than any other part of production, which is why an AI scriptwriter alone (even before touching voice or visuals) can be the single highest-leverage automation in a YouTube workflow.',
+    metaDescription: 'Generate a chaptered, narration-ready YouTube script from one prompt with GenByGhost — use it standalone or in the full pipeline.',
     whyItWorks: 'A well-structured script determines retention more than any other factor in the video — good visuals can\'t save a meandering script, but a tightly paced script can carry even simple visuals.',
     examplePrompt: '"Write a chaptered, narration-ready script for a 30-minute explainer on how the stock market actually works, for a beginner audience."',
     exampleTopics: [

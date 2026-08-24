@@ -7,7 +7,8 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Examples — GenByGhost',
-  description: 'Browse AI-generated YouTube videos created with GenByGhost. See real results across documentaries, sleep stories, explainers, and more.',
+  description: 'Browse example video formats built with GenByGhost, across documentaries, sleep stories, explainers, and true crime.',
+  alternates: { canonical: '/examples' },
 };
 
 const examples = [

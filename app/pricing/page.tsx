@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 export const metadata: Metadata = {
   title: 'Pricing — GenByGhost',
   description: 'Simple credit-based pricing. Start from $20/month. All plans include full AI video generation, voice, visuals, and YouTube metadata.',
+  alternates: { canonical: '/pricing' },
 };
 
 export default function PricingPage() {

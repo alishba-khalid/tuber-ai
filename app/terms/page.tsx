@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 export const metadata: Metadata = {
   title: 'Terms of Service — GenByGhost',
   description: 'The terms that govern your use of GenByGhost, our AI-powered YouTube video generation platform.',
+  alternates: { canonical: '/terms' },
 };
 
 const sections = [

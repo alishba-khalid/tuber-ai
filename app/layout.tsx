@@ -3,16 +3,19 @@ import "./globals.css";
 
 import { AuthProvider } from "@/components/AuthProvider";
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://genbyghost.com";
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.genbyghost.com";
+const homeDescription = "Turn one topic into a finished YouTube documentary. GenByGhost scripts, narrates, renders, and publishes long-form videos up to 10 hours. No editing needed.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
-  title: "GenByGhost — AI YouTube Video Generator",
-  description: "Turn any idea into a full-length YouTube video automatically. AI-powered script, voice, visuals, and publishing — all in one platform.",
-  keywords: "AI video generator, YouTube automation, AI content creation, long-form video AI, faceless YouTube channel",
+  title: "GenByGhost — AI Documentary & Faceless Channel Generator",
+  description: homeDescription,
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "GenByGhost — AI YouTube Video Generator",
-    description: "Turn any idea into a full-length YouTube video automatically.",
+    title: "GenByGhost — AI Documentary & Faceless Channel Generator",
+    description: homeDescription,
     type: "website",
     siteName: "GenByGhost",
     url: baseUrl,
@@ -20,8 +23,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "GenByGhost — AI YouTube Video Generator",
-    description: "Turn any idea into a full-length YouTube video automatically.",
+    title: "GenByGhost — AI Documentary & Faceless Channel Generator",
+    description: homeDescription,
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,

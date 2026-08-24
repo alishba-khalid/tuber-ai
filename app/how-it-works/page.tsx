@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 export const metadata: Metadata = {
   title: 'How It Works — GenByGhost',
   description: 'Learn how GenByGhost\'s 5-stage AI pipeline generates full-length YouTube videos from a single prompt.',
+  alternates: { canonical: '/how-it-works' },
 };
 
 export default function HowItWorksPage() {

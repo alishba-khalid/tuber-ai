@@ -68,7 +68,7 @@ export default function AIWorkingVisual() {
             Watch the Production Engine Work
           </h2>
           <p className="text-sm sm:text-base text-[#8FAAA6] leading-relaxed">
-            Gen by Ghost runs an autonomous multi-stage timeline render. See how a single topic is parsed into a fully compiled video.
+            GenByGhost runs an autonomous multi-stage timeline render. See how a single topic is parsed into a fully compiled video.
           </p>
         </div>
 

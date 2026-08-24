@@ -34,12 +34,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const title = useCase ? `${useCase.title} — GenByGhost` : `${formatSlugTitle(slug)} — GenByGhost`;
   const description = useCase
-    ? useCase.intro
-    : `Create professional-grade, high-retention videos for the ${getNicheName(formatSlugTitle(slug))} niche in seconds using GenByGhost's AI video generation pipeline.`;
+    ? useCase.metaDescription
+    : `Create scripted, narrated videos for the ${getNicheName(formatSlugTitle(slug))} niche with GenByGhost's AI video pipeline.`;
 
   return {
     title,
     description,
+    alternates: { canonical: `/use-cases/${slug}` },
     openGraph: { title, description, type: 'website' },
     twitter: { card: 'summary_large_image', title, description },
   };
@@ -58,8 +59,22 @@ export default async function UseCasePage({ params }: PageProps) {
     { title: 'Autopilot Scheduling', body: 'Generate a batch of videos and sync them directly to upload to your channel on a recurring automated calendar schedule.' },
   ];
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.genbyghost.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Use Cases', item: 'https://www.genbyghost.com/use-cases' },
+      { '@type': 'ListItem', position: 3, name: formattedTitle, item: `https://www.genbyghost.com/use-cases/${slug}` },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-[#050B0A] text-slate-100 py-16 px-4 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <div className="max-w-4xl mx-auto">
         {/* Breadcrumb */}
         <div className="mb-8">

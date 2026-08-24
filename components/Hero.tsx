@@ -191,26 +191,23 @@ export default function Hero() {
 
             {/* Headline */}
             <div className="space-y-4">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-display-title text-slate-100 leading-[1.15] tracking-tight">
-                Create long-form <br className="hidden sm:inline" />
-                <span className="text-[#C5B49F] block mt-1.5 tracking-normal">YouTube videos with AI.</span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display-title text-slate-100 leading-[1.15] tracking-tight">
+                Create AI documentaries <br className="hidden sm:inline" />
+                <span className="text-[#C5B49F] block mt-1.5 tracking-normal">for faceless YouTube channels.</span>
               </h1>
             </div>
 
             {/* Core Promise Banner (Human + AI replaced) */}
             <div className="border-t border-b border-[#122823] py-4 my-2">
               <span className="text-xs font-mono-label font-bold text-[#527E72] block tracking-widest uppercase mb-1">THE CORE CO-OPERATION</span>
-              <div className="text-xl sm:text-2xl font-serif-heading text-[#ECFDF5] font-bold">
-                YOU BRING THE IDEA. <span className="text-[#C5B49F]">GENBYGHOST BUILDS THE VIDEO.</span>
+              <div className="text-base sm:text-lg font-serif-heading text-[#ECFDF5] font-semibold">
+                You bring the idea. <span className="text-[#C5B49F]">GenByGhost builds the video.</span>
               </div>
-              <p className="text-xs sm:text-sm text-[#8FAAA6] mt-1 font-sans">
-                Keep your creative direction while GenByGhost handles the production.
-              </p>
             </div>
 
             {/* Subheadline */}
             <p className="text-sm sm:text-base md:text-lg text-[#8FAAA6] max-w-2xl font-normal leading-relaxed">
-              Turn one idea into a complete YouTube video — script, narration, visuals and editing included.
+              Give GenByGhost a topic and it researches the subject, writes a chaptered narration-ready script, generates cinematic AI voice narration, and renders scene-matched visuals — producing a complete AI documentary or faceless YouTube video, ready to publish on your schedule.
             </p>
 
             {/* Action Buttons */}
@@ -221,12 +218,12 @@ export default function Hero() {
               >
                 {user ? "Go to Dashboard" : "Create your first video"}
               </Link>
-              <a
-                href="#showcase"
+              <Link
+                href="/examples"
                 className="btn-outline-pill text-sm px-6 py-4 text-center cursor-pointer"
               >
                 See examples
-              </a>
+              </Link>
             </div>
 
             {/* Sub-hero Chips */}

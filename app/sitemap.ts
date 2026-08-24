@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { blogPosts } from '@/lib/blog-posts';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://genbyghost.com';
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.genbyghost.com';
 
   const competitors = [
     'dreamtuber', 'autoshorts', 'invideo', 'pictory', 'fliki', 

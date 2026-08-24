@@ -63,8 +63,8 @@ const tools = [
 ];
 
 const navLinks = [
-  { label: 'Showcase', href: '#showcase' },
-  { label: 'How it works', href: '#how-it-works' },
+  { label: 'How it works', href: '/how-it-works' },
+  { label: 'Examples', href: '/examples' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'Blog', href: '/blog' },
 ];
@@ -161,13 +161,13 @@ export default function Navbar() {
 
                   {/* Footer row */}
                   <div className="px-4 py-3 bg-transparent border-t border-[#122823]">
-                    <a
-                      href="#product-capabilities"
+                    <Link
+                      href="/how-it-works"
                       onClick={() => setToolsOpen(false)}
                       className="text-xs font-semibold text-[#C5B49F] flex items-center gap-1 hover:gap-2 transition-all"
                     >
                       See capabilities outline <ArrowRight className="w-3.5 h-3.5" />
-                    </a>
+                    </Link>
                   </div>
                 </div>
               )}

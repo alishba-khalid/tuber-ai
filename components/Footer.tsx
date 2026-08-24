@@ -19,7 +19,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-xs text-[#527E72] max-w-sm leading-relaxed">
-              Gen by Ghost is an automated long-form AI video generator that scripts, voices, renders, and packages 10-minute to 10-hour YouTube content from a single prompt.
+              GenByGhost is an automated long-form AI video generator that scripts, voices, renders, and packages 10-minute to 10-hour YouTube content from a single prompt.
             </p>
           </div>
 
@@ -66,7 +66,7 @@ export default function Footer() {
 
         {/* Copyright Bar */}
         <div className="pt-8 border-t border-[#122823] flex flex-col sm:flex-row items-center justify-between text-xs text-[#527E72] gap-4">
-          <p>© {new Date().getFullYear()} Gen by Ghost Inc. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} GenByGhost Inc. All rights reserved.</p>
           <p className="font-mono-label text-[11px] text-[#C5B49F]">THE GHOST CHANNEL AUTOMATOR</p>
         </div>
 

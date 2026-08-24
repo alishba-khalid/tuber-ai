@@ -1,4 +1,13 @@
+import Link from 'next/link';
 import { Check, X } from 'lucide-react';
+
+const versusLinks = [
+  { slug: 'invideo', name: 'InVideo AI' },
+  { slug: 'pictory', name: 'Pictory' },
+  { slug: 'fliki', name: 'Fliki' },
+  { slug: 'dreamtuber', name: 'DreamTuber' },
+  { slug: 'autoshorts', name: 'AutoShorts.ai' },
+];
 
 const comparisons = [
   {
@@ -39,10 +48,10 @@ export default function Comparison() {
             <span>COMPARISON</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold font-serif-heading text-[#ECFDF5] mb-4">
-            Gen by Ghost vs. Long-Form AI Alternatives
+            GenByGhost vs. Long-Form AI Alternatives
           </h2>
           <p className="text-sm sm:text-base text-[#8FAAA6] leading-relaxed">
-            How we compare to other YouTube automation tools. While others stop at under an hour, Gen by Ghost is built for true multi-hour automation.
+            How we compare to other YouTube automation tools. While others stop at under an hour, GenByGhost is built for true multi-hour automation.
           </p>
         </div>
 
@@ -86,6 +95,19 @@ export default function Comparison() {
               </tbody>
             </table>
           </div>
+        </div>
+
+        {/* Detailed comparison links */}
+        <div className="mt-8 text-center text-sm text-[#8FAAA6]">
+          Read the full breakdown:{' '}
+          {versusLinks.map((v, i) => (
+            <span key={v.slug}>
+              <Link href={`/versus/${v.slug}`} className="font-semibold text-[#C5B49F] hover:text-[#ECFDF5] transition-colors">
+                GenByGhost vs {v.name}
+              </Link>
+              {i < versusLinks.length - 1 ? ' · ' : ''}
+            </span>
+          ))}
         </div>
 
       </div>

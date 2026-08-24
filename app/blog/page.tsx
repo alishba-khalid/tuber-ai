@@ -8,6 +8,7 @@ import { blogPosts } from '@/lib/blog-posts';
 export const metadata: Metadata = {
   title: 'Blog — GenByGhost',
   description: 'Tips, tutorials, and insights for AI YouTube content creators.',
+  alternates: { canonical: '/blog' },
 };
 
 export default function BlogPage() {

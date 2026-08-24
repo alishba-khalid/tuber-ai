@@ -24,7 +24,7 @@ export default function CTABanner() {
             </h2>
 
             <p className="text-sm sm:text-lg text-[#8FAAA6] font-light max-w-lg mx-auto leading-relaxed">
-              Give Gen by Ghost the topic. We'll handle the production.
+              Give GenByGhost the topic. We'll handle the production.
             </p>
 
             <div className="pt-4">

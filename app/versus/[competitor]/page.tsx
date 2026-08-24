@@ -171,11 +171,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { competitor } = await params;
   const comp = getCompetitor(competitor);
   const title = `GenByGhost vs ${comp.name} — Which AI Video Tool Wins?`;
-  const description = `Compare GenByGhost and ${comp.name} (${comp.tagline}) on pricing, voice quality, editing, and auto-publishing to find the right AI video tool for your channel.`;
+  const description = `GenByGhost vs ${comp.name}: compare pricing, voice quality, and auto-publishing for long-form YouTube video generation.`;
 
   return {
     title,
     description,
+    alternates: { canonical: `/versus/${competitor.toLowerCase()}` },
     openGraph: { title, description, type: 'website' },
     twitter: { card: 'summary_large_image', title, description },
   };
@@ -186,8 +187,21 @@ export default async function VersusPage({ params }: PageProps) {
   const comp = getCompetitor(competitor);
   const compKey = competitor.toLowerCase();
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.genbyghost.com/' },
+      { '@type': 'ListItem', position: 2, name: `GenByGhost vs ${comp.name}`, item: `https://www.genbyghost.com/versus/${compKey}` },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-[#050B0A] text-slate-100 py-16 px-4 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <div className="max-w-4xl mx-auto">
         {/* Breadcrumb / Top Bar */}
         <div className="mb-8">

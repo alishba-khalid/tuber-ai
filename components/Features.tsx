@@ -12,7 +12,7 @@ const capabilities = [
     icon: Video,
     label: 'LONG-FORM GENERATION',
     title: 'Generate Videos Far Beyond Typical Limits',
-    desc: "While other AI video tools limit you to 2-minute shorts, Gen by Ghost's rendering pipeline compiles seamless documentary-style videos ranging from 10 minutes up to 10 hours in length.",
+    desc: "While other AI video tools limit you to 2-minute shorts, GenByGhost's rendering pipeline compiles seamless documentary-style videos ranging from 10 minutes up to 10 hours in length.",
     mockupType: 'render'
   },
   {
@@ -36,7 +36,7 @@ const capabilities = [
     icon: ImageIcon,
     label: 'SCENE-MATCHED VISUALS',
     title: 'Automatic illustration mapping per scene',
-    desc: 'Gen by Ghost generates high-resolution widescreen illustrations corresponding scene-by-scene to the narration script. Every paragraph is visualised.',
+    desc: 'GenByGhost generates high-resolution widescreen illustrations corresponding scene-by-scene to the narration script. Every paragraph is visualised.',
     mockupType: 'visuals'
   },
   {
@@ -71,10 +71,10 @@ export default function Features() {
             <span>CAPABILITIES</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold font-serif-heading text-[#ECFDF5] mb-4">
-            What Gen by Ghost Handles
+            What GenByGhost Handles
           </h2>
           <p className="text-sm sm:text-base text-[#8FAAA6] leading-relaxed">
-            From research to export, Gen by Ghost replaces the entire production crew. Here is a look at what the engine manages under the hood.
+            From research to export, GenByGhost replaces the entire production crew. Here is a look at what the engine manages under the hood.
           </p>
         </div>
 
@@ -282,7 +282,7 @@ export default function Features() {
               </h3>
 
               <p className="text-[#8FAAA6] leading-relaxed text-sm sm:text-base">
-                Monetize your YouTube channel further by turning every long-form video script into an e-book for Amazon KDP or Gumroad. Gen by Ghost automatically typesets chapter headers, inserts scene art, and exports a print-ready PDF in one click.
+                Monetize your YouTube channel further by turning every long-form video script into an e-book for Amazon KDP or Gumroad. GenByGhost automatically typesets chapter headers, inserts scene art, and exports a print-ready PDF in one click.
               </p>
 
               <div className="space-y-3 pt-2">

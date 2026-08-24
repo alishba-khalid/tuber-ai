@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${post.title} — GenByGhost Blog`,
     description: post.excerpt,
-    keywords: post.keywords?.join(', '),
+    alternates: { canonical: `/blog/${slug}` },
     openGraph: {
       title: post.title,
       description: post.excerpt,
@@ -47,8 +47,46 @@ export default async function BlogPostPage({ params }: PageProps) {
     notFound();
   }
 
+  const months: Record<string, string> = {
+    Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06',
+    Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12',
+  };
+  const dateMatch = post.date.match(/^(\w{3})\s+(\d{1,2}),\s+(\d{4})$/);
+  const isoDate = dateMatch
+    ? `${dateMatch[3]}-${months[dateMatch[1]]}-${dateMatch[2].padStart(2, '0')}`
+    : post.date;
+
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: isoDate,
+    author: { '@type': 'Organization', name: post.author },
+    publisher: { '@type': 'Organization', name: 'GenByGhost' },
+    mainEntityOfPage: `https://www.genbyghost.com/blog/${slug}`,
+  };
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.genbyghost.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.genbyghost.com/blog' },
+      { '@type': 'ListItem', position: 3, name: post.title, item: `https://www.genbyghost.com/blog/${slug}` },
+    ],
+  };
+
   return (
     <main className="min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <Navbar />
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">

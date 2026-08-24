@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 export const metadata: Metadata = {
   title: 'Privacy Policy — GenByGhost',
   description: 'How GenByGhost collects, uses, and protects your data, including our use of cookies and third-party services.',
+  alternates: { canonical: '/privacy' },
 };
 
 const sections = [

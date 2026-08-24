@@ -1,11 +1,12 @@
-import { Cpu, Film, Target, Sparkles } from 'lucide-react';
+import Link from 'next/link';
+import { Cpu, Film, Target, Sparkles, ArrowRight } from 'lucide-react';
 
 export default function About() {
   const pillars = [
     {
       icon: Film,
       title: "Built for True Long-Form Content",
-      desc: "While other AI video tools limit you to 2-minute shorts, Gen by Ghost's rendering pipeline compiles seamless documentary-style videos ranging from 10 minutes up to 10 hours in length.",
+      desc: "While other AI video tools limit you to 2-minute shorts, GenByGhost's rendering pipeline compiles seamless documentary-style videos ranging from 10 minutes up to 10 hours in length.",
     },
     {
       icon: Cpu,
@@ -42,8 +43,11 @@ export default function About() {
               </h2>
               
               <p className="text-[#8FAAA6] leading-relaxed text-sm sm:text-base">
-                Gen by Ghost is the world's first autonomous long-form video engine. We don't just crop clips or generate generic loops. Gen by Ghost researches, outlines, scripts, narrates, edits, and compiles complex multi-hour documentaries and series from a single topic prompt, publishing them straight to your channel while you sleep.
+                GenByGhost turns one topic into a finished long-form YouTube video. Give it an idea — a history deep-dive, a true crime case, a sleep story — and it researches the subject, writes a chaptered script, narrates it in the voice you pick, and generates a visual for every scene. It renders the whole thing into a single video from 10 minutes to 10 hours, then publishes it to your channel with chapters, tags, and a thumbnail. No editing software, no voice actors, no camera.
               </p>
+              <Link href="/how-it-works" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#C5B49F] hover:text-[#ECFDF5] transition-colors">
+                See the full 5-stage pipeline <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
 
             {/* Pillars */}
