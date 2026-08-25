@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Sign In — GenByGhost',
   description: 'Sign in to your GenByGhost account and start generating AI-powered YouTube videos.',
+  robots: { index: false, follow: false },
 };
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {

@@ -23,9 +23,22 @@ const examples = [
   { id: 9, title: 'Ocean Depths: 8 Hours of Calm Waves', format: 'Sleep Story', duration: '8h 00m', views: '1.2M', thumbnail_color: 'from-cyan-900 to-cyan-700', description: 'Deep, calming ocean soundscape with gentle narration for sleep and relaxation.' },
 ];
 
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.genbyghost.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Examples', item: 'https://www.genbyghost.com/examples' },
+  ],
+};
+
 export default function ExamplesPage() {
   return (
     <main className="min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <Navbar />
       <div className="pt-24 pb-16">
         {/* Header */}

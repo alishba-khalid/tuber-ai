@@ -6,53 +6,58 @@ import { useAuth } from '@/components/AuthProvider';
 
 const plans = [
   {
-    name: 'Starter',
+    id: 'starter',
+    name: 'Archive',
     price: 29,
     savings: '',
     credits: 300,
-    videos: '1 full 1-hour video',
-    rates: '60 min video, 120 min voiceover, 1,000 images, 20 scripts',
-    buttonText: 'Get Starter',
+    videos: 'One full-length documentary a month',
+    rates: 'or split the credits across three 20-minute deep dives',
+    buttonText: 'Get Archive',
     popular: false,
   },
   {
-    name: 'Plus',
+    id: 'plus',
+    name: 'Series',
     price: 49,
     savings: 'Save 11%',
     credits: 660,
-    videos: '2 full 1-hour videos',
-    rates: '132 min video, 264 min voiceover, 2,200 images, 44 scripts',
-    buttonText: 'Get Plus',
+    videos: 'Two full-length documentaries a month',
+    rates: 'or split the credits across six 20-minute deep dives',
+    buttonText: 'Get Series',
     popular: false,
   },
   {
-    name: 'Creator',
+    id: 'creator',
+    name: 'Studio',
     price: 89,
     savings: 'Save 21%',
     credits: 1500,
-    videos: '5 full 1-hour videos',
-    rates: '300 min video, 600 min voiceover, 5,000 images, 100 scripts',
-    buttonText: 'Get Creator',
+    videos: 'Five full-length documentaries a month',
+    rates: 'or split the credits across fifteen 20-minute deep dives',
+    buttonText: 'Get Studio',
     popular: true,
   },
   {
-    name: 'Studio',
+    id: 'studio',
+    name: 'Network',
     price: 139,
     savings: 'Save 28%',
     credits: 2700,
-    videos: '9 full 1-hour videos',
-    rates: '540 min video, 1,080 min voiceover, 9,000 images, 180 scripts',
-    buttonText: 'Get Studio',
+    videos: 'Nine full-length documentaries a month',
+    rates: 'or split the credits across twenty-seven 20-minute deep dives',
+    buttonText: 'Get Network',
     popular: false,
   },
   {
-    name: 'Pro',
+    id: 'pro',
+    name: 'Syndicate',
     price: 259,
     savings: 'Save 38%',
     credits: 6000,
-    videos: '20 full 1-hour videos',
-    rates: '1,200 min video, 2,400 min voiceover, 20,000 images, 400 scripts',
-    buttonText: 'Get Pro',
+    videos: 'Twenty full-length documentaries a month',
+    rates: 'or split the credits across sixty 20-minute deep dives',
+    buttonText: 'Get Syndicate',
     popular: false,
   },
 ];
@@ -69,14 +74,14 @@ export default function Pricing() {
             <span>PRICING</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold font-serif-heading text-[#ECFDF5] mb-4">
-            Founding pricing — locked in while we're in beta
+            Credits you spend on the work that matters
           </h2>
           <p className="text-sm sm:text-base text-[#8FAAA6] leading-relaxed mb-6">
-            A full video every month, from $29/mo. One finished 1-hour video — voice and visuals included. Or pour the same $29/mo into 1,000 images, or 120 minutes of voiceover, or 20 full scripts.
+            Every plan is one credit pool. Spend it on a single full-length video, split it across shorter deep dives, or put it all into narration or visuals — your call, month to month.
           </p>
 
           <div className="bg-[#0A1412] border border-[#122823] p-4 rounded-xl text-xs sm:text-sm text-[#8FAAA6] inline-block shadow-2xs">
-            <span className="font-semibold text-[#C5B49F]">The old way:</span> $300–$1,000 per video with a freelance team. GenByGhost does the whole thing for a few dollars — while you sleep.
+            A freelance team charges <span className="font-semibold text-[#C5B49F]">$300–$1,000</span> for one hour-long video. GenByGhost renders the same thing overnight for a fraction of that.
           </div>
         </div>
 
@@ -126,13 +131,13 @@ export default function Pricing() {
                     <span>{plan.videos}</span>
                   </div>
                   <div className="text-[11px] text-[#527E72] leading-relaxed pt-1">
-                    Equivalent: {plan.rates}
+                    {plan.rates}
                   </div>
                 </div>
               </div>
 
               <Link
-                href={user ? `/dashboard/credits?planId=${plan.name.toLowerCase()}` : "/auth/signup"}
+                href={user ? `/dashboard/credits?planId=${plan.id}` : "/auth/signup"}
                 className={`w-full text-center text-xs py-3 rounded-full font-semibold transition-all cursor-pointer ${
                   plan.popular
                     ? 'btn-indigo-pill'

@@ -1,35 +1,35 @@
-import { Film, Radio, Moon, BookOpen, Mic, GraduationCap } from 'lucide-react';
+import { Film, Landmark, Moon, GraduationCap, BookAudio, Ghost } from 'lucide-react';
 
 const niches = [
   {
-    title: 'Documentary channels',
-    desc: 'History, science, and true-crime deep-dives that run for a full hour — or ten.',
+    title: 'Documentary & true crime',
+    desc: 'A researched, chaptered narrative that holds together for sixty minutes or six hours. Structure first, then narration, then the visuals to match.',
     icon: Film,
   },
   {
-    title: 'Faceless YouTube automation',
-    desc: 'Ship narration-led videos on a schedule and bank watch-time, no camera required.',
-    icon: Radio,
+    title: 'History & mythology',
+    desc: 'Empires, forgotten wars, folklore. Dense subjects that need a script which actually keeps the timeline straight across twelve chapters.',
+    icon: Landmark,
   },
   {
     title: 'Sleep & ambient',
-    desc: 'Long, calming narration tuned for the multi-hour sessions this audience loves.',
+    desc: 'Unhurried pacing and steady narration for the eight-hour uploads this audience leaves playing overnight.',
     icon: Moon,
   },
   {
-    title: 'Lore & history channels',
-    desc: 'Rich, chaptered storytelling that keeps viewers watching for hours.',
-    icon: BookOpen,
-  },
-  {
-    title: 'Audiobooks & podcasts',
-    desc: 'Turn a full-length script into consistent narration in your own cloned voice.',
-    icon: Mic,
-  },
-  {
-    title: 'Educators & courses',
-    desc: 'Explainers and lessons with a scene image for every point you make.',
+    title: 'Explainers & education',
+    desc: 'A generated scene for every idea, so a forty-minute lesson never sits on one static slide while the narrator keeps talking.',
     icon: GraduationCap,
+  },
+  {
+    title: 'Audiobook & narration channels',
+    desc: 'Hand it a manuscript or an outline and get narration that sounds like the same reader in chapter one and chapter thirty.',
+    icon: BookAudio,
+  },
+  {
+    title: 'Faceless channel operators',
+    desc: 'No camera, no microphone, no editor, no upload day. Set the topic and the schedule.',
+    icon: Ghost,
   },
 ];
 
@@ -37,17 +37,17 @@ export default function UseCases() {
   return (
     <section className="py-20 bg-transparent border-y border-[#122823]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="badge-indigo mb-4">
             <span>WHO IT'S FOR</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold font-serif-heading text-[#ECFDF5] mb-4">
-            Built for long-form, faceless channels
+            AI YouTube Automation for Faceless Channels
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-[#8FAAA6]">
-            The niches where hours of watch time turn into real revenue — the ones short-video tools can't serve.
+            Long-form is where YouTube actually pays. These are the formats where one upload can hold an audience for an hour or more — and the ones GenByGhost was built around.
           </p>
         </div>
 

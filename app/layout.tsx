@@ -4,18 +4,20 @@ import "./globals.css";
 import { AuthProvider } from "@/components/AuthProvider";
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.genbyghost.com";
-const homeDescription = "Turn one topic into a finished YouTube documentary. GenByGhost scripts, narrates, renders, and publishes long-form videos up to 10 hours. No editing needed.";
+const homeTitle = "AI Documentary Generator for Long-Form YouTube | GenByGhost";
+const homeDescription = "Turn one topic into a full-length YouTube documentary — scripted, narrated, illustrated, edited, and published from 10 minutes to 10 hours.";
+const ogDescription = "One topic in, a full-length documentary out — script, narration, scene visuals, editing, and YouTube publishing. Built for 10 minutes to 10 hours.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
-  title: "GenByGhost — AI Long-Form YouTube Video Generator | Idea to Finished Video",
+  title: homeTitle,
   description: homeDescription,
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "GenByGhost — AI Long-Form YouTube Video Generator | Idea to Finished Video",
-    description: homeDescription,
+    title: homeTitle,
+    description: ogDescription,
     type: "website",
     siteName: "GenByGhost",
     url: baseUrl,
@@ -23,8 +25,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "GenByGhost — AI Long-Form YouTube Video Generator | Idea to Finished Video",
-    description: homeDescription,
+    title: homeTitle,
+    description: ogDescription,
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,

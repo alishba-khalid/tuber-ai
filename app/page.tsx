@@ -29,8 +29,9 @@ const softwareApplicationJsonLd = {
   description: 'AI documentary and faceless YouTube channel generator that scripts, narrates, renders, and publishes long-form videos up to 10 hours.',
   offers: {
     '@type': 'Offer',
-    price: '20',
+    price: '29',
     priceCurrency: 'USD',
+    description: 'Plans start at $29/month with monthly generation credits included.',
   },
 };
 

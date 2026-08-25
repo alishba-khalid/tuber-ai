@@ -11,9 +11,22 @@ export const metadata: Metadata = {
   alternates: { canonical: '/how-it-works' },
 };
 
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.genbyghost.com/' },
+    { '@type': 'ListItem', position: 2, name: 'How It Works', item: 'https://www.genbyghost.com/how-it-works' },
+  ],
+};
+
 export default function HowItWorksPage() {
   return (
     <main className="min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <Navbar />
       <div className="pt-24">
         <div className="text-center py-16 max-w-3xl mx-auto px-4">

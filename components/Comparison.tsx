@@ -11,19 +11,19 @@ const versusLinks = [
 
 const comparisons = [
   {
-    feature: 'Max Video Length',
-    tuber: 'Up to 10 hours in a single job',
-    others: '10 to 50 minutes maximum',
+    feature: 'Past the 50-minute mark',
+    tuber: 'Renders to ten hours in one job',
+    others: 'Hard cap, or splits into segments',
   },
   {
-    feature: 'Visual Sourcing',
-    tuber: 'Script-matched scene visuals for every paragraph',
-    others: 'Auto-selected visuals or generic stock loops',
+    feature: 'The voice at hour three',
+    tuber: 'Same pitch and pace as minute one',
+    others: 'Audible drift after ~30 minutes',
   },
   {
-    feature: 'Voice Consistency',
-    tuber: 'Zero voice drift or pitch shifts across full 10h runtime',
-    others: 'Tuned for short clips; drifts over 30 mins',
+    feature: 'Visual variety over 400 scenes',
+    tuber: 'A generated scene per script beat',
+    others: 'Looping stock or repeated B-roll',
   },
   {
     feature: 'Illustrated Book Export',
@@ -31,9 +31,14 @@ const comparisons = [
     others: 'Not supported',
   },
   {
-    feature: 'YouTube Metadata & Thumbnails',
-    tuber: 'Auto-generated titles, timestamps, descriptions, & cover art',
-    others: 'Video output only',
+    feature: 'Getting it onto YouTube',
+    tuber: 'Chapters, description, and tags generated',
+    others: 'Export the file and do it yourself',
+  },
+  {
+    feature: 'What you keep',
+    tuber: 'The finished file, yours to use',
+    others: 'Often locked to the platform',
   },
 ];
 
@@ -45,13 +50,13 @@ export default function Comparison() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="badge-indigo mb-4">
-            <span>COMPARISON</span>
+            <span>SIDE BY SIDE</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold font-serif-heading text-[#ECFDF5] mb-4">
-            GenByGhost vs. Long-Form AI Alternatives
+            Where AI Video Tools Break at Length
           </h2>
           <p className="text-sm sm:text-base text-[#8FAAA6] leading-relaxed">
-            How we compare to other YouTube automation tools. While others stop at under an hour, GenByGhost is built for true multi-hour automation.
+            Almost any tool can produce two minutes. The interesting question is what happens at minute fifty-one, and at hour three. Here is where the seams usually show.
           </p>
         </div>
 

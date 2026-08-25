@@ -216,7 +216,7 @@ export default function Hero() {
                 href={user ? "/dashboard" : "/auth/signup"}
                 className="btn-indigo-pill text-sm px-6 py-4 flex items-center justify-center gap-2 group font-mono-label shadow-[0_0_15px_rgba(197, 180, 159,0.25)] hover:shadow-[0_0_25px_rgba(197, 180, 159,0.45)]"
               >
-                {user ? "Go to Dashboard" : "Create your first video"}
+                {user ? "Go to Dashboard" : "Start your first documentary"}
               </Link>
               <Link
                 href="/examples"
