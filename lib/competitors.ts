@@ -8,14 +8,6 @@ export interface CompetitorInfo {
 }
 
 export const competitorData: Record<string, CompetitorInfo> = {
-  dreamtuber: {
-    name: "DreamTuber",
-    tagline: "automated kids stories & long-form videos",
-    price: "$29/mo",
-    pros: ["Automated kids book creator", "Supports long rendering"],
-    cons: ["Limited voice narration choices", "Stock footage repetition", "No interactive video timeline editor"],
-    genByGhostDiff: "GenByGhost provides professional-grade voice narration (ElevenLabs integrations), an interactive timeline editor to customize visuals before rendering, and a much wider selection of high-definition templates."
-  },
   autoshorts: {
     name: "AutoShorts.ai",
     tagline: "autopilot faceless shorts poster",

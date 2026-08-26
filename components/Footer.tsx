@@ -45,7 +45,6 @@ export default function Footer() {
               <li><Link href="/versus/invideo" className="hover:text-[#C5B49F] transition-colors">vs. InVideo AI</Link></li>
               <li><Link href="/versus/pictory" className="hover:text-[#C5B49F] transition-colors">vs. Pictory</Link></li>
               <li><Link href="/versus/fliki" className="hover:text-[#C5B49F] transition-colors">vs. Fliki</Link></li>
-              <li><Link href="/versus/dreamtuber" className="hover:text-[#C5B49F] transition-colors">vs. DreamTuber</Link></li>
               <li><Link href="/versus/autoshorts" className="hover:text-[#C5B49F] transition-colors">vs. AutoShorts.ai</Link></li>
             </ul>
           </div>

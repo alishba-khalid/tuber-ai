@@ -5,8 +5,8 @@ export default function About() {
   const pillars = [
     {
       icon: Film,
-      title: "Built for True Long-Form Content",
-      desc: "While other AI video tools limit you to 2-minute shorts, GenByGhost's rendering pipeline compiles seamless documentary-style videos ranging from 10 minutes up to 10 hours in length.",
+      title: "Built for Long-Form YouTube, Not Clips",
+      desc: "Every part of the pipeline — script pacing, voice stability, scene variety — is built to hold up across a full runtime, not just the first two minutes.",
     },
     {
       icon: Cpu,

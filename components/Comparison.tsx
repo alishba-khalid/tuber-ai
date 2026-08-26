@@ -5,7 +5,6 @@ const versusLinks = [
   { slug: 'invideo', name: 'InVideo AI' },
   { slug: 'pictory', name: 'Pictory' },
   { slug: 'fliki', name: 'Fliki' },
-  { slug: 'dreamtuber', name: 'DreamTuber' },
   { slug: 'autoshorts', name: 'AutoShorts.ai' },
 ];
 

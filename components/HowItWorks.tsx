@@ -65,7 +65,7 @@ export default function HowItWorks() {
             <span>ENGINE WORKFLOW</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold font-serif-heading text-[#ECFDF5] mb-4">
-            From Idea to Published Video
+            How the AI Video Generator Works
           </h2>
           <p className="text-sm sm:text-base text-[#8FAAA6] leading-relaxed">
             Every step is connected and executed autonomously. You feed the concept; the engine constructs the video asset.

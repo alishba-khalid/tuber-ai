@@ -79,51 +79,6 @@ const subHeroChips = [
   'Faceless YouTube automation',
 ];
 
-const pipelineSteps = [
-  {
-    num: '01',
-    label: 'IDEA',
-    subtitle: 'User enters:',
-    desc: '"The Complete History of Ancient Rome"',
-    color: 'border-[#C5B49F] text-[#C5B49F]'
-  },
-  {
-    num: '02',
-    label: 'SCRIPT',
-    subtitle: 'GenByGhost creates:',
-    desc: 'The long-form chaptered narration script.',
-    color: 'border-[#122823] text-[#8FAAA6]'
-  },
-  {
-    num: '03',
-    label: 'VOICE',
-    subtitle: 'AI generates:',
-    desc: 'High-fidelity natural narration tracks.',
-    color: 'border-[#122823] text-[#8FAAA6]'
-  },
-  {
-    num: '04',
-    label: 'SCENES',
-    subtitle: 'GenByGhost creates:',
-    desc: 'Scene-matched widescreen visuals.',
-    color: 'border-[#122823] text-[#8FAAA6]'
-  },
-  {
-    num: '05',
-    label: 'VIDEO',
-    subtitle: 'GenByGhost compiles:',
-    desc: 'Everything is auto-edited and timed.',
-    color: 'border-[#122823] text-[#8FAAA6]'
-  },
-  {
-    num: '06',
-    label: 'YOUTUBE',
-    subtitle: 'Video is ready:',
-    desc: 'Finished video is published to your channel.',
-    color: 'border-[#122823] text-[#8FAAA6]'
-  }
-];
-
 export default function Hero() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('cold-open');
@@ -192,9 +147,12 @@ export default function Hero() {
             {/* Headline */}
             <div className="space-y-4">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display-title text-slate-100 leading-[1.15] tracking-tight">
-                Build Faceless YouTube Videos <br className="hidden sm:inline" />
-                <span className="text-[#C5B49F] block mt-1.5 tracking-normal">Without Doing the Production</span>
+                AI Long-Form Faceless <br className="hidden sm:inline" />
+                <span className="text-[#C5B49F] block mt-1.5 tracking-normal">YouTube Video Generator</span>
               </h1>
+              <p className="text-base sm:text-lg text-[#C5B49F] font-serif-heading font-semibold">
+                From an idea to a ready-to-publish video.
+              </p>
             </div>
 
             {/* Core Promise Banner (Human + AI replaced) */}
@@ -216,13 +174,13 @@ export default function Hero() {
                 href={user ? "/dashboard" : "/auth/signup"}
                 className="btn-indigo-pill text-sm px-6 py-4 flex items-center justify-center gap-2 group font-mono-label shadow-[0_0_15px_rgba(197, 180, 159,0.25)] hover:shadow-[0_0_25px_rgba(197, 180, 159,0.45)]"
               >
-                {user ? "Go to Dashboard" : "Start your first documentary"}
+                {user ? "Go to Dashboard" : "Start Your First Video"}
               </Link>
               <Link
-                href="/examples"
+                href="/how-it-works"
                 className="btn-outline-pill text-sm px-6 py-4 text-center cursor-pointer"
               >
-                See examples
+                See How It Works
               </Link>
             </div>
 
@@ -438,39 +396,6 @@ export default function Hero() {
             </div>
           </div>
 
-        </div>
-
-        {/* 3. Connected Pipeline Steps Section (ONE IDEA -> COMPLETE VIDEO) */}
-        <div className="border-t border-[#122823] mt-24 pt-16">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <span className="text-[10px] font-mono-label font-bold text-[#C5B49F] tracking-widest uppercase block mb-2">AUTOMATION PIPELINE</span>
-            <h2 className="text-3xl font-bold font-serif-heading text-[#ECFDF5]">One Idea. Complete Video.</h2>
-            <p className="text-sm text-[#8FAAA6] mt-2">See how GenByGhost takes your single text idea and builds a cinematic masterwork.</p>
-          </div>
-          
-          <div className="relative">
-            {/* Horizontal connected line (Hidden on smaller screens) */}
-            <div className="absolute top-[28px] left-0 right-0 h-px bg-[#122823] hidden lg:block z-0" />
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 relative z-10">
-              {pipelineSteps.map((step) => (
-                <div 
-                  key={step.num}
-                  className="bg-[#0A1412] border border-[#122823] hover:border-[#C5B49F]/30 p-6 rounded-2xl transition-all duration-300 group hover:shadow-[0_0_15px_rgba(197,180,159,0.03)]"
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-8 h-8 rounded-full border border-[#C5B49F]/20 bg-[#C5B49F]/10 text-[#C5B49F] font-mono-label font-bold text-xs flex items-center justify-center group-hover:bg-[#C5B49F] group-hover:text-[#030706] transition-colors">
-                      {step.num}
-                    </div>
-                    <span className="text-[9px] font-mono-label text-[#527E72] uppercase tracking-wider">{step.label}</span>
-                  </div>
-                  
-                  <span className="text-[10px] font-mono-label text-[#527E72] block mb-1">{step.subtitle}</span>
-                  <span className="text-sm font-serif-heading text-[#ECFDF5] font-bold block mb-2 group-hover:text-[#C5B49F] transition-colors">{step.desc}</span>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
 
       </div>

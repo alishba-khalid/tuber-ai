@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { Check, X, Zap, ArrowRight, Award } from 'lucide-react';
 import { getCompetitor } from '@/lib/competitors';
+
+const removedSlugs = ['dreamtuber'];
 
 interface PageProps {
   params: Promise<{ competitor: string }>;
@@ -9,6 +12,9 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { competitor } = await params;
+  if (removedSlugs.includes(competitor.toLowerCase())) {
+    return {};
+  }
   const comp = getCompetitor(competitor);
   const title = `GenByGhost vs ${comp.name} — Which AI Video Tool Wins?`;
   const description = `GenByGhost vs ${comp.name}: compare pricing, voice quality, and auto-publishing for long-form YouTube video generation.`;
@@ -24,8 +30,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function VersusPage({ params }: PageProps) {
   const { competitor } = await params;
-  const comp = getCompetitor(competitor);
   const compKey = competitor.toLowerCase();
+  if (removedSlugs.includes(compKey)) {
+    notFound();
+  }
+  const comp = getCompetitor(competitor);
 
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',

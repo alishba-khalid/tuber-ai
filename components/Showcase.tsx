@@ -45,7 +45,7 @@ export default function Showcase() {
             <span>EXAMPLE FORMATS</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold font-serif-heading text-[#ECFDF5] mb-4">
-            The kinds of videos GenByGhost produces
+            What You Can Create With GenByGhost
           </h2>
           <p className="text-sm sm:text-base text-[#8FAAA6] leading-relaxed">
             Example formats built for long-form, faceless channels — history, documentary, education, and storytelling.
