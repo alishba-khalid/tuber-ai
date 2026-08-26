@@ -108,8 +108,13 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
             <LogoIcon />
-            <span className="text-xl font-bold font-serif-heading tracking-tight text-[#ECFDF5]">
-              GenBy<span className="text-[#C5B49F]">Ghost</span>
+            <span className="flex flex-col leading-none">
+              <span className="text-xl font-bold font-serif-heading tracking-tight text-[#ECFDF5]">
+                GenBy<span className="text-[#C5B49F]">Ghost</span>
+              </span>
+              <span className="hidden lg:block text-[10px] font-mono-label text-[#8FAAA6] tracking-wide mt-0.5 whitespace-nowrap">
+                From an idea to a ready-to-publish video
+              </span>
             </span>
           </Link>
 
