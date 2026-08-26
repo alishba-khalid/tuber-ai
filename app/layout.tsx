@@ -4,7 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/components/AuthProvider";
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.genbyghost.com";
-const homeTitle = "AI Long-Form Faceless YouTube Video Generator | GenByGhost";
+const homeTitle = "AI Long-Form Faceless YouTube Video Generator — From an Idea to a Ready-to-Publish Video | GenByGhost";
 const homeDescription = "Turn one idea into a ready-to-publish, faceless long-form YouTube video — scripted, narrated, illustrated, edited, and published from 10 minutes to 10 hours.";
 const ogDescription = "Idea in, ready-to-publish video out — script, narration, scene visuals, editing, and YouTube publishing, fully faceless. Built for 10 minutes to 10 hours.";
 
