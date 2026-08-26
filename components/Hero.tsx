@@ -151,7 +151,7 @@ export default function Hero() {
                 <span className="text-[#C5B49F] block mt-1.5 tracking-normal">YouTube Video Generator</span>
               </h1>
               <p className="text-base sm:text-lg text-[#C5B49F] font-serif-heading font-semibold">
-                From an idea to a ready-to-publish video.
+                Turn one idea into a complete long-form YouTube video — script, narration, visuals, and editing handled automatically.
               </p>
             </div>
 
