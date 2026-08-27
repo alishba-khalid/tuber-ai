@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Check, X, Zap, ArrowRight, Award } from 'lucide-react';
 import { getCompetitor } from '@/lib/competitors';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 const removedSlugs = ['dreamtuber'];
 
@@ -23,7 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title,
     description,
     alternates: { canonical: `/versus/${competitor.toLowerCase()}` },
-    openGraph: { title, description, type: 'website' },
+    openGraph: { title, description, type: 'website', url: `/versus/${competitor.toLowerCase()}` },
     twitter: { card: 'summary_large_image', title, description },
   };
 }
@@ -46,12 +48,13 @@ export default async function VersusPage({ params }: PageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#050B0A] text-slate-100 py-16 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#050B0A] text-slate-100">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <div className="max-w-4xl mx-auto">
+      <Navbar />
+      <div className="max-w-4xl mx-auto pt-32 pb-16 px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb / Top Bar */}
         <div className="mb-8">
           <Link href="/" className="text-sm font-mono-label text-[#527E72] hover:text-[#ECFDF5] transition-colors">
@@ -122,7 +125,7 @@ export default async function VersusPage({ params }: PageProps) {
             </div>
 
             <div className="grid grid-cols-3 p-4 text-sm">
-              <div className="font-semibold text-slate-300">Pay-As-You-Go, No Subscription</div>
+              <div className="font-semibold text-slate-300">Flexible Monthly Credit Plans</div>
               <div className="flex justify-center"><Check className="text-emerald-400 w-5 h-5" /></div>
               <div className="flex justify-center"><X className="text-rose-400 w-5 h-5" /></div>
             </div>
@@ -187,6 +190,7 @@ export default async function VersusPage({ params }: PageProps) {
         </div>
 
       </div>
+      <Footer />
     </div>
   );
 }

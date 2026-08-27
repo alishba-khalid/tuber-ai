@@ -23,7 +23,7 @@ const sections = [
   },
   {
     heading: '4. Credits, Billing & Refunds',
-    body: `GenByGhost operates on a pay-as-you-go credit model — there is no free trial and no recurring subscription; you purchase credit packs as needed, and credits are consumed as you use generation features. Payments are processed by our third-party payment partner, Polar; we do not store your full payment card details. Because we're validating this product during an early access period, refund requests are reviewed case by case — contact us at support@genbyghost.com and we'll work with you.`,
+    body: `GenByGhost operates on a monthly subscription model — there is no free trial; you subscribe to a monthly plan, and your plan's credits are consumed as you use generation features. Payments are processed by our third-party payment partner, Polar; we do not store your full payment card details. Because we're validating this product during an early access period, refund requests are reviewed case by case — contact us at support@genbyghost.com and we'll work with you.`,
   },
   {
     heading: '5. Acceptable Use',

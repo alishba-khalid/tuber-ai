@@ -102,8 +102,8 @@ export default function CreditsPage() {
           </div>
           <div className="sm:text-right">
             <div className="text-[10px] font-mono-label text-[#527E72] uppercase">Billing model</div>
-            <div className="text-lg font-bold font-serif-heading text-[#ECFDF5]">Pay as you go</div>
-            <div className="text-xs text-[#C5B49F] font-semibold mt-0.5">No subscription, no free trial</div>
+            <div className="text-lg font-bold font-serif-heading text-[#ECFDF5]">Monthly subscription</div>
+            <div className="text-xs text-[#C5B49F] font-semibold mt-0.5">No free trial</div>
           </div>
         </div>
       </div>

@@ -5,10 +5,15 @@ import FAQ from '@/components/FAQ';
 import CTABanner from '@/components/CTABanner';
 import Footer from '@/components/Footer';
 
+const title = 'Pricing — GenByGhost';
+const description = 'Simple credit-based pricing. Start from $29/month. All plans include full AI video generation, voice, visuals, and YouTube metadata.';
+
 export const metadata: Metadata = {
-  title: 'Pricing — GenByGhost',
-  description: 'Simple credit-based pricing. Start from $29/month. All plans include full AI video generation, voice, visuals, and YouTube metadata.',
+  title,
+  description,
   alternates: { canonical: '/pricing' },
+  openGraph: { title, description, type: 'website', url: '/pricing' },
+  twitter: { card: 'summary_large_image', title, description },
 };
 
 const breadcrumbJsonLd = {
@@ -29,6 +34,14 @@ export default function PricingPage() {
       />
       <Navbar />
       <div className="pt-24">
+        <div className="text-center pt-16 px-4">
+          <h1 className="text-3xl sm:text-4xl font-bold font-serif-heading text-[#ECFDF5]">
+            AI video generator pricing
+          </h1>
+          <p className="text-[#8FAAA6] text-lg mt-4 max-w-xl mx-auto">
+            Simple, credit-based plans for GenByGhost&apos;s AI video generator — starting at $29/month.
+          </p>
+        </div>
         <Pricing />
         <FAQ />
         <CTABanner />

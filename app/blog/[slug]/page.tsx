@@ -30,6 +30,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: post.title,
       description: post.excerpt,
       type: 'article',
+      url: `/blog/${slug}`,
     },
     twitter: {
       card: 'summary_large_image',

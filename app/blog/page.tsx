@@ -5,10 +5,15 @@ import Link from 'next/link';
 import { ArrowRight, Calendar, Clock, User } from 'lucide-react';
 import { blogPosts } from '@/lib/blog-posts';
 
+const title = 'Blog — GenByGhost';
+const description = 'Tips, tutorials, and insights for AI YouTube content creators.';
+
 export const metadata: Metadata = {
-  title: 'Blog — GenByGhost',
-  description: 'Tips, tutorials, and insights for AI YouTube content creators.',
+  title,
+  description,
   alternates: { canonical: '/blog' },
+  openGraph: { title, description, type: 'website', url: '/blog' },
+  twitter: { card: 'summary_large_image', title, description },
 };
 
 const breadcrumbJsonLd = {

@@ -5,22 +5,27 @@ import Footer from '@/components/Footer';
 import { Play, Zap, Eye } from 'lucide-react';
 import Link from 'next/link';
 
+const title = 'Examples — GenByGhost';
+const description = 'Browse example video formats built with GenByGhost, across documentaries, sleep stories, explainers, and true crime.';
+
 export const metadata: Metadata = {
-  title: 'Examples — GenByGhost',
-  description: 'Browse example video formats built with GenByGhost, across documentaries, sleep stories, explainers, and true crime.',
+  title,
+  description,
   alternates: { canonical: '/examples' },
+  openGraph: { title, description, type: 'website', url: '/examples' },
+  twitter: { card: 'summary_large_image', title, description },
 };
 
 const examples = [
-  { id: 1, title: 'The Complete History of Ancient Rome', format: 'Documentary', duration: '2h 15m', views: '142K', thumbnail_color: 'from-amber-900 to-amber-700', description: 'A sweeping narrative covering the founding myths, the Republic, Julius Caesar, the Empire, and the eventual fall.' },
-  { id: 2, title: 'A Quiet Night in the Japanese Forest', format: 'Sleep Story', duration: '8h 00m', views: '891K', thumbnail_color: 'from-emerald-900 to-emerald-700', description: 'Ambient sleep storytelling set in a peaceful bamboo forest. Perfect for relaxation and sleep.' },
-  { id: 3, title: 'Atomic Habits — Complete Book Summary', format: 'Book Summary', duration: '1h 15m', views: '234K', thumbnail_color: 'from-blue-900 to-blue-700', description: 'A comprehensive breakdown of James Clear\'s bestselling habit formation framework.' },
-  { id: 4, title: 'True Crime: The Zodiac Killer Decoded', format: 'True Crime', duration: '1h 45m', views: '512K', thumbnail_color: 'from-red-900 to-red-700', description: 'A deep investigation into one of America\'s most notorious unsolved crime cases.' },
-  { id: 5, title: 'How Black Holes Actually Work', format: 'Explainer', duration: '42m', views: '89K', thumbnail_color: 'from-purple-900 to-purple-700', description: 'A clear, detailed explanation of black holes, from formation to the information paradox.' },
-  { id: 6, title: 'The Psychology of Money — Full Analysis', format: 'Book Summary', duration: '1h 30m', views: '178K', thumbnail_color: 'from-green-900 to-green-700', description: 'Morgan Housel\'s timeless lessons about wealth, greed, and happiness explained in depth.' },
-  { id: 7, title: 'Ancient Egypt: Secrets of the Pharaohs', format: 'Documentary', duration: '3h 00m', views: '312K', thumbnail_color: 'from-yellow-900 to-yellow-700', description: 'From the Great Pyramids to Cleopatra — the full story of ancient Egyptian civilization.' },
-  { id: 8, title: 'The Complete Guide to Index Investing', format: 'Finance', duration: '55m', views: '67K', thumbnail_color: 'from-teal-900 to-teal-700', description: 'Everything you need to know about passive investing, ETFs, and long-term wealth building.' },
-  { id: 9, title: 'Ocean Depths: 8 Hours of Calm Waves', format: 'Sleep Story', duration: '8h 00m', views: '1.2M', thumbnail_color: 'from-cyan-900 to-cyan-700', description: 'Deep, calming ocean soundscape with gentle narration for sleep and relaxation.' },
+  { id: 1, title: 'The Complete History of Ancient Rome', format: 'Documentary', duration: '2h 15m', thumbnail_color: 'from-amber-900 to-amber-700', description: 'A sweeping narrative covering the founding myths, the Republic, Julius Caesar, the Empire, and the eventual fall.' },
+  { id: 2, title: 'A Quiet Night in the Japanese Forest', format: 'Sleep Story', duration: '8h 00m', thumbnail_color: 'from-emerald-900 to-emerald-700', description: 'Ambient sleep storytelling set in a peaceful bamboo forest. Perfect for relaxation and sleep.' },
+  { id: 3, title: 'Atomic Habits — Complete Book Summary', format: 'Book Summary', duration: '1h 15m', thumbnail_color: 'from-blue-900 to-blue-700', description: 'A comprehensive breakdown of James Clear\'s bestselling habit formation framework.' },
+  { id: 4, title: 'True Crime: The Zodiac Killer Decoded', format: 'True Crime', duration: '1h 45m', thumbnail_color: 'from-red-900 to-red-700', description: 'A deep investigation into one of America\'s most notorious unsolved crime cases.' },
+  { id: 5, title: 'How Black Holes Actually Work', format: 'Explainer', duration: '42m', thumbnail_color: 'from-purple-900 to-purple-700', description: 'A clear, detailed explanation of black holes, from formation to the information paradox.' },
+  { id: 6, title: 'The Psychology of Money — Full Analysis', format: 'Book Summary', duration: '1h 30m', thumbnail_color: 'from-green-900 to-green-700', description: 'Morgan Housel\'s timeless lessons about wealth, greed, and happiness explained in depth.' },
+  { id: 7, title: 'Ancient Egypt: Secrets of the Pharaohs', format: 'Documentary', duration: '3h 00m', thumbnail_color: 'from-yellow-900 to-yellow-700', description: 'From the Great Pyramids to Cleopatra — the full story of ancient Egyptian civilization.' },
+  { id: 8, title: 'The Complete Guide to Index Investing', format: 'Finance', duration: '55m', thumbnail_color: 'from-teal-900 to-teal-700', description: 'Everything you need to know about passive investing, ETFs, and long-term wealth building.' },
+  { id: 9, title: 'Ocean Depths: 8 Hours of Calm Waves', format: 'Sleep Story', duration: '8h 00m', thumbnail_color: 'from-cyan-900 to-cyan-700', description: 'Deep, calming ocean soundscape with gentle narration for sleep and relaxation.' },
 ];
 
 const breadcrumbJsonLd = {
@@ -81,7 +86,6 @@ export default function ExamplesPage() {
                   <h3 className="text-sm font-bold text-[#ECFDF5] mb-2 line-clamp-2">{ex.title}</h3>
                   <p className="text-xs text-[#8FAAA6] leading-relaxed mb-3 line-clamp-2">{ex.description}</p>
                   <div className="flex items-center gap-3 text-xs text-[#527E72]">
-                    <span className="flex items-center gap-1"><Eye className="w-3 h-3" /> {ex.views} views</span>
                     <span className="flex items-center gap-1"><Zap className="w-3 h-3" /> AI Generated</span>
                   </div>
                 </div>
