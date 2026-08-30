@@ -39,10 +39,13 @@ export default function EbookSection() {
                 ))}
               </div>
 
-              <div className="pt-4">
+              <div className="pt-4 flex flex-col sm:flex-row sm:items-center gap-4">
                 <Link href="/dashboard/create" className="btn-indigo-pill text-sm inline-flex items-center gap-2">
                   Explore Book Generator
                   <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link href="/ai-book-generator" className="text-xs sm:text-sm font-semibold text-[#C5B49F] hover:text-[#ECFDF5] underline decoration-[#C5B49F]/30 hover:decoration-[#ECFDF5] underline-offset-4 transition-colors">
+                  Learn more about the AI Book Generator &rarr;
                 </Link>
               </div>
             </div>

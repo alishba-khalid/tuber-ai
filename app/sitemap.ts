@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/examples',
     '/blog',
     '/comparisons',
+    '/ai-book-generator',
     '/terms',
     '/privacy',
   ];
