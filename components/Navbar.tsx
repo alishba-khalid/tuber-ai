@@ -65,6 +65,7 @@ const tools = [
 const navLinks = [
   { label: 'How it works', href: '/how-it-works' },
   { label: 'Examples', href: '/examples' },
+  { label: 'Comparisons', href: '/comparisons' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'Blog', href: '/blog' },
 ];

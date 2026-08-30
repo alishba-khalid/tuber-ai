@@ -2,10 +2,10 @@ import Link from 'next/link';
 import { Check, X } from 'lucide-react';
 
 const versusLinks = [
-  { slug: 'invideo', name: 'InVideo AI' },
-  { slug: 'pictory', name: 'Pictory' },
-  { slug: 'fliki', name: 'Fliki' },
-  { slug: 'autoshorts', name: 'AutoShorts.ai' },
+  { slug: 'genbyghost-vs-invideo-ai', name: 'InVideo AI' },
+  { slug: 'genbyghost-vs-pictory', name: 'Pictory' },
+  { slug: 'genbyghost-vs-fliki', name: 'Fliki' },
+  { slug: 'genbyghost-vs-autoshorts-ai', name: 'AutoShorts.ai' },
 ];
 
 const comparisons = [
@@ -106,7 +106,7 @@ export default function Comparison() {
           Read the full breakdown:{' '}
           {versusLinks.map((v, i) => (
             <span key={v.slug}>
-              <Link href={`/versus/${v.slug}`} className="font-semibold text-[#C5B49F] hover:text-[#ECFDF5] transition-colors">
+              <Link href={`/blog/${v.slug}`} className="font-semibold text-[#C5B49F] hover:text-[#ECFDF5] transition-colors">
                 GenByGhost vs {v.name}
               </Link>
               {i < versusLinks.length - 1 ? ' · ' : ''}

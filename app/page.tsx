@@ -28,10 +28,48 @@ const softwareApplicationJsonLd = {
   operatingSystem: 'Web',
   description: 'AI documentary and faceless YouTube channel generator that scripts, narrates, renders, and publishes long-form videos up to 10 hours.',
   offers: {
-    '@type': 'Offer',
-    price: '29',
+    '@type': 'AggregateOffer',
     priceCurrency: 'USD',
-    description: 'Plans start at $29/month with monthly generation credits included.',
+    lowPrice: '29.00',
+    highPrice: '259.00',
+    offerCount: '5',
+    offers: [
+      {
+        '@type': 'Offer',
+        name: 'Archive Plan',
+        price: '29.00',
+        priceCurrency: 'USD',
+        url: 'https://www.genbyghost.com/pricing',
+      },
+      {
+        '@type': 'Offer',
+        name: 'Series Plan',
+        price: '49.00',
+        priceCurrency: 'USD',
+        url: 'https://www.genbyghost.com/pricing',
+      },
+      {
+        '@type': 'Offer',
+        name: 'Studio Plan',
+        price: '89.00',
+        priceCurrency: 'USD',
+        url: 'https://www.genbyghost.com/pricing',
+      },
+      {
+        '@type': 'Offer',
+        name: 'Network Plan',
+        price: '139.00',
+        priceCurrency: 'USD',
+        url: 'https://www.genbyghost.com/pricing',
+      },
+      {
+        '@type': 'Offer',
+        name: 'Syndicate Plan',
+        price: '259.00',
+        priceCurrency: 'USD',
+        url: 'https://www.genbyghost.com/pricing',
+      },
+    ],
   },
 };
 

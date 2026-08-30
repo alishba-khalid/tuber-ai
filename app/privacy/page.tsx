@@ -6,6 +6,19 @@ export const metadata: Metadata = {
   title: 'Privacy Policy — GenByGhost',
   description: 'How GenByGhost collects, uses, and protects your data, including our use of cookies and third-party services.',
   alternates: { canonical: '/privacy' },
+  openGraph: {
+    title: 'Privacy Policy — GenByGhost',
+    description: 'How GenByGhost collects, uses, and protects your data, including our use of cookies and third-party services.',
+    type: 'website',
+    url: '/privacy',
+    images: ['/opengraph-image.png'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Privacy Policy — GenByGhost',
+    description: 'How GenByGhost collects, uses, and protects your data, including our use of cookies and third-party services.',
+    images: ['/opengraph-image.png'],
+  },
 };
 
 const sections = [

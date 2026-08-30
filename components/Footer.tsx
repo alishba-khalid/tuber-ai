@@ -42,10 +42,16 @@ export default function Footer() {
               Comparisons
             </h4>
             <ul className="space-y-2.5 text-xs">
-              <li><Link href="/versus/invideo" className="hover:text-[#C5B49F] transition-colors">vs. InVideo AI</Link></li>
-              <li><Link href="/versus/pictory" className="hover:text-[#C5B49F] transition-colors">vs. Pictory</Link></li>
-              <li><Link href="/versus/fliki" className="hover:text-[#C5B49F] transition-colors">vs. Fliki</Link></li>
-              <li><Link href="/versus/autoshorts" className="hover:text-[#C5B49F] transition-colors">vs. AutoShorts.ai</Link></li>
+              <li><Link href="/blog/genbyghost-vs-invideo-ai" className="hover:text-[#C5B49F] transition-colors">vs. InVideo AI</Link></li>
+              <li><Link href="/blog/genbyghost-vs-pictory" className="hover:text-[#C5B49F] transition-colors">vs. Pictory</Link></li>
+              <li><Link href="/blog/genbyghost-vs-fliki" className="hover:text-[#C5B49F] transition-colors">vs. Fliki</Link></li>
+              <li><Link href="/blog/genbyghost-vs-autoshorts-ai" className="hover:text-[#C5B49F] transition-colors">vs. AutoShorts.ai</Link></li>
+              <li><Link href="/blog/genbyghost-vs-veed" className="hover:text-[#C5B49F] transition-colors">vs. VEED.io</Link></li>
+              <li><Link href="/blog/genbyghost-vs-capcut" className="hover:text-[#C5B49F] transition-colors">vs. CapCut</Link></li>
+              <li><Link href="/blog/genbyghost-vs-descript" className="hover:text-[#C5B49F] transition-colors">vs. Descript</Link></li>
+              <li><Link href="/blog/genbyghost-vs-heygen" className="hover:text-[#C5B49F] transition-colors">vs. HeyGen</Link></li>
+              <li><Link href="/blog/genbyghost-vs-synthesia" className="hover:text-[#C5B49F] transition-colors">vs. Synthesia</Link></li>
+              <li><Link href="/blog/genbyghost-vs-runway" className="hover:text-[#C5B49F] transition-colors">vs. Runway</Link></li>
             </ul>
           </div>
 

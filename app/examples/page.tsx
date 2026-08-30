@@ -12,8 +12,19 @@ export const metadata: Metadata = {
   title,
   description,
   alternates: { canonical: '/examples' },
-  openGraph: { title, description, type: 'website', url: '/examples' },
-  twitter: { card: 'summary_large_image', title, description },
+  openGraph: {
+    title,
+    description,
+    type: 'website',
+    url: '/examples',
+    images: ['/opengraph-image.png'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
+    images: ['/opengraph-image.png'],
+  },
 };
 
 const examples = [

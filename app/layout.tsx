@@ -22,11 +22,20 @@ export const metadata: Metadata = {
     siteName: "GenByGhost",
     url: baseUrl,
     locale: "en_US",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "GenByGhost",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: homeTitle,
     description: ogDescription,
+    images: ["/opengraph-image.png"],
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,

@@ -6,6 +6,19 @@ export const metadata: Metadata = {
   title: 'Terms of Service — GenByGhost',
   description: 'The terms that govern your use of GenByGhost, our AI-powered YouTube video generation platform.',
   alternates: { canonical: '/terms' },
+  openGraph: {
+    title: 'Terms of Service — GenByGhost',
+    description: 'The terms that govern your use of GenByGhost, our AI-powered YouTube video generation platform.',
+    type: 'website',
+    url: '/terms',
+    images: ['/opengraph-image.png'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Terms of Service — GenByGhost',
+    description: 'The terms that govern your use of GenByGhost, our AI-powered YouTube video generation platform.',
+    images: ['/opengraph-image.png'],
+  },
 };
 
 const sections = [

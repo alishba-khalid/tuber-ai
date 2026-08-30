@@ -9,6 +9,19 @@ export const metadata: Metadata = {
   title: 'How It Works — GenByGhost',
   description: 'Learn how GenByGhost\'s 5-stage AI pipeline generates full-length YouTube videos from a single prompt.',
   alternates: { canonical: '/how-it-works' },
+  openGraph: {
+    title: 'How It Works — GenByGhost',
+    description: 'Learn how GenByGhost\'s 5-stage AI pipeline generates full-length YouTube videos from a single prompt.',
+    type: 'website',
+    url: '/how-it-works',
+    images: ['/opengraph-image.png'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'How It Works — GenByGhost',
+    description: 'Learn how GenByGhost\'s 5-stage AI pipeline generates full-length YouTube videos from a single prompt.',
+    images: ['/opengraph-image.png'],
+  },
 };
 
 const breadcrumbJsonLd = {

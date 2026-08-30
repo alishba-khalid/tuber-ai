@@ -12,8 +12,19 @@ export const metadata: Metadata = {
   title,
   description,
   alternates: { canonical: '/pricing' },
-  openGraph: { title, description, type: 'website', url: '/pricing' },
-  twitter: { card: 'summary_large_image', title, description },
+  openGraph: {
+    title,
+    description,
+    type: 'website',
+    url: '/pricing',
+    images: ['/opengraph-image.png'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
+    images: ['/opengraph-image.png'],
+  },
 };
 
 const breadcrumbJsonLd = {
