@@ -4,7 +4,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { ArrowRight, BookOpen, Layers, Printer, TrendingUp, HelpCircle } from 'lucide-react';
 
-const title = 'AI Illustrated Book Generator — Turn a Video Script into a KDP-Ready Book';
+const title = 'Turn a YouTube Video Script Into an Illustrated Book — GenByGhost';
 const description = 'Turn any GenByGhost video script into a print-ready illustrated book. Automatic chapter typesetting, scene art placement, PDF and EPUB export for Amazon KDP and Gumroad.';
 
 export const metadata: Metadata = {
@@ -131,7 +131,7 @@ export default function AIBookGeneratorPage() {
             <span>Dual-Channel Publishing</span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold font-serif-heading text-[#ECFDF5] mb-6 leading-tight">
-            AI Illustrated Book Generator
+            Turn Your Video Script Into an Illustrated Book
           </h1>
           <p className="text-[#8FAAA6] text-lg mb-8 leading-relaxed">
             Turn any long-form video script into a professionally formatted, illustrated e-book and print-ready PDF in one click. Diversify your revenue across video views and digital shelves.
