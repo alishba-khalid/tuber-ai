@@ -1,10 +1,16 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, Zap, Volume2, Lightbulb } from 'lucide-react';
-import { getUseCase } from '@/lib/use-cases';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import { ArrowRight, Zap, Volume2, Lightbulb, ArrowLeft } from 'lucide-react';
+import { useCases, getUseCase } from '@/lib/use-cases';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+export function generateStaticParams() {
+  return useCases.map((u) => ({ slug: u.slug }));
 }
 
 // Fallback for any slug not in lib/use-cases.ts
@@ -41,8 +47,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title,
     description,
     alternates: { canonical: `/use-cases/${slug}` },
-    openGraph: { title, description, type: 'website' },
-    twitter: { card: 'summary_large_image', title, description },
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      url: `/use-cases/${slug}`,
+      images: ['/opengraph-image.png'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ['/opengraph-image.png'],
+    },
   };
 }
 
@@ -69,151 +86,207 @@ export default async function UseCasePage({ params }: PageProps) {
     ],
   };
 
+  const relatedUseCases = useCases
+    .filter((u) => u.slug !== slug)
+    .slice(0, 3);
+
   return (
-    <div className="min-h-screen bg-[#050B0A] text-slate-100 py-16 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-[#050B0A] text-slate-100 relative overflow-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <div className="max-w-4xl mx-auto">
-        {/* Breadcrumb */}
-        <div className="mb-8">
-          <Link href="/" className="text-sm font-mono-label text-[#527E72] hover:text-[#ECFDF5] transition-colors">
-            &larr; Back to GenByGhost Home
-          </Link>
-        </div>
+      <Navbar />
 
-        {/* Hero Section */}
-        <div className="text-center mb-12">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#225146]/20 border border-[#225146]/50 text-[#C5B49F] mb-4">
-            <Zap className="w-3.5 h-3.5" /> Automated Video Solutions
-          </span>
-          <h1 className="text-4xl sm:text-5xl font-bold font-serif-heading text-[#ECFDF5] tracking-tight leading-tight max-w-3xl mx-auto">
-            {formattedTitle}
-          </h1>
-          <p className="mt-4 text-lg text-[#8FAAA6] max-w-2xl mx-auto leading-relaxed">
-            {intro}
-          </p>
-        </div>
+      <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          {/* Breadcrumb Navigation */}
+          <div className="mb-8 flex items-center gap-2 text-sm font-mono-label text-[#527E72]">
+            <Link href="/use-cases" className="hover:text-[#ECFDF5] transition-colors inline-flex items-center gap-1">
+              <ArrowLeft className="w-3.5 h-3.5" /> Back to Use Cases
+            </Link>
+          </div>
 
-        {/* Why it works */}
-        {useCase && (
-          <div className="bg-[#0A1412] border border-[#122823] rounded-2xl p-6 mb-12">
-            <div className="flex items-start gap-3">
-              <Lightbulb className="w-5 h-5 text-[#C5B49F] flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-[#8FAAA6] leading-relaxed">
-                <span className="text-[#ECFDF5] font-semibold">Why this niche works: </span>
-                {useCase.whyItWorks}
-              </p>
+          {/* Hero Section */}
+          <div className="text-center mb-12">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#225146]/20 border border-[#225146]/50 text-[#C5B49F] mb-4">
+              <Zap className="w-3.5 h-3.5" /> Automated Video Solutions
+            </span>
+            <h1 className="text-4xl sm:text-5xl font-bold font-serif-heading text-[#ECFDF5] tracking-tight leading-tight max-w-3xl mx-auto">
+              {formattedTitle}
+            </h1>
+            <p className="mt-4 text-lg text-[#8FAAA6] max-w-2xl mx-auto leading-relaxed">
+              {intro}
+            </p>
+          </div>
+
+          {/* Why it works */}
+          {useCase && (
+            <div className="bg-[#0A1412] border border-[#122823] rounded-2xl p-6 mb-12">
+              <div className="flex items-start gap-3">
+                <Lightbulb className="w-5 h-5 text-[#C5B49F] flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-[#8FAAA6] leading-relaxed">
+                  <span className="text-[#ECFDF5] font-semibold">Why this niche works: </span>
+                  {useCase.whyItWorks}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Value Props Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+            {valueProps.map((vp) => (
+              <div key={vp.title} className="bg-[#0A1412] border border-[#122823] rounded-2xl p-6">
+                <Volume2 className="w-8 h-8 text-[#C5B49F] mb-4" />
+                <h3 className="text-base font-bold text-[#ECFDF5] mb-2">{vp.title}</h3>
+                <p className="text-sm text-[#8FAAA6] leading-relaxed">{vp.body}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Example topics */}
+          {useCase && (
+            <div className="mb-16">
+              <h2 className="text-xl font-bold font-serif-heading text-[#ECFDF5] mb-4">
+                {nicheName} video ideas to get started
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {useCase.exampleTopics.map((topic) => (
+                  <div key={topic} className="bg-[#0A1412] border border-[#122823] rounded-xl p-4 text-sm text-[#8FAAA6]">
+                    {topic}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Step-by-Step Production Guide */}
+          <div className="bg-[#0A1412] border border-[#122823] rounded-3xl p-8 sm:p-10 mb-16">
+            <h2 className="text-2xl font-bold font-serif-heading text-[#ECFDF5] mb-8 text-center">
+              How to Make {nicheName} Videos in 4 Simple Steps
+            </h2>
+
+            <div className="space-y-8">
+              <div className="flex gap-4">
+                <div className="flex-none w-8 h-8 rounded-full bg-[#225146]/30 border border-[#225146] text-[#C5B49F] flex items-center justify-center font-bold font-mono-label text-sm">
+                  1
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-[#ECFDF5] mb-1">Enter Your Video Concept</h3>
+                  <p className="text-sm text-[#8FAAA6] leading-relaxed">
+                    Provide a simple text prompt describing the video topic you want to make{useCase ? ', for example:' : ' (e.g.,'} <i>&ldquo;{useCase?.examplePrompt.replace(/^"|"$/g, '') ?? 'The fall of Constantinople from the perspective of a soldier'}&rdquo;</i>{useCase ? '' : ')'}.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <div className="flex-none w-8 h-8 rounded-full bg-[#225146]/30 border border-[#225146] text-[#C5B49F] flex items-center justify-center font-bold font-mono-label text-sm">
+                  2
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-[#ECFDF5] mb-1">Generate Script & Narration</h3>
+                  <p className="text-sm text-[#8FAAA6] leading-relaxed">
+                    GenByGhost generates a formatted chapter script and creates voiceover narration using natural-sounding AI voice models.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <div className="flex-none w-8 h-8 rounded-full bg-[#225146]/30 border border-[#225146] text-[#C5B49F] flex items-center justify-center font-bold font-mono-label text-sm">
+                  3
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-[#ECFDF5] mb-1">Verify Visual Assets</h3>
+                  <p className="text-sm text-[#8FAAA6] leading-relaxed">
+                    Review the automatically matched images, cinematic overlays, and word-by-word subtitles. Use our interactive editor to swap clips or adjust timing.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <div className="flex-none w-8 h-8 rounded-full bg-[#225146]/30 border border-[#225146] text-[#C5B49F] flex items-center justify-center font-bold font-mono-label text-sm">
+                  4
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-[#ECFDF5] mb-1">Render & Auto-Publish</h3>
+                  <p className="text-sm text-[#8FAAA6] leading-relaxed">
+                    Export the finished video in full HD or toggle our <strong>Channel Autopilot</strong> option to upload the video directly to YouTube.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-        )}
 
-        {/* Value Props Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-          {valueProps.map((vp) => (
-            <div key={vp.title} className="bg-[#0A1412] border border-[#122823] rounded-2xl p-6">
-              <Volume2 className="w-8 h-8 text-[#C5B49F] mb-4" />
-              <h3 className="text-base font-bold text-[#ECFDF5] mb-2">{vp.title}</h3>
-              <p className="text-sm text-[#8FAAA6] leading-relaxed">{vp.body}</p>
+          {/* Related Use Cases Section */}
+          <div className="mb-16 pt-12 border-t border-[#122823]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+              <div>
+                <h2 className="text-xl sm:text-2xl font-bold font-serif-heading text-[#ECFDF5]">
+                  Related Use Cases
+                </h2>
+                <p className="text-xs sm:text-sm text-[#8FAAA6] mt-1">
+                  Explore other high-retention faceless niches and video workflows.
+                </p>
+              </div>
+              <Link
+                href="/use-cases"
+                className="text-xs sm:text-sm font-semibold text-[#C5B49F] hover:text-[#ECFDF5] transition-colors inline-flex items-center gap-1 self-start sm:self-auto"
+              >
+                View all use cases <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
-          ))}
-        </div>
 
-        {/* Example topics */}
-        {useCase && (
-          <div className="mb-16">
-            <h2 className="text-xl font-bold font-serif-heading text-[#ECFDF5] mb-4">
-              {nicheName} video ideas to get started
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {useCase.exampleTopics.map((topic) => (
-                <div key={topic} className="bg-[#0A1412] border border-[#122823] rounded-xl p-4 text-sm text-[#8FAAA6]">
-                  {topic}
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {relatedUseCases.map((r) => (
+                <Link
+                  key={r.slug}
+                  href={`/use-cases/${r.slug}`}
+                  className="bg-[#0A1412] border border-[#122823] hover:border-[#225146] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:shadow-[0_0_20px_rgba(197,180,159,0.05)] group"
+                >
+                  <div>
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#225146]/20 border border-[#225146]/50 text-[#C5B49F] mb-3">
+                      {r.nicheName}
+                    </span>
+                    <h3 className="text-base font-bold font-serif-heading text-[#ECFDF5] group-hover:text-[#C5B49F] transition-colors mb-2 line-clamp-2">
+                      {r.title}
+                    </h3>
+                    <p className="text-xs text-[#8FAAA6] line-clamp-3 leading-relaxed">
+                      {r.metaDescription}
+                    </p>
+                  </div>
+                  <div className="pt-4 mt-4 border-t border-[#122823] flex items-center justify-between text-xs text-[#527E72] group-hover:text-[#C5B49F] transition-colors">
+                    <span className="font-mono-label">Read guide</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </Link>
               ))}
             </div>
           </div>
-        )}
 
-        {/* Step-by-Step Production Guide */}
-        <div className="bg-[#0A1412] border border-[#122823] rounded-3xl p-8 sm:p-10 mb-16">
-          <h2 className="text-2xl font-bold font-serif-heading text-[#ECFDF5] mb-8 text-center">
-            How to Make {nicheName} Videos in 4 Simple Steps
-          </h2>
-
-          <div className="space-y-8">
-            <div className="flex gap-4">
-              <div className="flex-none w-8 h-8 rounded-full bg-[#225146]/30 border border-[#225146] text-[#C5B49F] flex items-center justify-center font-bold font-mono-label text-sm">
-                1
-              </div>
-              <div>
-                <h3 className="text-base font-bold text-[#ECFDF5] mb-1">Enter Your Video Concept</h3>
-                <p className="text-sm text-[#8FAAA6] leading-relaxed">
-                  Provide a simple text prompt describing the video topic you want to make{useCase ? ', for example:' : ' (e.g.,'} <i>&ldquo;{useCase?.examplePrompt.replace(/^"|"$/g, '') ?? 'The fall of Constantinople from the perspective of a soldier'}&rdquo;</i>{useCase ? '' : ')'}.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="flex-none w-8 h-8 rounded-full bg-[#225146]/30 border border-[#225146] text-[#C5B49F] flex items-center justify-center font-bold font-mono-label text-sm">
-                2
-              </div>
-              <div>
-                <h3 className="text-base font-bold text-[#ECFDF5] mb-1">Generate Script & Narration</h3>
-                <p className="text-sm text-[#8FAAA6] leading-relaxed">
-                  GenByGhost generates a formatted chapter script and creates voiceover narration using natural-sounding AI voice models.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="flex-none w-8 h-8 rounded-full bg-[#225146]/30 border border-[#225146] text-[#C5B49F] flex items-center justify-center font-bold font-mono-label text-sm">
-                3
-              </div>
-              <div>
-                <h3 className="text-base font-bold text-[#ECFDF5] mb-1">Verify Visual Assets</h3>
-                <p className="text-sm text-[#8FAAA6] leading-relaxed">
-                  Review the automatically matched images, cinematic overlays, and word-by-word subtitles. Use our interactive editor to swap clips or adjust timing.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="flex-none w-8 h-8 rounded-full bg-[#225146]/30 border border-[#225146] text-[#C5B49F] flex items-center justify-center font-bold font-mono-label text-sm">
-                4
-              </div>
-              <div>
-                <h3 className="text-base font-bold text-[#ECFDF5] mb-1">Render & Auto-Publish</h3>
-                <p className="text-sm text-[#8FAAA6] leading-relaxed">
-                  Export the finished video in full HD or toggle our <strong>Channel Autopilot</strong> option to upload the video directly to YouTube.
-                </p>
+          {/* CTA Card */}
+          <div className="text-center bg-radial from-[#122823] to-[#0A1412] border border-[#225146] rounded-3xl p-10 shadow-2xl relative overflow-hidden">
+            <div className="relative z-10">
+              <h2 className="text-2xl sm:text-3xl font-bold font-serif-heading text-[#ECFDF5] mb-4">
+                Start building your channel today
+              </h2>
+              <p className="text-[#8FAAA6] text-sm max-w-lg mx-auto mb-8 leading-relaxed">
+                Create an account on GenByGhost and buy credits to start generating {nicheName.toLowerCase()} videos in minutes.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link href="/auth/signup" className="btn-indigo-pill px-8 py-3 text-sm flex items-center gap-2 w-full sm:w-auto justify-center font-bold">
+                  Get Started <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link href="/pricing" className="text-sm font-semibold text-[#C5B49F] hover:text-[#ECFDF5] transition-colors px-6 py-2.5">
+                  View Pricing Plans
+                </Link>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* CTA Card */}
-        <div className="text-center bg-radial from-[#122823] to-[#0A1412] border border-[#225146] rounded-3xl p-10 shadow-2xl relative overflow-hidden">
-          <div className="relative z-10">
-            <h2 className="text-2xl sm:text-3xl font-bold font-serif-heading text-[#ECFDF5] mb-4">
-              Start building your channel today
-            </h2>
-            <p className="text-[#8FAAA6] text-sm max-w-lg mx-auto mb-8 leading-relaxed">
-              Create an account on GenByGhost and buy credits to start generating {nicheName.toLowerCase()} videos in minutes.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/auth/signup" className="btn-indigo-pill px-8 py-3 text-sm flex items-center gap-2 w-full sm:w-auto justify-center font-bold">
-                Get Started <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link href="/pricing" className="text-sm font-semibold text-[#C5B49F] hover:text-[#ECFDF5] transition-colors px-6 py-2.5">
-                View Pricing Plans
-              </Link>
-            </div>
-          </div>
         </div>
-
       </div>
-    </div>
+
+      <Footer />
+    </main>
   );
 }

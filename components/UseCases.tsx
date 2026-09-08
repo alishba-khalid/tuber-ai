@@ -1,15 +1,25 @@
-import { Film, Landmark, Moon, GraduationCap, BookAudio, Ghost } from 'lucide-react';
+import Link from 'next/link';
+import { Film, Landmark, Moon, GraduationCap, BookAudio, Ghost, ArrowRight } from 'lucide-react';
 
-const niches = [
+interface NicheItem {
+  title: string;
+  desc: string;
+  icon: typeof Film;
+  href?: string;
+}
+
+const niches: NicheItem[] = [
   {
     title: 'Documentary & true crime',
     desc: 'A researched, chaptered narrative that holds together for sixty minutes or six hours. Structure first, then narration, then the visuals to match.',
     icon: Film,
+    href: '/use-cases/generate-automated-documentaries-with-ai',
   },
   {
     title: 'History & mythology',
     desc: 'Empires, forgotten wars, folklore. Dense subjects that need a script which actually keeps the timeline straight across twelve chapters.',
     icon: Landmark,
+    href: '/use-cases/faceless-history-video-generator',
   },
   {
     title: 'Sleep & ambient',
@@ -20,16 +30,19 @@ const niches = [
     title: 'Explainers & education',
     desc: 'A generated scene for every idea, so a forty-minute lesson never sits on one static slide while the narrator keeps talking.',
     icon: GraduationCap,
+    href: '/use-cases/best-ai-tool-for-long-form-youtube-videos',
   },
   {
     title: 'Audiobook & narration channels',
     desc: 'Hand it a manuscript or an outline and get narration that sounds like the same reader in chapter one and chapter thirty.',
     icon: BookAudio,
+    href: '/use-cases/automated-book-summary-videos',
   },
   {
     title: 'Faceless channel operators',
     desc: 'No camera, no microphone, no editor, no upload day. Set the topic and the schedule.',
     icon: Ghost,
+    href: '/use-cases/automated-faceless-channel-ideas',
   },
 ];
 
@@ -55,11 +68,8 @@ export default function UseCases() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {niches.map((niche) => {
             const Icon = niche.icon;
-            return (
-              <div
-                key={niche.title}
-                className="p-7 flex flex-col justify-between rounded-2xl border border-[#122823] hover:border-[#C5B49F] bg-[#0A1412] hover:shadow-[0_0_20px_rgba(197, 180, 159,0.05)] transition-all duration-300 group"
-              >
+            const CardContent = (
+              <>
                 <div>
                   <div className="w-10 h-10 rounded-xl border border-[#C5B49F]/20 bg-[#C5B49F]/15 text-[#C5B49F] flex items-center justify-center mb-5 group-hover:bg-[#C5B49F] group-hover:text-[#030706] transition-colors">
                     <Icon className="w-5 h-5" />
@@ -71,6 +81,33 @@ export default function UseCases() {
                     {niche.desc}
                   </p>
                 </div>
+                {niche.href && (
+                  <div className="pt-4 mt-6 border-t border-[#122823] flex items-center justify-between text-xs text-[#527E72] group-hover:text-[#C5B49F] transition-colors">
+                    <span className="font-mono-label">Explore use case</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                )}
+              </>
+            );
+
+            if (niche.href) {
+              return (
+                <Link
+                  key={niche.title}
+                  href={niche.href}
+                  className="p-7 flex flex-col justify-between rounded-2xl border border-[#122823] hover:border-[#C5B49F] bg-[#0A1412] hover:shadow-[0_0_20px_rgba(197,180,159,0.05)] transition-all duration-300 group cursor-pointer block"
+                >
+                  {CardContent}
+                </Link>
+              );
+            }
+
+            return (
+              <div
+                key={niche.title}
+                className="p-7 flex flex-col justify-between rounded-2xl border border-[#122823] bg-[#0A1412] transition-all duration-300 group"
+              >
+                {CardContent}
               </div>
             );
           })}
@@ -80,3 +117,4 @@ export default function UseCases() {
     </section>
   );
 }
+

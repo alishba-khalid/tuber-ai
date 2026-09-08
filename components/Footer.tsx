@@ -1,16 +1,17 @@
 import Link from 'next/link';
 import { Sparkles } from 'lucide-react';
 import LogoIcon from './LogoIcon';
+import { useCases } from '@/lib/use-cases';
 
 export default function Footer() {
   return (
     <footer className="bg-transparent border-t border-[#122823] py-16 text-[#8FAAA6]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 mb-12">
           
           {/* Brand Column */}
-          <div className="md:col-span-2 space-y-4">
+          <div className="sm:col-span-2 md:col-span-3 lg:col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2.5 group">
               <LogoIcon className="w-7 h-7" iconClassName="w-4 h-4" />
               <span className="text-lg font-bold font-serif-heading text-[#ECFDF5]">
@@ -30,9 +31,28 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li><Link href="/how-it-works" className="hover:text-[#C5B49F] transition-colors">How it works</Link></li>
+              <li><Link href="/use-cases" className="hover:text-[#C5B49F] transition-colors">Use cases</Link></li>
               <li><Link href="/examples" className="hover:text-[#C5B49F] transition-colors">Examples</Link></li>
               <li><Link href="/pricing" className="hover:text-[#C5B49F] transition-colors">Pricing</Link></li>
               <li><Link href="/blog" className="hover:text-[#C5B49F] transition-colors">Blog</Link></li>
+            </ul>
+          </div>
+
+          {/* Use Cases Links */}
+          <div>
+            <h4 className="text-xs font-mono-label font-bold text-[#ECFDF5] uppercase tracking-wider mb-4">
+              <Link href="/use-cases" className="hover:text-[#C5B49F] transition-colors">
+                Use Cases
+              </Link>
+            </h4>
+            <ul className="space-y-2.5 text-xs">
+              {useCases.map((u) => (
+                <li key={u.slug}>
+                  <Link href={`/use-cases/${u.slug}`} className="hover:text-[#C5B49F] transition-colors">
+                    {u.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
