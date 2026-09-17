@@ -5,23 +5,32 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth, db, isFirebaseConfigured } from '@/lib/firebase';
 import { doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, onSnapshot } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
+import { getMockSubscription, getMockQuota, MockSubscription, MockQuota } from '@/lib/mock-generate';
+
+const defaultSubscription: MockSubscription = { status: 'none', tier: null, interval: null, currentPeriodEnd: null };
+const defaultQuota: MockQuota = { videosUsedThisPeriod: 0, videosLimit: 0, periodStart: '' };
 
 interface AuthContextType {
   user: any;
   loading: boolean;
   logout: () => Promise<void>;
   credits: number;
+  subscription: MockSubscription;
+  quota: MockQuota;
   projects: any[];
   isMock: boolean;
   loginMockUser: (email: string) => Promise<void>;
   signupMockUser: (email: string) => Promise<void>;
   saveProject: (project: any) => Promise<void>;
+  // Registers a project the server already created (via /api/generate) into
+  // local state without writing it again — server is the writer of record.
+  registerProject: (project: any) => void;
   updateProjectProgress: (id: string, status: string, stageIndex: number, progressPercent: number) => Promise<void>;
-  deductCredits: (amount: number) => Promise<boolean>;
-  paywallOpen: boolean;
-  paywallReason: string;
-  closePaywall: () => void;
-  requireCredits: (amount: number, reason?: string) => boolean;
+  // Mock mode only: re-reads credits/subscription/quota from localStorage
+  // into state. Needed because a same-tab localStorage write (e.g. right
+  // after a mock checkout success) never fires the 'storage' event. No-op
+  // in real Firestore mode, where onSnapshot already keeps this live.
+  refreshBillingState: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -29,17 +38,16 @@ const AuthContext = createContext<AuthContextType>({
   loading: true,
   logout: async () => {},
   credits: 0,
+  subscription: defaultSubscription,
+  quota: defaultQuota,
   projects: [],
   isMock: true,
   loginMockUser: async () => {},
   signupMockUser: async () => {},
   saveProject: async () => {},
+  registerProject: () => {},
   updateProjectProgress: async () => {},
-  deductCredits: async () => false,
-  paywallOpen: false,
-  paywallReason: '',
-  closePaywall: () => {},
-  requireCredits: () => false,
+  refreshBillingState: () => {},
 });
 
 const defaultMockProjects = [
@@ -56,19 +64,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [credits, setCredits] = useState(0);
+  const [subscription, setSubscription] = useState<MockSubscription>(defaultSubscription);
+  const [quota, setQuota] = useState<MockQuota>(defaultQuota);
   const [projects, setProjects] = useState<any[]>([]);
-  const [paywallOpen, setPaywallOpen] = useState(false);
-  const [paywallReason, setPaywallReason] = useState('');
   const router = useRouter();
-
-  const closePaywall = () => setPaywallOpen(false);
-
-  const requireCredits = (amount: number, reason?: string): boolean => {
-    if (credits >= amount) return true;
-    setPaywallReason(reason || '');
-    setPaywallOpen(true);
-    return false;
-  };
 
   // Load and subscribe to authentication changes
   useEffect(() => {
@@ -84,6 +83,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         console.warn('Firebase auth did not respond in time; falling back to logged-out state.');
         setUser(null);
         setCredits(0);
+        setSubscription(defaultSubscription);
+        setQuota(defaultQuota);
         setProjects([]);
         setLoading(false);
       }
@@ -101,9 +102,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           try {
             const userDoc = await getDoc(userRef);
             if (!userDoc.exists()) {
+              // credits/subscription/quota are server-only fields (see
+              // firestore.rules) — a new user simply has none of them yet,
+              // which reads back as 0 / no-active-subscription by default.
               await setDoc(userRef, {
                 email: currentUser.email,
-                credits: 0,
                 createdAt: new Date().toISOString(),
               });
             }
@@ -114,7 +117,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           // Realtime user doc subscription
           unsubscribeUser = onSnapshot(userRef, (docSnap) => {
             if (docSnap.exists()) {
-              setCredits(docSnap.data().credits ?? 0);
+              const data = docSnap.data();
+              setCredits(data.credits ?? 0);
+              setSubscription(data.subscription ?? defaultSubscription);
+              setQuota(data.quota ?? defaultQuota);
             }
           }, (err) => {
             console.error("Firestore user doc subscription failed:", err);
@@ -137,6 +143,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } else {
           setUser(null);
           setCredits(0);
+          setSubscription(defaultSubscription);
+          setQuota(defaultQuota);
           setProjects([]);
           if (unsubscribeUser) {
             unsubscribeUser();
@@ -168,6 +176,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setCredits(0);
           }
 
+          // Load mock subscription/quota (written by lib/mock-generate.ts's
+          // activateMockSubscription after a mock checkout success)
+          setSubscription(getMockSubscription(parsedUser.uid));
+          setQuota(getMockQuota(parsedUser.uid));
+
           // Load Projects
           const storedProjects = localStorage.getItem(`genbyghost_projects_${parsedUser.uid}`);
           if (storedProjects) {
@@ -179,6 +192,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } else {
           setUser(null);
           setCredits(0);
+          setSubscription(defaultSubscription);
+          setQuota(defaultQuota);
           setProjects([]);
         }
         setLoading(false);
@@ -291,45 +306,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const deductCredits = async (amount: number): Promise<boolean> => {
-    if (!user || credits < amount) return false;
+  const registerProject = (project: any) => {
+    setProjects(prev => [project, ...prev]);
+  };
 
-    const newBalance = credits - amount;
-
-    if (isFirebaseConfigured && db) {
-      try {
-        const userRef = doc(db, 'users', user.uid);
-        await updateDoc(userRef, { credits: newBalance });
-        setCredits(newBalance);
-        return true;
-      } catch (e) {
-        console.error("Firestore deduct credits failed:", e);
-        return false;
-      }
-    } else {
-      localStorage.setItem(`genbyghost_credits_${user.uid}`, newBalance.toString());
-      setCredits(newBalance);
-      return true;
-    }
+  const refreshBillingState = () => {
+    if (!user || isFirebaseConfigured) return; // real mode: onSnapshot already live
+    setCredits(parseInt(localStorage.getItem(`genbyghost_credits_${user.uid}`) || '0', 10));
+    setSubscription(getMockSubscription(user.uid));
+    setQuota(getMockQuota(user.uid));
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      loading, 
-      logout, 
-      credits, 
-      projects, 
+    <AuthContext.Provider value={{
+      user,
+      loading,
+      logout,
+      credits,
+      subscription,
+      quota,
+      projects,
       isMock: !isFirebaseConfigured,
       loginMockUser,
       signupMockUser,
       saveProject,
+      registerProject,
       updateProjectProgress,
-      deductCredits,
-      paywallOpen,
-      paywallReason,
-      closePaywall,
-      requireCredits
+      refreshBillingState,
     }}>
       {children}
     </AuthContext.Provider>

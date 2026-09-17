@@ -3,22 +3,40 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Each user can only read/write their own profile document
-    // (this intentionally includes the `credits` field, since
-    // AuthProvider.deductCredits() writes it client-side today).
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    // Each user can only read/write their own profile document.
+    // `credits`, `subscription`, and `quota` are server-only fields — written
+    // exclusively via the Admin SDK (app/api/generate, app/api/webhooks/polar)
+    // — so the client is blocked from touching them directly. `draft` (the
+    // saved generator form state) and any other field stay client-writable.
     match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if isOwner(userId);
+
+      allow create: if isOwner(userId)
+        && !('credits' in request.resource.data)
+        && !('subscription' in request.resource.data)
+        && !('quota' in request.resource.data);
+
+      allow update: if isOwner(userId)
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['credits', 'subscription', 'quota']);
 
       // Transactions are only ever written server-side via the Admin SDK
       // (app/api/webhooks/polar/route.ts) after a real Polar payment.
       // Clients may read their own history but never write to it.
       match /transactions/{transactionId} {
-        allow read: if request.auth != null && request.auth.uid == userId;
+        allow read: if isOwner(userId);
         allow write: if false;
       }
     }
 
-    // Each user can only see/manage projects they own.
+    // Each user can only see/manage projects they own. Project documents are
+    // created server-side (app/api/generate) going forward; client-side
+    // create is left enabled for the mock-mode localStorage fallback's
+    // Firestore-configured-but-keyless edge case and for the legacy pipeline
+    // simulator's own progress updates.
     match /projects/{projectId} {
       allow read, update, delete: if request.auth != null
         && resource.data.userId == request.auth.uid;

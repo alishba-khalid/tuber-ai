@@ -50,22 +50,15 @@ const pipelineSteps = [
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { user, projects, requireCredits } = useAuth();
+  const { user, projects } = useAuth();
   const rawName = user?.email ? user.email.split('@')[0] : 'Alishba';
   const displayName = rawName.charAt(0).toUpperCase() + rawName.slice(1);
 
-  const goToPipelineStep = (step: string, label: string) => {
-    if (!requireCredits(1, `use ${label}`)) return;
+  const goToPipelineStep = (step: string) => {
     if (step === 'publish') {
       router.push('/dashboard/projects');
     } else {
       router.push(`/dashboard/create?step=${step}`);
-    }
-  };
-
-  const handleGatedNav = (e: React.MouseEvent, reason: string) => {
-    if (!requireCredits(1, reason)) {
-      e.preventDefault();
     }
   };
 
@@ -92,7 +85,6 @@ export default function DashboardPage() {
         </div>
         <Link
           href="/dashboard/create"
-          onClick={(e) => handleGatedNav(e, 'write a new script')}
           className="border border-[#EADFC9] text-[#2C2621] hover:bg-[#EADFC9]/25 text-xs px-4 py-2.5 rounded-xl font-bold transition-all flex items-center gap-1.5 shadow-2xs bg-white/70 backdrop-blur-sm"
         >
           <PlusCircle className="w-3.5 h-3.5" />
@@ -122,7 +114,6 @@ export default function DashboardPage() {
           </span>
           <Link
             href="/dashboard/create"
-            onClick={(e) => handleGatedNav(e, 'use Autopilot')}
             className="bg-[#A88E75] text-white hover:bg-[#8C7761] text-sm px-6 py-2.5 rounded-full font-bold transition-all flex items-center gap-2 shadow-xs cursor-pointer"
           >
             <span>Start</span>
@@ -174,7 +165,7 @@ export default function DashboardPage() {
             return (
               <button
                 key={s.label}
-                onClick={() => goToPipelineStep(s.step, s.label)}
+                onClick={() => goToPipelineStep(s.step)}
                 className="text-left bg-white/70 backdrop-blur-sm border border-[#EADFC9] hover:border-[#C5B49F] p-6 rounded-2xl shadow-2xs hover:shadow-md relative flex flex-col justify-between min-h-[170px] transition-all cursor-pointer group"
               >
                 <div className="absolute top-4 right-4 text-xs font-mono-label text-[#EADFC9] font-bold group-hover:text-[#C5B49F] transition-colors">
@@ -253,8 +244,12 @@ export default function DashboardPage() {
                         <span>{project.format}</span>
                         <span>·</span>
                         <span>{project.duration}</span>
-                        <span>·</span>
-                        <span>{project.credits} credits</span>
+                        {project.credits > 0 && (
+                          <>
+                            <span>·</span>
+                            <span>{project.credits} credits</span>
+                          </>
+                        )}
                         <span>·</span>
                         <span>{project.date}</span>
                       </div>

@@ -105,10 +105,14 @@ export default function ProjectsPage() {
                       </span>
                       <span>·</span>
                       <span>{project.format}</span>
-                      <span>·</span>
-                      <span className="flex items-center gap-1">
-                        <Zap className="w-3 h-3 text-[#C5B49F]" /> {project.credits} credits
-                      </span>
+                      {project.credits > 0 && (
+                        <>
+                          <span>·</span>
+                          <span className="flex items-center gap-1">
+                            <Zap className="w-3 h-3 text-[#C5B49F]" /> {project.credits} credits
+                          </span>
+                        </>
+                      )}
                       {project.views && project.status === 'completed' && (
                         <>
                           <span>·</span>

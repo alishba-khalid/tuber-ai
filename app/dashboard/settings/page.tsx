@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { User, Mail, Bell, Shield, CreditCard, Mic, Save, ChevronRight, LogOut } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
+import { hasLegacyCreditsClient } from '@/lib/flags';
+import { getTier } from '@/lib/plans';
 
 const tabs = [
   { id: 'profile', label: 'Profile', icon: User },
@@ -13,7 +15,9 @@ const tabs = [
 ];
 
 export default function SettingsPage() {
-  const { user, logout, credits } = useAuth();
+  const { user, logout, credits, subscription, quota } = useAuth();
+  const isLegacy = hasLegacyCreditsClient(credits);
+  const hasActivePlan = subscription.status === 'active';
   const [activeTab, setActiveTab] = useState('profile');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -204,7 +208,7 @@ export default function SettingsPage() {
               <div className="space-y-4">
                 {[
                   { key: 'videoComplete', label: 'Video completed', desc: 'Get notified when your video finishes generating' },
-                  { key: 'creditLow', label: 'Low credits warning', desc: 'Alert when your credit balance drops below 100' },
+                  ...(isLegacy ? [{ key: 'creditLow', label: 'Low credits warning', desc: 'Alert when your credit balance drops below 100' }] : []),
                   { key: 'newFeatures', label: 'New features & updates', desc: 'Learn about new GenByGhost features' },
                   { key: 'marketing', label: 'Marketing & promotions', desc: 'Receive special offers and promotional emails' },
                 ].map(({ key, label, desc }) => (
@@ -261,13 +265,30 @@ export default function SettingsPage() {
             <div className="space-y-6">
               <h2 className="text-lg font-bold text-white font-serif-heading">Billing & Plan</h2>
               <div className="bg-[#122823]/30 p-4 border border-[#122823] rounded-xl">
-                <div className="flex justify-between mb-1">
-                  <span className="text-white font-medium">Founding Membership</span>
-                  <span className="text-[#C5B49F] font-bold">Active Balance: {credits} credits</span>
-                </div>
-                <div className="text-xs text-[#8FAAA6]">Founding Access tier — dynamic reload enabled</div>
+                {hasActivePlan ? (
+                  <>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-white font-medium">{getTier(subscription.tier || '')?.name || 'Subscribed'}</span>
+                      <span className="text-[#C5B49F] font-bold">
+                        {Math.max(0, quota.videosLimit - quota.videosUsedThisPeriod)} of {quota.videosLimit} videos left this month
+                      </span>
+                    </div>
+                    <div className="text-xs text-[#8FAAA6]">
+                      {isLegacy ? `Plus a legacy balance of ${credits} credits` : 'Active subscription'}
+                    </div>
+                  </>
+                ) : isLegacy ? (
+                  <div className="flex justify-between mb-1">
+                    <span className="text-white font-medium">Legacy credits</span>
+                    <span className="text-[#C5B49F] font-bold">{credits} credits left</span>
+                  </div>
+                ) : (
+                  <div className="text-sm text-[#8FAAA6]">No active plan yet.</div>
+                )}
               </div>
-              <button onClick={() => setActiveTab('billing')} className="btn-outline-pill text-xs px-6 py-2.5 cursor-not-allowed opacity-50">Cancel Membership</button>
+              <a href="/dashboard/credits" className="btn-outline-pill text-xs px-6 py-2.5 cursor-pointer inline-block">
+                {hasActivePlan || isLegacy ? 'Manage billing' : 'View plans'}
+              </a>
             </div>
           )}
 

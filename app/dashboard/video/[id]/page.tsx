@@ -120,8 +120,12 @@ export default function VideoDetailPage() {
               <span className="flex items-center gap-1"><Clock className="w-3 h-3 text-[#C5B49F]" /> {currentProject.duration}</span>
               <span>·</span>
               <span>Voice: {currentProject.voice}</span>
-              <span>·</span>
-              <span className="flex items-center gap-1"><Zap className="w-3 h-3 text-[#C5B49F]" /> {currentProject.credits} credits</span>
+              {currentProject.credits > 0 && (
+                <>
+                  <span>·</span>
+                  <span className="flex items-center gap-1"><Zap className="w-3 h-3 text-[#C5B49F]" /> {currentProject.credits} credits</span>
+                </>
+              )}
             </div>
           </div>
           <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium ${

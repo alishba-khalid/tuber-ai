@@ -4,12 +4,14 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
-import PaywallModal from '@/components/PaywallModal';
+import Toast from '@/components/Toast';
 import LogoIcon from '@/components/LogoIcon';
+import { hasLegacyCreditsClient } from '@/lib/flags';
+import { getTier } from '@/lib/plans';
 import {
   Sparkles, LayoutDashboard,
   CreditCard, Settings, LogOut, Bell, Search,
-  Zap, FileText, Mic, Image, Youtube, Globe, BookOpen, Mail
+  Zap, FileText, Mic, Image, Youtube, Globe, BookOpen, Mail, ArrowUpRight
 } from 'lucide-react';
 
 const sidebarTools = [
@@ -19,25 +21,31 @@ const sidebarTools = [
 ];
 
 export default function DashboardShell({ children }: { children: React.ReactNode }) {
-  const { user, loading, logout, credits, requireCredits } = useAuth();
+  const { user, loading, logout, credits, subscription, quota } = useAuth();
+  const isLegacy = hasLegacyCreditsClient(credits);
+  const hasActivePlan = subscription.status === 'active';
   const pathname = usePathname();
   const router = useRouter();
 
-  const openTool = (step: string, label: string) => {
-    if (!requireCredits(1, `use ${label}`)) return;
+  const openTool = (step: string) => {
     router.push(`/dashboard/create?step=${step}`);
   };
 
   const openPublishing = () => {
-    if (!requireCredits(1, 'publish to YouTube')) return;
     router.push('/dashboard/projects');
   };
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (loading || user) return;
+    // /dashboard/create has a public counterpart anonymous visitors can use
+    // directly — send them there instead of forcing a login wall. Every
+    // other dashboard route still requires auth.
+    if (pathname === '/dashboard/create') {
+      router.replace('/create');
+    } else {
       router.push('/auth/login');
     }
-  }, [user, loading, router]);
+  }, [user, loading, router, pathname]);
 
   if (loading) {
     return (
@@ -126,14 +134,11 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             {sidebarTools.map(({ label, icon: Icon, step }) => (
               <button
                 key={label}
-                onClick={() => openTool(step, label)}
+                onClick={() => openTool(step)}
                 className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl text-[#6E6259] hover:text-[#2C2621] hover:bg-[#EADFC9]/20 transition-all cursor-pointer text-left"
               >
                 <Icon className="w-4 h-4" />
                 <span>{label}</span>
-                {credits <= 0 && (
-                  <Zap className="ml-auto w-3 h-3 text-[#A88E75]" />
-                )}
               </button>
             ))}
           </div>
@@ -150,9 +155,6 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             >
               <Youtube className="w-4 h-4" />
               <span>YouTube Publishing</span>
-              {credits <= 0 && (
-                <Zap className="ml-auto w-3 h-3 text-[#A88E75]" />
-              )}
             </button>
           </div>
 
@@ -174,7 +176,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
         {/* Bottom Menu */}
         <div className="p-3 border-t border-[#EADFC9] space-y-1">
           <Link
-            href="/dashboard/credits"
+            href={isLegacy ? '/dashboard/credits' : hasActivePlan ? '/dashboard/credits' : '/dashboard/create?upgrade=1'}
             className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl transition-all ${
               pathname === '/dashboard/credits'
                 ? 'bg-[#EADFC9] text-[#8C6D4F] font-semibold'
@@ -182,7 +184,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             }`}
           >
             <CreditCard className="w-4 h-4" />
-            <span>Buy credits</span>
+            <span>{isLegacy ? 'Buy credits' : 'Plans'}</span>
           </Link>
 
           <Link
@@ -238,18 +240,38 @@ export default function DashboardShell({ children }: { children: React.ReactNode
               <Bell className="w-4 h-4" />
             </button>
 
-            {/* Credits Capsule */}
-            <Link
-              href="/dashboard/credits"
-              className="bg-white/60 backdrop-blur-md border border-[#EADFC9] text-[#8C6D4F] text-xs font-bold pl-1 pr-3.5 py-1 rounded-full flex items-center gap-2 hover:bg-white/80 hover:border-[#A88E75]/30 shadow-2xs transition-all"
-            >
-              <span className="w-6 h-6 rounded-full bg-[#A88E75] flex items-center justify-center flex-shrink-0">
-                <Zap className="w-3 h-3 text-white fill-current" />
-              </span>
-              <span className="tabular-nums">{credits.toLocaleString()}</span>
-              <span className="text-[9px] font-mono-label uppercase text-[#8C6D4F]/70 tracking-wider">credits</span>
-              <span className="bg-[#A88E75] text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-extrabold flex-shrink-0">+</span>
-            </Link>
+            {/* Billing capsule — legacy balance, plan+quota, or a bare Upgrade CTA */}
+            {isLegacy ? (
+              <Link
+                href="/dashboard/credits"
+                className="bg-white/60 backdrop-blur-md border border-[#EADFC9] text-[#8C6D4F] text-xs font-bold pl-1 pr-3.5 py-1 rounded-full flex items-center gap-2 hover:bg-white/80 hover:border-[#A88E75]/30 shadow-2xs transition-all"
+              >
+                <span className="w-6 h-6 rounded-full bg-[#A88E75] flex items-center justify-center flex-shrink-0">
+                  <Zap className="w-3 h-3 text-white fill-current" />
+                </span>
+                <span className="tabular-nums">{credits.toLocaleString()}</span>
+                <span className="text-[9px] font-mono-label uppercase text-[#8C6D4F]/70 tracking-wider">credits</span>
+                <span className="bg-[#A88E75] text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-extrabold flex-shrink-0">+</span>
+              </Link>
+            ) : hasActivePlan ? (
+              <Link
+                href="/dashboard/credits"
+                className="bg-white/60 backdrop-blur-md border border-[#EADFC9] text-[#8C6D4F] text-xs font-bold pl-3 pr-3.5 py-1.5 rounded-full flex items-center gap-2 hover:bg-white/80 hover:border-[#A88E75]/30 shadow-2xs transition-all"
+              >
+                <span>{getTier(subscription.tier || '')?.name || 'Plan'}</span>
+                <span className="text-[9px] font-mono-label uppercase text-[#8C6D4F]/70 tracking-wider">
+                  {Math.max(0, quota.videosLimit - quota.videosUsedThisPeriod)} videos left
+                </span>
+              </Link>
+            ) : (
+              <Link
+                href="/dashboard/create?upgrade=1"
+                className="bg-[#A88E75] text-white text-xs font-bold pl-3.5 pr-3 py-1.5 rounded-full flex items-center gap-1.5 hover:bg-[#8C7761] shadow-2xs transition-all"
+              >
+                <span>Upgrade</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </Link>
+            )}
 
             {/* User Avatar */}
             <Link href="/dashboard/settings" className="w-8 h-8 rounded-full bg-[#A88E75] text-white font-bold flex items-center justify-center text-xs shadow-xs hover:opacity-90 transition-all">
@@ -260,6 +282,14 @@ export default function DashboardShell({ children }: { children: React.ReactNode
 
         </header>
 
+        {/* Legacy credit balance banner — shown until the balance drains */}
+        {isLegacy && (
+          <div className="px-6 py-2 bg-[#EADFC9]/40 border-b border-[#EADFC9] text-center text-xs text-[#6E6259] font-medium">
+            You have <span className="font-bold text-[#8C6D4F]">{credits.toLocaleString()}</span> credits left.
+            Credits still work — after that, a subscription takes over.
+          </div>
+        )}
+
         {/* Children Render */}
         <main className="flex-1 overflow-auto p-6 bg-[#FAF7F2]">
           {children}
@@ -267,7 +297,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
 
       </div>
 
-      <PaywallModal />
+      <Toast />
     </div>
   );
 }

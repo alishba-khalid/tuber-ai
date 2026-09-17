@@ -1,62 +1,68 @@
 import { NextResponse } from 'next/server';
-import { stripe } from '@/lib/stripe';
-import { getPlan } from '@/lib/plans';
+import { polar } from '@/lib/polar';
+import { adminAuth } from '@/lib/firebase-admin';
+import { getTier, polarProductIds } from '@/lib/plans';
 
+// Polar subscription checkout — the sole payment provider for this app.
+// Resolves the user from the Firebase ID token server-side rather than
+// trusting a userId in the body.
 export async function POST(request: Request) {
+  const authHeader = request.headers.get('authorization') || '';
+  const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
+  const host = request.headers.get('origin') || 'http://localhost:3000';
+
+  if (!token) {
+    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+  }
+
+  let uid: string;
+  let email: string | undefined;
+  try {
+    const decoded = await adminAuth.verifyIdToken(token);
+    uid = decoded.uid;
+    email = decoded.email;
+  } catch (err) {
+    console.error('Checkout: invalid ID token', err);
+    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+  }
+
   let planId = '';
-  let host = 'http://localhost:3000';
+  let interval: 'monthly' | 'annual' = 'monthly';
+
   try {
     const body = await request.json();
     planId = body.planId;
-    const { userId, email } = body;
+    interval = body.interval === 'annual' ? 'annual' : 'monthly';
 
-    const selectedPlan = getPlan(planId);
-    if (!userId || !planId || !selectedPlan) {
-      return NextResponse.json({ error: 'Missing parameters or invalid plan.' }, { status: 400 });
-    }
-    host = request.headers.get('origin') || 'http://localhost:3000';
-
-    // Mock mode fallback if keys are placeholder
-    const isMockMode = !process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY.includes('placeholder');
-    if (isMockMode) {
-      return NextResponse.json({ url: `${host}/dashboard/credits?mock-success=true&planId=${planId}` });
+    const tier = getTier(planId);
+    if (!tier) {
+      return NextResponse.json({ error: 'Invalid plan.' }, { status: 400 });
     }
 
-    // Create checkout session
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: `GenByGhost ${selectedPlan.name} Plan`,
-              description: `Get ${selectedPlan.credits.toLocaleString()} video generation credits`,
-            },
-            unit_amount: selectedPlan.price * 100, // in cents
-          },
-          quantity: 1,
-        },
-      ],
-      mode: 'payment',
-      customer_email: email,
-      client_reference_id: userId, // CRITICAL: store the Firebase userId here so the webhook can read it!
-      metadata: {
-        planId,
-        credits: selectedPlan.credits.toString(),
-      },
-      success_url: `${host}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${host}/dashboard/credits`,
+    const productId = polarProductIds[planId]?.[interval];
+    const successUrl = `${host}/dashboard/create?checkout=success`;
+
+    const isMockMode = !process.env.POLAR_ACCESS_TOKEN || process.env.POLAR_ACCESS_TOKEN.includes('placeholder');
+    if (isMockMode || !productId || productId.includes('placeholder')) {
+      return NextResponse.json({
+        url: `${successUrl}&mock_plan=${planId}&mock_interval=${interval}`,
+      });
+    }
+
+    const session = await polar.checkouts.create({
+      products: [productId],
+      successUrl,
+      customerEmail: email,
+      metadata: { userId: uid, planId, interval },
     });
 
     return NextResponse.json({ url: session.url });
   } catch (err: any) {
-    console.error('Stripe session creation error:', err);
+    console.error('Polar subscription checkout error:', err);
     if (process.env.NODE_ENV !== 'production') {
-      console.warn('Stripe API failed. Falling back to Mock Mode in development.');
-      return NextResponse.json({ 
-        url: `${host}/dashboard/credits?mock-success=true&planId=${planId}`,
-        warning: 'Stripe API failed. Using local mock mode.' 
+      return NextResponse.json({
+        url: `${host}/dashboard/create?checkout=success&mock_plan=${planId}&mock_interval=${interval}`,
+        warning: 'Polar API failed. Using local mock mode.',
       });
     }
     return NextResponse.json({ error: err.message || 'Internal server error' }, { status: 500 });

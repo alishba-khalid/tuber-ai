@@ -1,0 +1,331 @@
+'use client';
+
+import { useState, useId } from 'react';
+import { X } from 'lucide-react';
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from 'firebase/auth';
+import { auth, isFirebaseConfigured } from '@/lib/firebase';
+import { useAuth } from '@/components/AuthProvider';
+import LogoIcon from '@/components/LogoIcon';
+import Modal from '@/components/Modal';
+
+interface AuthModalProps {
+  onClose: () => void;
+  onSuccess: () => void;
+}
+
+const mockAccounts = [
+  { name: 'John Doe', email: 'john.doe@gmail.com', avatar: 'JD' },
+  { name: 'Jane Smith', email: 'jane.smith@gmail.com', avatar: 'JS' },
+  { name: 'Alex Rivers', email: 'alex.rivers@gmail.com', avatar: 'AR' },
+];
+
+export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
+  const [mode, setMode] = useState<'login' | 'signup'>('signup');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showMockGoogle, setShowMockGoogle] = useState(false);
+  const [customMockEmail, setCustomMockEmail] = useState('');
+  const [showCustomInput, setShowCustomInput] = useState(false);
+  const { loginMockUser, signupMockUser } = useAuth();
+  const titleId = useId();
+
+  const handleEmailSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    if (mode === 'signup' && password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      if (isFirebaseConfigured) {
+        if (mode === 'signup') {
+          await createUserWithEmailAndPassword(auth, email, password);
+        } else {
+          await signInWithEmailAndPassword(auth, email, password);
+        }
+      } else {
+        if (mode === 'signup') {
+          await signupMockUser(email);
+        } else {
+          await loginMockUser(email);
+        }
+      }
+      onSuccess();
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleAuth = async () => {
+    setError('');
+    if (isFirebaseConfigured) {
+      setLoading(true);
+      try {
+        await signInWithPopup(auth, new GoogleAuthProvider());
+        onSuccess();
+      } catch (err: any) {
+        console.error(err);
+        setError(err.message || 'Google sign-in failed.');
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setShowMockGoogle(true);
+    }
+  };
+
+  const handleMockGoogleSubmit = async (selectedEmail: string) => {
+    if (!selectedEmail) return;
+    setLoading(true);
+    setShowMockGoogle(false);
+    try {
+      if (mode === 'signup') {
+        await signupMockUser(selectedEmail);
+      } else {
+        await loginMockUser(selectedEmail);
+      }
+      onSuccess();
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || 'Google sign-in failed.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Modal onClose={onClose} labelledBy={titleId} className="w-full max-w-md">
+      <div className="bg-[#0A1412] border border-[#122823] rounded-2xl p-8 shadow-2xl relative">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 p-1.5 rounded-full text-[#8FAAA6] hover:text-[#ECFDF5] hover:bg-white/10 transition-all cursor-pointer"
+          aria-label="Close"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 mb-4">
+            <LogoIcon />
+            <span className="text-xl font-bold font-serif-heading text-[#ECFDF5]">
+              GenBy<span className="text-[#C5B49F]">Ghost</span>
+            </span>
+          </div>
+          <h2 id={titleId} className="text-2xl font-bold font-serif-heading text-[#ECFDF5]">
+            {mode === 'signup' ? 'Create your account' : 'Welcome back'}
+          </h2>
+          <p className="text-xs text-[#8FAAA6] mt-1">
+            {mode === 'signup'
+              ? 'Sign up to save your draft and start generating'
+              : 'Log in to pick up where you left off'}
+          </p>
+        </div>
+
+        {error && (
+          <div className="mb-4 p-3 bg-red-950/40 border border-red-800 text-red-400 rounded-lg text-xs text-center font-medium">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleEmailSubmit} className="space-y-4">
+          <div>
+            <label className="text-xs font-mono-label font-bold text-[#8FAAA6] block mb-1">
+              EMAIL ADDRESS
+            </label>
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              className="w-full bg-[#0A1412] border border-[#122823] rounded-xl px-4 py-2.5 text-sm text-[#ECFDF5] placeholder-[#527E72] focus:outline-none focus:border-[#225146]"
+            />
+          </div>
+
+          <div>
+            <label className="text-xs font-mono-label font-bold text-[#8FAAA6] block mb-1">
+              PASSWORD
+            </label>
+            <input
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              className="w-full bg-[#0A1412] border border-[#122823] rounded-xl px-4 py-2.5 text-sm text-[#ECFDF5] placeholder-[#527E72] focus:outline-none focus:border-[#225146]"
+            />
+          </div>
+
+          {mode === 'signup' && (
+            <div>
+              <label className="text-xs font-mono-label font-bold text-[#8FAAA6] block mb-1">
+                CONFIRM PASSWORD
+              </label>
+              <input
+                type="password"
+                required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="••••••••"
+                className="w-full bg-[#0A1412] border border-[#122823] rounded-xl px-4 py-2.5 text-sm text-[#ECFDF5] placeholder-[#527E72] focus:outline-none focus:border-[#225146]"
+              />
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full btn-indigo-pill justify-center text-sm py-2.5 rounded-xl font-bold mt-2 cursor-pointer"
+          >
+            {loading ? 'Please wait...' : mode === 'signup' ? 'Create Account' : 'Sign In'}
+          </button>
+        </form>
+
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-[#122823]"></div>
+          </div>
+          <div className="relative flex justify-center text-xs">
+            <span className="bg-[#0A1412] px-3 text-[#527E72] font-medium">
+              Or {mode === 'signup' ? 'sign up' : 'continue'} with
+            </span>
+          </div>
+        </div>
+
+        <button
+          onClick={handleGoogleAuth}
+          disabled={loading}
+          className="w-full flex items-center justify-center gap-2 bg-[#0A1412] border border-[#122823] hover:border-[#225146] hover:bg-[#122823]/50 rounded-xl py-2.5 text-sm font-semibold text-[#ECFDF5] transition-all cursor-pointer"
+        >
+          <svg className="w-4 h-4" viewBox="0 0 24 24">
+            <path
+              fill="#EA4335"
+              d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114-3.466 0-6.277-2.85-6.277-6.36 0-3.51 2.811-6.358 6.277-6.358 1.584 0 3.018.59 4.114 1.564l3.078-3.078C18.91 1.94 15.823 1 12.24 1 5.923 1 1 5.92 1 12s4.923 11 11.24 11c6.592 0 11.24-4.577 11.24-11 0-.668-.073-1.31-.205-1.922H12.24z"
+            />
+          </svg>
+          Google
+        </button>
+
+        <div className="text-center mt-6 text-xs text-[#8FAAA6]">
+          {mode === 'signup' ? (
+            <>
+              Already have an account?{' '}
+              <button
+                type="button"
+                onClick={() => { setMode('login'); setError(''); }}
+                className="text-[#C5B49F] font-semibold hover:underline cursor-pointer"
+              >
+                Log in
+              </button>
+            </>
+          ) : (
+            <>
+              Don&apos;t have an account?{' '}
+              <button
+                type="button"
+                onClick={() => { setMode('signup'); setError(''); }}
+                className="text-[#C5B49F] font-semibold hover:underline cursor-pointer"
+              >
+                Sign up
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+
+      {showMockGoogle && (
+        <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/75 backdrop-blur-xs p-4 animate-fade-in">
+          <div className="bg-white text-slate-800 rounded-2xl w-full max-w-sm p-6 shadow-2xl space-y-6">
+            <div className="flex flex-col items-center text-center">
+              <svg className="w-8 h-8 mb-2" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l3.66-2.85z" />
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.85c.87-2.6 3.3-4.53 6.16-4.53z" />
+              </svg>
+              <h2 className="text-lg font-bold text-slate-800">Choose an account</h2>
+              <p className="text-xs text-slate-500 mt-1">
+                to continue to <span className="font-semibold text-emerald-800">GenByGhost (Mock Mode)</span>
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              {mockAccounts.map((acc) => (
+                <button
+                  key={acc.email}
+                  onClick={() => handleMockGoogleSubmit(acc.email)}
+                  className="w-full flex items-center gap-3 p-3 rounded-xl border border-slate-100 hover:bg-slate-50 text-left transition-all cursor-pointer group"
+                >
+                  <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600 group-hover:bg-slate-200">
+                    {acc.avatar}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-semibold text-slate-800">{acc.name}</div>
+                    <div className="text-xs text-slate-500 truncate">{acc.email}</div>
+                  </div>
+                </button>
+              ))}
+
+              {!showCustomInput ? (
+                <button
+                  onClick={() => setShowCustomInput(true)}
+                  className="w-full text-center text-xs font-semibold text-indigo-600 hover:text-indigo-700 py-2 cursor-pointer"
+                >
+                  + Use another account
+                </button>
+              ) : (
+                <div className="pt-3 border-t border-slate-100 space-y-2">
+                  <input
+                    type="email"
+                    placeholder="Enter email address"
+                    value={customMockEmail}
+                    onChange={(e) => setCustomMockEmail(e.target.value)}
+                    className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 text-slate-800"
+                  />
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setShowCustomInput(false)}
+                      className="flex-1 py-1.5 text-xs font-semibold text-slate-500 hover:bg-slate-50 rounded-xl border border-slate-100 cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={() => handleMockGoogleSubmit(customMockEmail)}
+                      disabled={!customMockEmail.includes('@')}
+                      className="flex-1 py-1.5 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 rounded-xl cursor-pointer"
+                    >
+                      Sign In
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="pt-2 text-center">
+              <button
+                onClick={() => { setShowMockGoogle(false); setShowCustomInput(false); }}
+                className="text-xs text-slate-400 hover:text-slate-500 cursor-pointer"
+              >
+                Cancel Sign-In
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </Modal>
+  );
+}

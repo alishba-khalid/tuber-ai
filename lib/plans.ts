@@ -1,20 +1,68 @@
-export interface Plan {
-  id: string;
+export interface Tier {
+  id: 'starter' | 'creator' | 'studio';
   name: string;
-  price: number;
-  credits: number;
-  desc: string;
+  monthlyPrice: number;
+  annualPrice: number; // total per year ("2 months free" vs. monthly x12)
+  videosPerMonth: number;
+  maxVideoLength: string;
+  resolution: string;
+  voiceTier: string;
+  features: string[];
   popular?: boolean;
 }
 
-export const plans: Plan[] = [
-  { id: 'starter', name: 'Archive', price: 29, credits: 300, desc: '1 documentary hour' },
-  { id: 'plus', name: 'Series', price: 49, credits: 660, desc: '2 documentary hours' },
-  { id: 'creator', name: 'Studio', price: 89, credits: 1500, desc: '5 documentary hours', popular: true },
-  { id: 'studio', name: 'Network', price: 139, credits: 2700, desc: '9 documentary hours' },
-  { id: 'pro', name: 'Syndicate', price: 259, credits: 6000, desc: '20 documentary hours' },
+export const tiers: Tier[] = [
+  {
+    id: 'starter',
+    name: 'Starter',
+    monthlyPrice: 29,
+    annualPrice: 290,
+    videosPerMonth: 3,
+    maxVideoLength: 'Up to 30 min each',
+    resolution: '1080p',
+    voiceTier: 'Standard voices',
+    features: [],
+  },
+  {
+    id: 'creator',
+    name: 'Creator',
+    monthlyPrice: 79,
+    annualPrice: 790,
+    videosPerMonth: 12,
+    maxVideoLength: 'Up to 3 hours each',
+    resolution: '1080p',
+    voiceTier: 'Premium voices',
+    features: ['YouTube auto-publish'],
+    popular: true,
+  },
+  {
+    id: 'studio',
+    name: 'Studio',
+    monthlyPrice: 199,
+    annualPrice: 1990,
+    videosPerMonth: 40,
+    maxVideoLength: 'Up to 10 hours each',
+    resolution: '4K',
+    voiceTier: 'Voice cloning',
+    features: ['Priority render queue', 'API access'],
+  },
 ];
 
-export function getPlan(id: string): Plan | undefined {
-  return plans.find((p) => p.id === id);
+export function getTier(id: string): Tier | undefined {
+  return tiers.find((t) => t.id === id);
 }
+
+export const polarProductIds: Record<string, { monthly: string; annual: string }> = {
+  starter: {
+    monthly: process.env.POLAR_PRODUCT_ID_STARTER_MONTHLY || 'polar_prod_starter_monthly_placeholder',
+    annual: process.env.POLAR_PRODUCT_ID_STARTER_ANNUAL || 'polar_prod_starter_annual_placeholder',
+  },
+  creator: {
+    monthly: process.env.POLAR_PRODUCT_ID_CREATOR_MONTHLY || 'polar_prod_creator_monthly_placeholder',
+    annual: process.env.POLAR_PRODUCT_ID_CREATOR_ANNUAL || 'polar_prod_creator_annual_placeholder',
+  },
+  studio: {
+    monthly: process.env.POLAR_PRODUCT_ID_STUDIO_MONTHLY || 'polar_prod_studio_monthly_placeholder',
+    annual: process.env.POLAR_PRODUCT_ID_STUDIO_ANNUAL || 'polar_prod_studio_annual_placeholder',
+  },
+};
