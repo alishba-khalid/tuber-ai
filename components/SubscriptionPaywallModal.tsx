@@ -8,12 +8,15 @@ import { tiers } from '@/lib/plans';
 import { track } from '@/lib/analytics';
 import { showToast } from '@/lib/toast';
 import { hasLegacyCreditsClient } from '@/lib/flags';
-import { useApiErrorHandler, type PaywallMode } from '@/lib/handleApiError';
+import { useApiErrorHandler } from '@/lib/handleApiError';
 import Modal from '@/components/Modal';
 
-// Re-exported so existing importers keep working; the type itself now lives
-// with the shared API error handler that decides which mode to open.
-export type { PaywallMode };
+// "You've never subscribed" vs "your plan is out of room this period" —
+// purely which headline/copy this modal shows. app/dashboard/credits/page.tsx
+// derives it from account state, not from an API error code (a 402 redirects
+// there with ?reason= instead of opening this modal directly — see
+// lib/handleApiError.ts).
+export type PaywallMode = 'subscribe' | 'upgrade';
 
 interface SubscriptionPaywallModalProps {
   mode: PaywallMode;

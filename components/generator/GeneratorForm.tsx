@@ -14,9 +14,14 @@ import { track } from '@/lib/analytics';
 import { showToast } from '@/lib/toast';
 import { activateMockSubscription, runMockGenerateGate } from '@/lib/mock-generate';
 import { hasLegacyCreditsClient } from '@/lib/flags';
-import { useApiErrorHandler, type PaywallMode } from '@/lib/handleApiError';
+import { useApiErrorHandler } from '@/lib/handleApiError';
+import { paywallHref, type PaymentReason } from '@/lib/routes';
+import { savePendingGeneration, readPendingGeneration, clearPendingGeneration } from '@/lib/pending-generation';
 import AuthModal from '@/components/AuthModal';
-import SubscriptionPaywallModal from '@/components/SubscriptionPaywallModal';
+
+// Every tool that gates generation on a plan/credits uses this same key —
+// see lib/pending-generation.ts for why there's only one.
+const PENDING_GENERATION_TOOL = 'create';
 
 const formats = [
   { id: 'documentary', label: 'Documentary', icon: Film, desc: 'Cinematic narrated documentary' },
@@ -68,10 +73,12 @@ export default function GeneratorForm() {
   const [isGenerating, setIsGenerating] = useState(false);
 
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [paywallMode, setPaywallMode] = useState<PaywallMode | null>(null);
   // Every failed API call in this form goes through the shared handler:
-  // 401 -> /auth/login?next=..., 402 -> this paywall, anything else -> toast.
-  const { handleApiError } = useApiErrorHandler({ onPaywall: setPaywallMode });
+  // 401 -> /auth/login?next=..., 402 -> save this form + /dashboard/credits
+  // with a reason (never an error toast), anything else -> toast.
+  const { handleApiError } = useApiErrorHandler({
+    onPaymentRequired: () => savePendingGeneration(PENDING_GENERATION_TOOL, { topic, script, settings: settings() }),
+  });
   const pendingAutoContinue = useRef(false);
   const generateBtnRef = useRef<HTMLButtonElement>(null);
   const hydratedRef = useRef(false);
@@ -173,9 +180,19 @@ export default function GeneratorForm() {
           }
         }
         track('checkout_completed');
-        const draft = await readDraft();
-        if (draft) applyDraft(draft);
-        showToast('Your draft is back. Pick up where you left off.');
+        // A purchase made after a 402 redirect (see runServerGate below)
+        // takes priority over the generic autosaved draft — it's the exact
+        // form that was blocked, and the copy says so specifically.
+        const pending = readPendingGeneration(PENDING_GENERATION_TOOL);
+        if (pending) {
+          applyDraft(pending);
+          clearPendingGeneration(PENDING_GENERATION_TOOL);
+          showToast('Your plan is active — click Generate to start.');
+        } else {
+          const draft = await readDraft();
+          if (draft) applyDraft(draft);
+          showToast('Your draft is back. Pick up where you left off.');
+        }
         setTimeout(() => {
           generateBtnRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
           generateBtnRef.current?.focus();
@@ -190,41 +207,25 @@ export default function GeneratorForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
-  // "Upgrade" entry points elsewhere in the dashboard chrome (topbar,
-  // sidebar) can't open this component's modal directly — they navigate
-  // here with ?upgrade=1 instead, and this opens it on arrival.
+  // A stray old-style ?upgrade=1 link on this page (nothing in-app links
+  // here with it anymore — every Upgrade entry point goes straight to
+  // /dashboard/credits) still lands somewhere sensible instead of doing
+  // nothing.
   useEffect(() => {
     if (!searchParams.get('upgrade')) return;
-    queueMicrotask(() => {
-      track('paywall_shown', { reason: 'manual' });
-      setPaywallMode('subscribe');
-      const params = new URLSearchParams(searchParams.toString());
-      params.delete('upgrade');
-      const qs = params.toString();
-      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
-    });
+    router.replace('/dashboard/credits?upgrade=1');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   const estimatedCredits = estimatedCreditCost(duration);
 
-  // A brand-new account has no credits and no subscription. Rather than
-  // letting that user fill in the whole form and only discover the paywall
-  // on submit (or, worse, see the Generate button sit there disabled with no
-  // explanation), say so up front. Anonymous visitors are deliberately not
-  // included — they get the auth modal first and their draft is preserved.
-  const needsPlan = !!user && !isLegacy && subscription.status !== 'active';
-  const outOfQuota =
-    !!user &&
-    !isLegacy &&
-    subscription.status === 'active' &&
-    quota.videosUsedThisPeriod >= quota.videosLimit;
-
   // Gate order (server /api/generate mirrors this exactly): a legacy credit
-  // balance > 0 always wins and never touches a modal; everyone else goes
-  // through subscription+quota, and any rejection is a modal — never an
-  // inline error. Inline errors are reserved for genuine failures (network,
-  // 500s), which surface as a toast, not a red box in the form.
+  // balance > 0 always wins; everyone else goes through subscription+quota.
+  // The form is ALWAYS fully usable regardless of plan/credits — there is no
+  // up-front warning. A rejection here only ever happens at the moment
+  // Generate is actually clicked, and it's never shown as an error: the
+  // filled-in form is saved (see lib/pending-generation.ts) and the user is
+  // sent to /dashboard/credits with a reason, not a toast or a blocked page.
   const runServerGate = async () => {
     if (!user) return;
     setIsGenerating(true);
@@ -233,9 +234,10 @@ export default function GeneratorForm() {
       if (isMock) {
         const result = runMockGenerateGate(user.uid, estimatedCredits);
         if (!result.ok) {
-          const mode: PaywallMode = result.code === 'INSUFFICIENT_CREDITS' ? 'upgrade' : 'subscribe';
-          track('paywall_shown', { reason: mode });
-          setPaywallMode(mode);
+          const reason: PaymentReason = result.code === 'INSUFFICIENT_CREDITS' ? 'insufficient_credits' : 'no_plan';
+          track('paywall_redirect', { reason });
+          savePendingGeneration(PENDING_GENERATION_TOOL, { topic, script, settings: settings() });
+          router.push(paywallHref(reason));
           return;
         }
         const cleanTitle = topic.trim().split(/[.!?\n]/)[0].slice(0, 60) || 'Untitled Video';
@@ -257,6 +259,7 @@ export default function GeneratorForm() {
           views: '0',
         });
         if (result.mode === 'credits') refreshBillingState();
+        clearPendingGeneration(PENDING_GENERATION_TOOL);
         track('generation_started');
         router.push(`/dashboard/video/${result.projectId}`);
         return;
@@ -276,6 +279,7 @@ export default function GeneratorForm() {
 
       const data = await res.json();
       if (data.project) registerProject(data.project);
+      clearPendingGeneration(PENDING_GENERATION_TOOL);
       track('generation_started');
       router.push(`/dashboard/video/${data.projectId}`);
     } catch (e) {
@@ -501,30 +505,6 @@ export default function GeneratorForm() {
 
       {/* Generate */}
       <div className="bg-white/70 backdrop-blur-sm border border-[#EADFC9] rounded-2xl p-6 shadow-2xs">
-        {(needsPlan || outOfQuota) && (
-          <div className="mb-5 rounded-xl border border-[#EADFC9] bg-[#FAF6F0] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <div className="text-sm font-bold text-[#2C2621]">
-                {needsPlan ? 'Choose a plan to start generating' : "You've used this month's videos"}
-              </div>
-              <p className="text-xs text-[#82796D] mt-0.5 max-w-md leading-relaxed">
-                {needsPlan
-                  ? 'Your account has no plan and 0 credits yet. Pick a plan and your topic, script and settings below are kept exactly as they are.'
-                  : `0 of ${quota.videosLimit} videos left this period. Upgrade to keep generating now, or wait for your quota to renew.`}
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                track('paywall_shown', { reason: needsPlan ? 'subscribe' : 'upgrade' });
-                setPaywallMode(needsPlan ? 'subscribe' : 'upgrade');
-              }}
-              className="bg-[#A88E75] text-[#fff] hover:bg-[#8C7761] text-xs font-bold px-5 py-2.5 rounded-full transition-all shadow-xs cursor-pointer flex-shrink-0"
-            >
-              {needsPlan ? 'See plans' : 'Upgrade'}
-            </button>
-          </div>
-        )}
         {isLegacy ? (
           <div className="flex items-center justify-between mb-4">
             <div>
@@ -580,14 +560,6 @@ export default function GeneratorForm() {
         <AuthModal
           onClose={() => { setAuthModalOpen(false); pendingAutoContinue.current = false; }}
           onSuccess={() => setAuthModalOpen(false)}
-        />
-      )}
-
-      {paywallMode && (
-        <SubscriptionPaywallModal
-          mode={paywallMode}
-          topic={topic}
-          onClose={() => setPaywallMode(null)}
         />
       )}
     </div>

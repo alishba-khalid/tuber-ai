@@ -24,3 +24,14 @@ export function safeNextPath(next: string | null | undefined, fallback = '/dashb
 export function withNext(route: string, next: string): string {
   return `${route}?next=${encodeURIComponent(next)}`;
 }
+
+// Why a 402 sent the user to the plans page — shown as a message at the top
+// of /dashboard/credits (see app/dashboard/credits/page.tsx) so "why am I
+// here" is never a mystery. Every tool's generate action redirects here on
+// a 402 instead of showing an error — see lib/handleApiError.ts and
+// components/generator/GeneratorForm.tsx.
+export type PaymentReason = 'no_plan' | 'insufficient_credits';
+
+export function paywallHref(reason: PaymentReason): string {
+  return `${PLANS_ROUTE}?reason=${reason}`;
+}

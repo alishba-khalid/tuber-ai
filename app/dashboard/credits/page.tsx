@@ -1,15 +1,22 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
 import { Zap, History, ArrowRight, Sparkles } from 'lucide-react';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { hasLegacyCreditsClient } from '@/lib/flags';
 import { getTier } from '@/lib/plans';
-import type { PaywallMode } from '@/lib/handleApiError';
-import SubscriptionPaywallModal from '@/components/SubscriptionPaywallModal';
+import type { PaymentReason } from '@/lib/routes';
+import SubscriptionPaywallModal, { type PaywallMode } from '@/components/SubscriptionPaywallModal';
+
+const REASON_MESSAGE: Record<PaymentReason, string> = {
+  // Same message for both — in both cases the form the user filled in is
+  // saved and waiting; only the billing reason they got here differs, which
+  // is already implied by which plan/upgrade CTA they see below.
+  no_plan: 'Your video is ready to generate — pick a plan to continue.',
+  insufficient_credits: 'Your video is ready to generate — pick a plan to continue.',
+};
 
 export default function CreditsPage() {
   const { user, credits, subscription, quota, isMock } = useAuth();
@@ -18,6 +25,7 @@ export default function CreditsPage() {
   const tier = hasActivePlan ? getTier(subscription.tier || '') : undefined;
   const [transactions, setTransactions] = useState<any[]>([]);
   const [paywallOpen, setPaywallOpen] = useState(false);
+  const [reason, setReason] = useState<PaymentReason | null>(null);
   // Derived rather than stored, so the headline is still right if the
   // subscription state resolves a tick after the modal opens.
   const paywallMode: PaywallMode | null = paywallOpen
@@ -26,19 +34,26 @@ export default function CreditsPage() {
       : 'subscribe'
     : null;
 
-  // This is the plans page every "see plans" / pricing CTA lands on. Arriving
-  // with ?plan=<id> (from the marketing pricing table, possibly via signup)
-  // or ?upgrade=1 opens the plan picker straight away, so the click the user
-  // made on the homepage actually reaches a working checkout instead of
-  // dead-ending on a billing summary.
+  // This is the plans page every "see plans" / pricing CTA lands on, plus
+  // where a 402 (no plan, or out of quota) redirects with the filled-in form
+  // already saved to localStorage (see lib/pending-generation.ts). Arriving
+  // with ?plan=<id> / ?upgrade=1 / ?reason=<no_plan|insufficient_credits>
+  // all open the plan picker straight away, so the click (or blocked
+  // generation) the user came from actually reaches a working checkout
+  // instead of dead-ending on a billing summary.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (!params.get('plan') && !params.get('upgrade')) return;
-    // Deferred the same way GeneratorForm defers its ?upgrade=1 handler, so
-    // opening the modal isn't a synchronous cascade out of the effect body.
-    queueMicrotask(() => setPaywallOpen(true));
+    const reasonParam = params.get('reason');
+    const validReason = reasonParam === 'no_plan' || reasonParam === 'insufficient_credits' ? reasonParam : null;
+    if (!params.get('plan') && !params.get('upgrade') && !validReason) return;
+    // Deferred so this isn't a synchronous cascade out of the effect body.
+    queueMicrotask(() => {
+      if (validReason) setReason(validReason);
+      setPaywallOpen(true);
+    });
     params.delete('plan');
     params.delete('upgrade');
+    params.delete('reason');
     const qs = params.toString();
     window.history.replaceState(null, '', qs ? `/dashboard/credits?${qs}` : '/dashboard/credits');
   }, []);
@@ -90,6 +105,16 @@ export default function CreditsPage() {
         </p>
       </div>
 
+      {/* Landed here from a blocked generation (?reason=) — the form that
+          triggered it is saved in localStorage and comes back automatically
+          once checkout succeeds. See lib/pending-generation.ts. */}
+      {reason && (
+        <div className="bg-[#C5B49F]/10 border border-[#C5B49F]/30 rounded-2xl px-5 py-3 flex items-center gap-2.5 text-sm text-[#ECFDF5]">
+          <Sparkles className="w-4 h-4 text-[#C5B49F] flex-shrink-0" />
+          <span className="font-medium">{REASON_MESSAGE[reason]}</span>
+        </div>
+      )}
+
       {/* Legacy balance card */}
       {isLegacy && (
         <div className="bg-[#0A1412] border border-[#122823] rounded-2xl p-6 shadow-2xs relative overflow-hidden">
@@ -104,13 +129,14 @@ export default function CreditsPage() {
                 Credits still work — they spend down first, before your subscription quota.
               </div>
             </div>
-            <Link
-              href="/dashboard/create?upgrade=1"
+            <button
+              type="button"
+              onClick={() => setPaywallOpen(true)}
               className="bg-[#C5B49F] text-[#0A1412] hover:bg-[#d8c8b3] text-sm px-6 py-2.5 rounded-full font-bold transition-all flex items-center gap-2 shadow-xs cursor-pointer flex-shrink-0"
             >
               View subscription plans
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </button>
           </div>
         </div>
       )}
@@ -133,13 +159,14 @@ export default function CreditsPage() {
                 )}
               </div>
             </div>
-            <Link
-              href="/dashboard/create?upgrade=1"
+            <button
+              type="button"
+              onClick={() => setPaywallOpen(true)}
               className="border border-[#225146] text-[#ECFDF5] hover:bg-[#122823]/50 text-sm px-6 py-2.5 rounded-full font-bold transition-all flex items-center gap-2 shadow-xs cursor-pointer flex-shrink-0"
             >
               Change plan
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </button>
           </div>
         </div>
       ) : !isLegacy ? (
