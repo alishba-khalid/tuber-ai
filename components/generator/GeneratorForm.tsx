@@ -14,8 +14,9 @@ import { track } from '@/lib/analytics';
 import { showToast } from '@/lib/toast';
 import { activateMockSubscription, runMockGenerateGate } from '@/lib/mock-generate';
 import { hasLegacyCreditsClient } from '@/lib/flags';
+import { useApiErrorHandler, type PaywallMode } from '@/lib/handleApiError';
 import AuthModal from '@/components/AuthModal';
-import SubscriptionPaywallModal, { PaywallMode } from '@/components/SubscriptionPaywallModal';
+import SubscriptionPaywallModal from '@/components/SubscriptionPaywallModal';
 
 const formats = [
   { id: 'documentary', label: 'Documentary', icon: Film, desc: 'Cinematic narrated documentary' },
@@ -68,6 +69,9 @@ export default function GeneratorForm() {
 
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [paywallMode, setPaywallMode] = useState<PaywallMode | null>(null);
+  // Every failed API call in this form goes through the shared handler:
+  // 401 -> /auth/login?next=..., 402 -> this paywall, anything else -> toast.
+  const { handleApiError } = useApiErrorHandler({ onPaywall: setPaywallMode });
   const pendingAutoContinue = useRef(false);
   const generateBtnRef = useRef<HTMLButtonElement>(null);
   const hydratedRef = useRef(false);
@@ -154,7 +158,6 @@ export default function GeneratorForm() {
       const params = new URLSearchParams(searchParams.toString());
       params.delete('checkout');
       params.delete('mock_plan');
-      params.delete('mock_interval');
       const qs = params.toString();
       router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
     };
@@ -164,9 +167,8 @@ export default function GeneratorForm() {
         // Mock mode has no real webhook — activate the plan here instead.
         if (isMock && user) {
           const mockPlan = searchParams.get('mock_plan');
-          const mockInterval = (searchParams.get('mock_interval') as 'monthly' | 'annual') || 'monthly';
           if (mockPlan) {
-            activateMockSubscription(user.uid, mockPlan, mockInterval);
+            activateMockSubscription(user.uid, mockPlan);
             refreshBillingState();
           }
         }
@@ -206,6 +208,18 @@ export default function GeneratorForm() {
 
   const estimatedCredits = estimatedCreditCost(duration);
 
+  // A brand-new account has no credits and no subscription. Rather than
+  // letting that user fill in the whole form and only discover the paywall
+  // on submit (or, worse, see the Generate button sit there disabled with no
+  // explanation), say so up front. Anonymous visitors are deliberately not
+  // included — they get the auth modal first and their draft is preserved.
+  const needsPlan = !!user && !isLegacy && subscription.status !== 'active';
+  const outOfQuota =
+    !!user &&
+    !isLegacy &&
+    subscription.status === 'active' &&
+    quota.videosUsedThisPeriod >= quota.videosLimit;
+
   // Gate order (server /api/generate mirrors this exactly): a legacy credit
   // balance > 0 always wins and never touches a modal; everyone else goes
   // through subscription+quota, and any rejection is a modal — never an
@@ -219,8 +233,9 @@ export default function GeneratorForm() {
       if (isMock) {
         const result = runMockGenerateGate(user.uid, estimatedCredits);
         if (!result.ok) {
-          track('paywall_shown', { reason: result.error === 'quota_exceeded' ? 'quota' : 'subscribe' });
-          setPaywallMode(result.error === 'quota_exceeded' ? 'upgrade' : 'subscribe');
+          const mode: PaywallMode = result.code === 'INSUFFICIENT_CREDITS' ? 'upgrade' : 'subscribe';
+          track('paywall_shown', { reason: mode });
+          setPaywallMode(mode);
           return;
         }
         const cleanTitle = topic.trim().split(/[.!?\n]/)[0].slice(0, 60) || 'Untitled Video';
@@ -254,16 +269,8 @@ export default function GeneratorForm() {
         body: JSON.stringify({ topic, script, settings: settings() }),
       });
 
-      if (res.status === 402) {
-        const data = await res.json();
-        const mode: PaywallMode = data.error === 'quota_exceeded' ? 'upgrade' : 'subscribe';
-        track('paywall_shown', { reason: mode });
-        setPaywallMode(mode);
-        return;
-      }
-
       if (!res.ok) {
-        showToast('Something went wrong starting generation. Please try again.');
+        await handleApiError(res);
         return;
       }
 
@@ -272,8 +279,7 @@ export default function GeneratorForm() {
       track('generation_started');
       router.push(`/dashboard/video/${data.projectId}`);
     } catch (e) {
-      console.error(e);
-      showToast('An error occurred. Please try again.');
+      await handleApiError(e);
     } finally {
       setIsGenerating(false);
     }
@@ -495,6 +501,30 @@ export default function GeneratorForm() {
 
       {/* Generate */}
       <div className="bg-white/70 backdrop-blur-sm border border-[#EADFC9] rounded-2xl p-6 shadow-2xs">
+        {(needsPlan || outOfQuota) && (
+          <div className="mb-5 rounded-xl border border-[#EADFC9] bg-[#FAF6F0] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div className="text-sm font-bold text-[#2C2621]">
+                {needsPlan ? 'Choose a plan to start generating' : "You've used this month's videos"}
+              </div>
+              <p className="text-xs text-[#82796D] mt-0.5 max-w-md leading-relaxed">
+                {needsPlan
+                  ? 'Your account has no plan and 0 credits yet. Pick a plan and your topic, script and settings below are kept exactly as they are.'
+                  : `0 of ${quota.videosLimit} videos left this period. Upgrade to keep generating now, or wait for your quota to renew.`}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                track('paywall_shown', { reason: needsPlan ? 'subscribe' : 'upgrade' });
+                setPaywallMode(needsPlan ? 'subscribe' : 'upgrade');
+              }}
+              className="bg-[#A88E75] text-white hover:bg-[#8C7761] text-xs font-bold px-5 py-2.5 rounded-full transition-all shadow-xs cursor-pointer flex-shrink-0"
+            >
+              {needsPlan ? 'See plans' : 'Upgrade'}
+            </button>
+          </div>
+        )}
         {isLegacy ? (
           <div className="flex items-center justify-between mb-4">
             <div>

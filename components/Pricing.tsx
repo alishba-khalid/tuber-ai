@@ -3,67 +3,60 @@
 import Link from 'next/link';
 import { Check } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
+import { tiers } from '@/lib/plans';
+import { PLANS_ROUTE, SIGNUP_ROUTE, withNext } from '@/lib/routes';
 
-const plans = [
-  {
-    id: 'starter',
-    name: 'Archive',
-    price: 29,
+// Marketing-only copy (savings badge, the two descriptive lines) keyed by
+// the same tier id lib/plans.ts uses. name/price/credits/popular come from
+// there — this is the only place that duplicated them before, which is what
+// let the checkout route 400 on 'plus'/'pro' (ids that existed here but not
+// in lib/plans.ts).
+const marketingCopy: Record<string, { savings: string; videos: string; rates: string }> = {
+  archive: {
     savings: '',
-    credits: 300,
     videos: 'One full-length documentary a month',
     rates: 'or split the credits across three 20-minute deep dives',
-    buttonText: 'Get Archive',
-    popular: false,
   },
-  {
-    id: 'plus',
-    name: 'Series',
-    price: 49,
+  series: {
     savings: 'Save 11%',
-    credits: 660,
     videos: 'Two full-length documentaries a month',
     rates: 'or split the credits across six 20-minute deep dives',
-    buttonText: 'Get Series',
-    popular: false,
   },
-  {
-    id: 'creator',
-    name: 'Studio',
-    price: 89,
+  studio: {
     savings: 'Save 21%',
-    credits: 1500,
     videos: 'Five full-length documentaries a month',
     rates: 'or split the credits across fifteen 20-minute deep dives',
-    buttonText: 'Get Studio',
-    popular: true,
   },
-  {
-    id: 'studio',
-    name: 'Network',
-    price: 139,
+  network: {
     savings: 'Save 28%',
-    credits: 2700,
     videos: 'Nine full-length documentaries a month',
     rates: 'or split the credits across twenty-seven 20-minute deep dives',
-    buttonText: 'Get Network',
-    popular: false,
   },
-  {
-    id: 'pro',
-    name: 'Syndicate',
-    price: 259,
+  syndicate: {
     savings: 'Save 38%',
-    credits: 6000,
     videos: 'Twenty full-length documentaries a month',
     rates: 'or split the credits across sixty 20-minute deep dives',
-    buttonText: 'Get Syndicate',
-    popular: false,
   },
-];
+};
+
+const plans = tiers.map((tier) => ({
+  ...tier,
+  ...marketingCopy[tier.id],
+  buttonText: `Get ${tier.name}`,
+}));
 
 export default function Pricing() {
   const { user } = useAuth();
+
+  // Every button here has to end at a real checkout. Signed in, that's the
+  // plans page opened straight onto the plan picker (?plan= opens it). Signed
+  // out, it's signup with that same destination carried in ?next=, so the
+  // choice survives account creation instead of being dropped on /dashboard.
+  const planHref = (planId: string) => {
+    const target = `${PLANS_ROUTE}?plan=${encodeURIComponent(planId)}`;
+    return user ? target : withNext(SIGNUP_ROUTE, target);
+  };
+
   return (
     <section id="pricing" className="py-20 bg-transparent border-t border-[#122823]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -97,7 +90,7 @@ export default function Pricing() {
               }`}
             >
               {plan.popular && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#C5B49F] text-[#030706] text-[10px] font-mono-label font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-xs">
+                <div className="pointer-events-none absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#C5B49F] text-[#030706] text-[10px] font-mono-label font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-xs">
                   BEST VALUE
                 </div>
               )}
@@ -116,7 +109,7 @@ export default function Pricing() {
 
                 <div className="mb-4">
                   <span className="text-4xl font-extrabold font-serif-heading text-[#ECFDF5]">
-                    ${plan.price}
+                    ${plan.monthlyPrice}
                   </span>
                   <span className="text-xs text-[#527E72]"> / month</span>
                 </div>
@@ -124,7 +117,7 @@ export default function Pricing() {
                 <div className="space-y-3 text-xs text-[#8FAAA6] border-t border-[#122823] pt-4 mb-6">
                   <div className="flex items-center gap-2 font-semibold text-[#ECFDF5]">
                     <Check className="w-3.5 h-3.5 text-[#C5B49F]" />
-                    <span>{plan.credits.toLocaleString()} monthly credits</span>
+                    <span>{plan.monthlyCredits.toLocaleString()} monthly credits</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="w-3.5 h-3.5 text-[#C5B49F]" />
@@ -137,8 +130,8 @@ export default function Pricing() {
               </div>
 
               <Link
-                href={user ? `/dashboard/credits?planId=${plan.id}` : "/auth/signup"}
-                className={`w-full text-center text-xs py-3 rounded-full font-semibold transition-all cursor-pointer ${
+                href={planHref(plan.id)}
+                className={`relative z-10 w-full text-center text-xs py-3 rounded-full font-semibold transition-all cursor-pointer ${
                   plan.popular
                     ? 'btn-indigo-pill'
                     : 'btn-outline-pill'

@@ -8,7 +8,6 @@ import { getTier } from '@/lib/plans';
 export interface MockSubscription {
   status: 'active' | 'canceled' | 'none';
   tier: string | null;
-  interval: 'monthly' | 'annual' | null;
   currentPeriodEnd: string | null;
 }
 
@@ -24,7 +23,7 @@ const creditsKey = (uid: string) => `genbyghost_credits_${uid}`;
 
 export function getMockSubscription(uid: string): MockSubscription {
   const raw = localStorage.getItem(subKey(uid));
-  return raw ? JSON.parse(raw) : { status: 'none', tier: null, interval: null, currentPeriodEnd: null };
+  return raw ? JSON.parse(raw) : { status: 'none', tier: null, currentPeriodEnd: null };
 }
 
 export function getMockQuota(uid: string): MockQuota {
@@ -34,7 +33,7 @@ export function getMockQuota(uid: string): MockQuota {
 
 // Called after a mock checkout "success" redirect to activate the plan the
 // user picked, standing in for what the real Polar webhook does server-side.
-export function activateMockSubscription(uid: string, planId: string, interval: 'monthly' | 'annual') {
+export function activateMockSubscription(uid: string, planId: string) {
   const tier = getTier(planId);
   if (!tier) return;
   localStorage.setItem(
@@ -42,7 +41,6 @@ export function activateMockSubscription(uid: string, planId: string, interval: 
     JSON.stringify({
       status: 'active',
       tier: planId,
-      interval,
       currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
     } satisfies MockSubscription)
   );
@@ -56,9 +54,11 @@ export function activateMockSubscription(uid: string, planId: string, interval: 
   );
 }
 
+// Rejection codes match app/api/generate/route.ts exactly, so mock mode and
+// real mode feed the shared client error handler the same vocabulary.
 export type MockGenerateResult =
   | { ok: true; projectId: string; mode: 'credits' | 'subscription' }
-  | { ok: false; error: 'subscription_required' | 'quota_exceeded' };
+  | { ok: false; code: 'NO_PLAN' | 'INSUFFICIENT_CREDITS' };
 
 export function runMockGenerateGate(uid: string, estimatedCost: number): MockGenerateResult {
   const projectId = 'proj_' + Math.random().toString(36).slice(2, 11);
@@ -71,12 +71,12 @@ export function runMockGenerateGate(uid: string, estimatedCost: number): MockGen
 
   const subscription = getMockSubscription(uid);
   if (subscription.status !== 'active') {
-    return { ok: false, error: 'subscription_required' };
+    return { ok: false, code: 'NO_PLAN' };
   }
 
   const quota = getMockQuota(uid);
   if (quota.videosUsedThisPeriod >= quota.videosLimit) {
-    return { ok: false, error: 'quota_exceeded' };
+    return { ok: false, code: 'INSUFFICIENT_CREDITS' };
   }
 
   localStorage.setItem(

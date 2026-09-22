@@ -7,7 +7,7 @@ import { doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, onSn
 import { useRouter } from 'next/navigation';
 import { getMockSubscription, getMockQuota, MockSubscription, MockQuota } from '@/lib/mock-generate';
 
-const defaultSubscription: MockSubscription = { status: 'none', tier: null, interval: null, currentPeriodEnd: null };
+const defaultSubscription: MockSubscription = { status: 'none', tier: null, currentPeriodEnd: null };
 const defaultQuota: MockQuota = { videosUsedThisPeriod: 0, videosLimit: 0, periodStart: '' };
 
 interface AuthContextType {

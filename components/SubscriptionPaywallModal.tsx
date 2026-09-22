@@ -2,13 +2,18 @@
 
 import { useId, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { X, Check, Sparkles } from 'lucide-react';
+import { X, Check, Sparkles, Zap } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { tiers } from '@/lib/plans';
 import { track } from '@/lib/analytics';
+import { showToast } from '@/lib/toast';
+import { hasLegacyCreditsClient } from '@/lib/flags';
+import { useApiErrorHandler, type PaywallMode } from '@/lib/handleApiError';
 import Modal from '@/components/Modal';
 
-export type PaywallMode = 'subscribe' | 'upgrade';
+// Re-exported so existing importers keep working; the type itself now lives
+// with the shared API error handler that decides which mode to open.
+export type { PaywallMode };
 
 interface SubscriptionPaywallModalProps {
   mode: PaywallMode;
@@ -22,24 +27,36 @@ function truncate(text: string, max: number) {
 }
 
 export default function SubscriptionPaywallModal({ mode, topic, onClose }: SubscriptionPaywallModalProps) {
-  const { user, isMock } = useAuth();
+  const { user, isMock, credits, subscription, quota } = useAuth();
   const router = useRouter();
-  const [interval, setInterval] = useState<'monthly' | 'annual'>('monthly');
   const [processingId, setProcessingId] = useState<string | null>(null);
   const titleId = useId();
+  // No onPaywall here — this *is* the paywall. A 402 from checkout would just
+  // land the user on the plans page; 401 still bounces to login with ?next=.
+  const { handleApiError } = useApiErrorHandler();
+
+  // "Remaining credits" means different things depending on which billing
+  // model the account is on, so show whichever one actually applies.
+  const isLegacy = hasLegacyCreditsClient(credits);
+  const videosLeft = Math.max(0, quota.videosLimit - quota.videosUsedThisPeriod);
+  const balanceLabel = isLegacy
+    ? `${credits.toLocaleString()} credits left`
+    : subscription.status === 'active'
+      ? `${videosLeft} of ${quota.videosLimit} videos left this period`
+      : '0 credits · no active plan';
 
   const handlePlanClick = async (planId: string) => {
     if (!user || processingId) return;
     setProcessingId(planId);
-    track('plan_selected', { planId, interval });
-    track('checkout_started', { planId, interval });
+    track('plan_selected', { planId });
+    track('checkout_started', { planId });
 
     // Mock mode has no real Firebase ID token / Polar session to exchange —
     // go straight to the same success redirect the mock checkout route
     // would have returned, matching how the rest of the app's mock mode
     // (AuthProvider, credit checkout) never touches a real backend either.
     if (isMock) {
-      router.push(`/dashboard/create?checkout=success&mock_plan=${planId}&mock_interval=${interval}`);
+      router.push(`/dashboard/create?checkout=success&mock_plan=${planId}`);
       return;
     }
 
@@ -51,16 +68,27 @@ export default function SubscriptionPaywallModal({ mode, topic, onClose }: Subsc
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ planId, interval }),
+        body: JSON.stringify({ planId }),
       });
-      const data = await res.json();
-      if (data.url) {
-        window.location.assign(data.url);
-      } else {
+
+      if (!res.ok) {
+        await handleApiError(res);
         setProcessingId(null);
+        return;
       }
+
+      const data = await res.json();
+      if (!data.url) {
+        // A 200 with no URL used to leave the button stuck on "Redirecting…"
+        // with no explanation — never fail silently here.
+        console.error('Checkout returned no URL', data);
+        showToast('Checkout could not be opened. Please try again.');
+        setProcessingId(null);
+        return;
+      }
+      window.location.assign(data.url);
     } catch (err) {
-      console.error('Checkout error:', err);
+      await handleApiError(err);
       setProcessingId(null);
     }
   };
@@ -106,37 +134,24 @@ export default function SubscriptionPaywallModal({ mode, topic, onClose }: Subsc
           </h2>
           <p className="text-sm text-[#6E6259] mt-1.5 max-w-md leading-relaxed">{sub}</p>
 
-          {/* Monthly / Annual toggle */}
-          <div className="mt-5 inline-flex items-center gap-1 bg-white border border-[#EADFC9] rounded-full p-1">
-            <button
-              onClick={() => setInterval('monthly')}
-              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
-                interval === 'monthly' ? 'bg-[#A88E75] text-white' : 'text-[#6E6259]'
-              }`}
-            >
-              Monthly
-            </button>
-            <button
-              onClick={() => setInterval('annual')}
-              className={`relative px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
-                interval === 'annual' ? 'bg-[#A88E75] text-white' : 'text-[#6E6259]'
-              }`}
-            >
-              Annual
-              <span className="absolute -top-2.5 -right-2 bg-emerald-600 text-white text-[8px] font-mono-label font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
-                2 months free
+          {/* What the account has right now, so the plan choice has context */}
+          {user && (
+            <div className="mt-3 inline-flex items-center gap-2 bg-white border border-[#EADFC9] rounded-full px-3 py-1.5">
+              <Zap className="w-3.5 h-3.5 text-[#A88E75] fill-current" />
+              <span className="text-[11px] font-mono-label font-bold text-[#8C6D4F] uppercase tracking-wider">
+                Your balance
               </span>
-            </button>
-          </div>
+              <span className="text-xs font-bold text-[#2C2621] tabular-nums">{balanceLabel}</span>
+            </div>
+          )}
         </div>
 
-        {/* Plan cards — Creator (popular) rendered first in DOM order for
+        {/* Plan cards — Studio (popular) rendered first in DOM order for
             mobile stacking, restored to its normal left-to-right slot on
             desktop via sm:order so tab order still matches columns there. */}
-        <div className="p-6 sm:p-8 pt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="p-6 sm:p-8 pt-6 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           {[...tiers].sort((a, b) => (b.popular ? 1 : 0) - (a.popular ? 1 : 0)).map((tier) => {
             const isProcessing = processingId === tier.id;
-            const price = interval === 'monthly' ? tier.monthlyPrice : Math.round(tier.annualPrice / 12);
             const desktopOrder = tiers.findIndex((t) => t.id === tier.id) + 1;
             return (
               <div
@@ -156,36 +171,23 @@ export default function SubscriptionPaywallModal({ mode, topic, onClose }: Subsc
 
                 <div className="text-sm font-bold text-[#2C2621]">{tier.name}</div>
                 <div className="mt-1.5 flex items-baseline gap-1">
-                  <span className="text-2xl font-extrabold text-[#8C6D4F]">${price}</span>
+                  <span className="text-2xl font-extrabold text-[#8C6D4F]">${tier.monthlyPrice}</span>
                   <span className="text-xs text-[#82796D]">/mo</span>
                 </div>
-                {interval === 'annual' && (
-                  <div className="text-[10px] text-[#82796D]">${tier.annualPrice}/yr billed annually</div>
-                )}
 
                 <ul className="mt-4 space-y-2 text-xs text-[#6E6259] flex-1">
                   <li className="flex items-start gap-1.5">
                     <Check className="w-3.5 h-3.5 text-[#8C6D4F] flex-shrink-0 mt-0.5" />
-                    {tier.videosPerMonth} videos/mo
+                    {tier.monthlyCredits.toLocaleString()} credits/mo
                   </li>
                   <li className="flex items-start gap-1.5">
                     <Check className="w-3.5 h-3.5 text-[#8C6D4F] flex-shrink-0 mt-0.5" />
-                    {tier.maxVideoLength}
+                    {tier.videosPerMonth} full-length documentaries a month
                   </li>
                   <li className="flex items-start gap-1.5">
                     <Check className="w-3.5 h-3.5 text-[#8C6D4F] flex-shrink-0 mt-0.5" />
-                    {tier.resolution}
+                    Split credits across shorter videos too
                   </li>
-                  <li className="flex items-start gap-1.5">
-                    <Check className="w-3.5 h-3.5 text-[#8C6D4F] flex-shrink-0 mt-0.5" />
-                    {tier.voiceTier}
-                  </li>
-                  {tier.features.map((f) => (
-                    <li key={f} className="flex items-start gap-1.5">
-                      <Check className="w-3.5 h-3.5 text-[#8C6D4F] flex-shrink-0 mt-0.5" />
-                      {f}
-                    </li>
-                  ))}
                 </ul>
 
                 <button

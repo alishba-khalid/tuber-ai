@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { polar } from '@/lib/polar';
 import { adminAuth } from '@/lib/firebase-admin';
+import { apiError } from '@/lib/api-errors';
 import { getTier, polarProductIds } from '@/lib/plans';
 
 // Polar subscription checkout — the sole payment provider for this app.
@@ -12,7 +13,7 @@ export async function POST(request: Request) {
   const host = request.headers.get('origin') || 'http://localhost:3000';
 
   if (!token) {
-    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+    return apiError('UNAUTHENTICATED', 'Sign in to start a checkout.');
   }
 
   let uid: string;
@@ -23,29 +24,30 @@ export async function POST(request: Request) {
     email = decoded.email;
   } catch (err) {
     console.error('Checkout: invalid ID token', err);
-    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+    return apiError('UNAUTHENTICATED', 'Your session expired. Sign in again to continue.');
   }
 
   let planId = '';
-  let interval: 'monthly' | 'annual' = 'monthly';
 
   try {
     const body = await request.json();
     planId = body.planId;
-    interval = body.interval === 'annual' ? 'annual' : 'monthly';
 
     const tier = getTier(planId);
     if (!tier) {
-      return NextResponse.json({ error: 'Invalid plan.' }, { status: 400 });
+      return apiError('BAD_REQUEST', 'That plan is no longer available. Pick one from the list.');
     }
 
-    const productId = polarProductIds[planId]?.[interval];
+    // One product per tier — no annual variant exists in Polar for any of
+    // them (verified against the live catalog), so there's nothing to
+    // select between here.
+    const productId = polarProductIds[tier.id];
     const successUrl = `${host}/dashboard/create?checkout=success`;
 
     const isMockMode = !process.env.POLAR_ACCESS_TOKEN || process.env.POLAR_ACCESS_TOKEN.includes('placeholder');
     if (isMockMode || !productId || productId.includes('placeholder')) {
       return NextResponse.json({
-        url: `${successUrl}&mock_plan=${planId}&mock_interval=${interval}`,
+        url: `${successUrl}&mock_plan=${planId}`,
       });
     }
 
@@ -53,7 +55,7 @@ export async function POST(request: Request) {
       products: [productId],
       successUrl,
       customerEmail: email,
-      metadata: { userId: uid, planId, interval },
+      metadata: { userId: uid, planId },
     });
 
     return NextResponse.json({ url: session.url });
@@ -61,10 +63,11 @@ export async function POST(request: Request) {
     console.error('Polar subscription checkout error:', err);
     if (process.env.NODE_ENV !== 'production') {
       return NextResponse.json({
-        url: `${host}/dashboard/create?checkout=success&mock_plan=${planId}&mock_interval=${interval}`,
+        url: `${host}/dashboard/create?checkout=success&mock_plan=${planId}`,
         warning: 'Polar API failed. Using local mock mode.',
       });
     }
-    return NextResponse.json({ error: err.message || 'Internal server error' }, { status: 500 });
+    // Never leak a raw provider error message to the browser.
+    return apiError('SERVER_ERROR', 'We could not open checkout right now. Please try again.');
   }
 }

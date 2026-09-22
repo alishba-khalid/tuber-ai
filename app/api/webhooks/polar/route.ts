@@ -5,7 +5,6 @@ import { getTier } from '@/lib/plans';
 async function upsertSubscription(sub: any, status: 'active' | 'canceled' | 'none') {
   const userId = sub.metadata?.userId;
   const planId = sub.metadata?.planId;
-  const interval = sub.metadata?.interval === 'annual' ? 'annual' : 'monthly';
   if (!userId) {
     console.warn('Polar subscription webhook missing metadata.userId', sub.id);
     return;
@@ -21,7 +20,6 @@ async function upsertSubscription(sub: any, status: 'active' | 'canceled' | 'non
     const subscription = {
       status,
       tier: planId || null,
-      interval,
       polarSubscriptionId: sub.id,
       polarCustomerId: sub.customerId || sub.customer_id || null,
       currentPeriodEnd: sub.currentPeriodEnd || sub.current_period_end || null,
