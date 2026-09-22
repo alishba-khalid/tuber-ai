@@ -32,7 +32,7 @@ export default function Toast() {
           key={t.id}
           role="status"
           aria-live="polite"
-          className="pointer-events-auto bg-[#2C2621] text-white text-sm font-medium px-4 py-2.5 rounded-full shadow-xl animate-fade-in max-w-sm text-center"
+          className="pointer-events-auto bg-[#2C2621] text-[#fff] text-sm font-medium px-4 py-2.5 rounded-full shadow-xl animate-fade-in max-w-sm text-center"
         >
           {t.message}
         </div>

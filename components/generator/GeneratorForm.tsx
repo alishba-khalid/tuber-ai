@@ -443,7 +443,7 @@ export default function GeneratorForm() {
                     : 'border-[#EADFC9] bg-white hover:border-[#C5B49F]'
                 }`}
               >
-                <div className="w-8 h-8 rounded-full bg-[#A88E75] flex items-center justify-center text-xs font-bold text-white mb-2">
+                <div className="w-8 h-8 rounded-full bg-[#A88E75] flex items-center justify-center text-xs font-bold text-[#fff] mb-2">
                   {v.name[0]}
                 </div>
                 <div className={`text-sm font-medium ${active ? 'text-[#2C2621]' : 'text-[#6E6259]'}`}>{v.name}</div>
@@ -519,7 +519,7 @@ export default function GeneratorForm() {
                 track('paywall_shown', { reason: needsPlan ? 'subscribe' : 'upgrade' });
                 setPaywallMode(needsPlan ? 'subscribe' : 'upgrade');
               }}
-              className="bg-[#A88E75] text-white hover:bg-[#8C7761] text-xs font-bold px-5 py-2.5 rounded-full transition-all shadow-xs cursor-pointer flex-shrink-0"
+              className="bg-[#A88E75] text-[#fff] hover:bg-[#8C7761] text-xs font-bold px-5 py-2.5 rounded-full transition-all shadow-xs cursor-pointer flex-shrink-0"
             >
               {needsPlan ? 'See plans' : 'Upgrade'}
             </button>
@@ -554,7 +554,7 @@ export default function GeneratorForm() {
           ref={generateBtnRef}
           onClick={handleGenerate}
           disabled={!topic.trim() || isGenerating}
-          className="w-full bg-[#A88E75] text-white hover:bg-[#8C7761] py-4 rounded-full text-base font-bold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-xs cursor-pointer"
+          className="w-full bg-[#A88E75] text-[#fff] hover:bg-[#8C7761] py-4 rounded-full text-base font-bold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-xs cursor-pointer"
         >
           {isGenerating ? (
             <>

@@ -126,7 +126,7 @@ export default function SubscriptionPaywallModal({ mode, topic, onClose }: Subsc
             </p>
           )}
 
-          <div className="w-11 h-11 rounded-2xl bg-[#A88E75] flex items-center justify-center text-white shadow-xs mb-4">
+          <div className="w-11 h-11 rounded-2xl bg-[#A88E75] flex items-center justify-center text-[#fff] shadow-xs mb-4">
             <Sparkles className="w-5 h-5" />
           </div>
           <h2 id={titleId} className="text-xl sm:text-2xl font-bold font-serif-heading text-[#2C2621]">
@@ -164,7 +164,7 @@ export default function SubscriptionPaywallModal({ mode, topic, onClose }: Subsc
                 }`}
               >
                 {tier.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#A88E75] text-white text-[9px] font-mono-label font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-xs">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#A88E75] text-[#fff] text-[9px] font-mono-label font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-xs">
                     Most popular
                   </div>
                 )}
@@ -195,8 +195,8 @@ export default function SubscriptionPaywallModal({ mode, topic, onClose }: Subsc
                   disabled={processingId !== null}
                   className={`mt-5 w-full py-2.5 rounded-full text-sm font-bold transition-all cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 ${
                     tier.popular
-                      ? 'bg-[#A88E75] text-white hover:bg-[#8C7761]'
-                      : 'bg-[#2C2621] text-white hover:bg-[#443A30]'
+                      ? 'bg-[#A88E75] text-[#fff] hover:bg-[#8C7761]'
+                      : 'bg-[#2C2621] text-[#fff] hover:bg-[#443A30]'
                   }`}
                 >
                   {isProcessing ? 'Redirecting…' : `Start with ${tier.name}`}

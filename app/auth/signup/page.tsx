@@ -289,7 +289,7 @@ export default function SignupPage() {
                     <button
                       onClick={() => handleMockGoogleSubmit(customMockEmail)}
                       disabled={!customMockEmail.includes('@')}
-                      className="flex-1 py-1.5 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 rounded-xl cursor-pointer"
+                      className="flex-1 py-1.5 text-xs font-semibold text-[#fff] bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 rounded-xl cursor-pointer"
                     >
                       Sign In
                     </button>

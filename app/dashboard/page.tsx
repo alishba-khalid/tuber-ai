@@ -95,8 +95,8 @@ export default function DashboardPage() {
       {/* Autopilot Hero Banner Card */}
       <div className="bg-[#EADFC9]/50 backdrop-blur-md border border-[#EADFC9] rounded-3xl p-6 relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-2xs">
         <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-[#A88E75] flex items-center justify-center text-white flex-shrink-0 shadow-xs">
-            <Zap className="w-6 h-6 fill-current text-white" />
+          <div className="w-12 h-12 rounded-2xl bg-[#A88E75] flex items-center justify-center text-[#fff] flex-shrink-0 shadow-xs">
+            <Zap className="w-6 h-6 fill-current text-[#fff]" />
           </div>
           <div>
             <h3 className="text-lg font-bold text-[#2C2621] font-serif-heading">
@@ -114,7 +114,7 @@ export default function DashboardPage() {
           </span>
           <Link
             href="/dashboard/create"
-            className="bg-[#A88E75] text-white hover:bg-[#8C7761] text-sm px-6 py-2.5 rounded-full font-bold transition-all flex items-center gap-2 shadow-xs cursor-pointer"
+            className="bg-[#A88E75] text-[#fff] hover:bg-[#8C7761] text-sm px-6 py-2.5 rounded-full font-bold transition-all flex items-center gap-2 shadow-xs cursor-pointer"
           >
             <span>Start</span>
             <ArrowRight className="w-4 h-4" />

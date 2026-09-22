@@ -68,7 +68,7 @@ export default function EbookSection() {
                       <div className="text-[9px] font-mono-label text-[#C5B49F] mb-1.5 uppercase tracking-widest font-bold bg-[#C5B49F]/15 px-2 py-0.5 rounded-full inline-block border border-[#C5B49F]/30">
                         HISTORICAL DOCUMENTARY SERIES
                       </div>
-                      <h3 className="text-lg font-bold font-serif-heading text-white leading-tight uppercase">
+                      <h3 className="text-lg font-bold font-serif-heading text-[#fff] leading-tight uppercase">
                         The Fall of Rome
                       </h3>
                       <p className="text-[11px] text-zinc-300 mt-1 italic leading-snug">

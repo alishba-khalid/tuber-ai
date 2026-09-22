@@ -251,11 +251,11 @@ export default function DashboardShell({ children }: { children: React.ReactNode
                 className="bg-white/60 backdrop-blur-md border border-[#EADFC9] text-[#8C6D4F] text-xs font-bold pl-1 pr-3.5 py-1 rounded-full flex items-center gap-2 hover:bg-white/80 hover:border-[#A88E75]/30 shadow-2xs transition-all"
               >
                 <span className="w-6 h-6 rounded-full bg-[#A88E75] flex items-center justify-center flex-shrink-0">
-                  <Zap className="w-3 h-3 text-white fill-current" />
+                  <Zap className="w-3 h-3 text-[#fff] fill-current" />
                 </span>
                 <span className="tabular-nums">{credits.toLocaleString()}</span>
                 <span className="text-[9px] font-mono-label uppercase text-[#8C6D4F]/70 tracking-wider">credits</span>
-                <span className="bg-[#A88E75] text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-extrabold flex-shrink-0">+</span>
+                <span className="bg-[#A88E75] text-[#fff] rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-extrabold flex-shrink-0">+</span>
               </Link>
             ) : hasActivePlan ? (
               <Link
@@ -270,7 +270,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             ) : (
               <Link
                 href="/dashboard/create?upgrade=1"
-                className="bg-[#A88E75] text-white text-xs font-bold pl-3.5 pr-3 py-1.5 rounded-full flex items-center gap-1.5 hover:bg-[#8C7761] shadow-2xs transition-all"
+                className="bg-[#A88E75] text-[#fff] text-xs font-bold pl-3.5 pr-3 py-1.5 rounded-full flex items-center gap-1.5 hover:bg-[#8C7761] shadow-2xs transition-all"
               >
                 <span>Upgrade</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
@@ -278,7 +278,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             )}
 
             {/* User Avatar */}
-            <Link href="/dashboard/settings" className="w-8 h-8 rounded-full bg-[#A88E75] text-white font-bold flex items-center justify-center text-xs shadow-xs hover:opacity-90 transition-all">
+            <Link href="/dashboard/settings" className="w-8 h-8 rounded-full bg-[#A88E75] text-[#fff] font-bold flex items-center justify-center text-xs shadow-xs hover:opacity-90 transition-all">
               {userInitials}
             </Link>
 
@@ -308,7 +308,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             </span>
             <Link
               href="/dashboard/create?upgrade=1"
-              className="bg-[#A88E75] text-white hover:bg-[#8C7761] text-[11px] font-bold px-3.5 py-1 rounded-full transition-all shadow-2xs flex items-center gap-1"
+              className="bg-[#A88E75] text-[#fff] hover:bg-[#8C7761] text-[11px] font-bold px-3.5 py-1 rounded-full transition-all shadow-2xs flex items-center gap-1"
             >
               See plans
               <ArrowUpRight className="w-3 h-3" />
