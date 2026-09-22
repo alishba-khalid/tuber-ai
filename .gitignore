@@ -36,6 +36,13 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local disk stand-in for pipeline artifact storage (lib/pipeline/storage.ts)
+/.pipeline-storage/
+
+# firebase emulator logs (firebase emulators:start --only firestore)
+firebase-debug.log
+firestore-debug.log
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
