@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import { AuthProvider } from "@/components/AuthProvider";
+import { assertAuthModeSafe } from "@/lib/env-guards";
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.genbyghost.com";
 const homeTitle = "AI Long-Form Faceless YouTube Video Generator — From an Idea to a Ready-to-Publish Video | GenByGhost";
@@ -47,6 +48,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Runs server-side on every request, before AuthProvider (and therefore
+  // before mock mode) ever gets a chance to activate. See lib/env-guards.ts.
+  assertAuthModeSafe();
+
   return (
     <html lang="en">
       <head>
