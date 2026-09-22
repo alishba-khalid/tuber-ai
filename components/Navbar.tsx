@@ -79,6 +79,8 @@ export default function Navbar() {
   const [profileOpen, setProfileOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
+  const toolsButtonRef = useRef<HTMLButtonElement>(null);
+  const toolsPanelRef = useRef<HTMLDivElement>(null);
 
   const userInitials = user?.email ? user.email.slice(0, 1).toUpperCase() : 'A';
 
@@ -102,6 +104,22 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Escape closes whichever menu is open and hands focus back to its trigger,
+  // so the menus are operable without a mouse.
+  useEffect(() => {
+    if (!toolsOpen && !profileOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      if (toolsOpen) {
+        setToolsOpen(false);
+        toolsButtonRef.current?.focus();
+      }
+      setProfileOpen(false);
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [toolsOpen, profileOpen]);
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#050B0A]/90 backdrop-blur-md border-b border-[#122823] transition-all duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -123,23 +141,58 @@ export default function Navbar() {
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-1 bg-[#0A1412]/80 border border-[#122823] px-4 py-2 rounded-full shadow-2xs">
             
-            {/* Product Dropdown Trigger */}
-            <div className="relative" ref={dropdownRef}>
+            {/* Product Dropdown Trigger.
+                Hover-to-open is restricted to real mouse pointers: when it
+                fired on every pointer type it raced the click handler
+                (mouseenter opened the panel, the click that followed toggled
+                it straight back shut), which read as "the button does
+                nothing". Touch and keyboard now go through the click/keydown
+                path only. */}
+            <div
+              className="relative"
+              ref={dropdownRef}
+              onPointerEnter={(e) => {
+                if (e.pointerType === 'mouse') setToolsOpen(true);
+              }}
+              onPointerLeave={(e) => {
+                if (e.pointerType === 'mouse') setToolsOpen(false);
+              }}
+            >
               <button
-                onClick={() => setToolsOpen(!toolsOpen)}
-                onMouseEnter={() => setToolsOpen(true)}
-                className="flex items-center gap-1 px-4 py-1.5 text-sm font-medium text-[#8FAAA6] hover:text-[#ECFDF5] rounded-full hover:bg-[#122823] transition-colors cursor-pointer focus:outline-none"
+                ref={toolsButtonRef}
+                type="button"
+                aria-haspopup="true"
+                aria-expanded={toolsOpen}
+                aria-controls="navbar-product-menu"
+                onClick={() => setToolsOpen((open) => !open)}
+                onKeyDown={(e) => {
+                  // Down arrow opens and moves into the panel, the usual
+                  // menu-button behaviour.
+                  if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    setToolsOpen(true);
+                    requestAnimationFrame(() => {
+                      toolsPanelRef.current?.querySelector<HTMLAnchorElement>('a')?.focus();
+                    });
+                  }
+                }}
+                className="flex items-center gap-1 px-4 py-1.5 text-sm font-medium text-[#8FAAA6] hover:text-[#ECFDF5] rounded-full hover:bg-[#122823] transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C5B49F]"
               >
                 Product
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${toolsOpen ? 'rotate-180' : ''}`} />
               </button>
 
-              {/* Mega Dropdown Panel */}
+              {/* Mega Dropdown Panel. The 12px gap under the trigger is
+                  padding on a positioned wrapper rather than a margin on the
+                  panel, so travelling from the button to the panel never
+                  leaves the hover area and closes the menu mid-move. */}
               {toolsOpen && (
                 <div
-                  onMouseLeave={() => setToolsOpen(false)}
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[540px] bg-[#0A1412] border border-[#122823] rounded-2xl shadow-xl overflow-hidden z-50 animate-fade-in"
+                  id="navbar-product-menu"
+                  ref={toolsPanelRef}
+                  className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50"
                 >
+                <div className="w-[540px] bg-[#0A1412] border border-[#122823] rounded-2xl shadow-xl overflow-hidden animate-fade-in">
                   <div className="grid grid-cols-2 gap-px bg-[#122823] p-px">
                     {tools.map((tool) => {
                       const Icon = tool.icon;
@@ -177,6 +230,7 @@ export default function Navbar() {
                     </Link>
                   </div>
                 </div>
+                </div>
               )}
             </div>
 
@@ -206,9 +260,12 @@ export default function Navbar() {
                 {/* Profile Menu */}
                 <div className="relative" ref={profileRef}>
                   <button
+                    type="button"
                     onClick={() => setProfileOpen(!profileOpen)}
-                    className="w-9 h-9 rounded-full bg-[#C5B49F] text-[#030706] font-bold flex items-center justify-center text-xs shadow-xs hover:opacity-90 transition-all cursor-pointer focus:outline-none"
+                    className="w-9 h-9 rounded-full bg-[#C5B49F] text-[#030706] font-bold flex items-center justify-center text-xs shadow-xs hover:opacity-90 transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C5B49F]"
                     aria-label="Account menu"
+                    aria-haspopup="true"
+                    aria-expanded={profileOpen}
                   >
                     {userInitials}
                   </button>
@@ -281,9 +338,12 @@ export default function Navbar() {
 
           {/* Mobile Toggle */}
           <button
-            className="md:hidden text-[#ECFDF5] p-2"
+            type="button"
+            className="md:hidden text-[#ECFDF5] p-2 cursor-pointer"
             onClick={() => setIsMobileOpen(!isMobileOpen)}
             aria-label="Toggle menu"
+            aria-expanded={isMobileOpen}
+            aria-controls="navbar-mobile-menu"
           >
             {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -291,7 +351,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isMobileOpen && (
-          <div className="md:hidden py-4 px-4 bg-[#0A1412] border-t border-[#122823] rounded-b-2xl shadow-lg">
+          <div id="navbar-mobile-menu" className="md:hidden py-4 px-4 bg-[#0A1412] border-t border-[#122823] rounded-b-2xl shadow-lg">
             <div className="flex flex-col gap-1">
               
               {/* Mobile Tools Submenu */}

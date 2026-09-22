@@ -78,7 +78,7 @@ export default function HowItWorks() {
           {/* Left Column: Connected Timeline List */}
           <div className="lg:col-span-6 space-y-6 relative">
             {/* The vertical connection line */}
-            <div className="absolute left-6 top-3 bottom-3 w-px bg-[#122823] z-0" />
+            <div className="pointer-events-none absolute left-6 top-3 bottom-3 w-px bg-[#122823] z-0" />
             
             {stages.map((stage, idx) => {
               const isActive = activeStage === idx;
@@ -177,7 +177,7 @@ export default function HowItWorks() {
                       </div>
 
                       <div className="sm:col-span-7 bg-[#0A1412] border border-[#122823] rounded-xl p-4 min-h-[160px] flex flex-col justify-between relative">
-                        <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#C5B49F] animate-ping" />
+                        <div className="pointer-events-none absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#C5B49F] animate-ping" />
                         <div>
                           <div className="text-[9px] text-[#527E72] mb-1 font-mono-label">CHAPTER II: RISE OF SENATE</div>
                           <p className="text-[11px] text-[#8FAAA6] leading-relaxed font-sans italic">
@@ -194,7 +194,7 @@ export default function HowItWorks() {
                 {activeStage === 2 && (
                   <div className="space-y-6">
                     <div className="h-28 bg-[#0A1412] border border-[#122823] rounded-xl flex items-end gap-1.5 p-4 justify-between relative overflow-hidden">
-                      <div className="absolute inset-0 bg-[linear-gradient(rgba(18,40,35,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(18,40,35,0.1)_1px,transparent_1px)] bg-[size:10px_10px]" />
+                      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(18,40,35,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(18,40,35,0.1)_1px,transparent_1px)] bg-[size:10px_10px]" />
                       {[25, 45, 60, 30, 85, 95, 75, 40, 60, 85, 95, 50, 65, 80, 45, 30, 50, 75, 90, 60, 30, 45, 20].map((h, i) => (
                         <div 
                           key={i} 
@@ -227,10 +227,10 @@ export default function HowItWorks() {
                 {activeStage === 3 && (
                   <div className="space-y-4">
                     <div className="relative aspect-video rounded-xl bg-[#0A1412] border border-[#122823] overflow-hidden flex flex-col justify-between p-4 group">
-                      <div className="absolute inset-0 bg-[linear-gradient(rgba(197,180,159,0.03)_1px,transparent_1px)] bg-[size:100%_8px] animate-pulse" />
-                      <div className="absolute inset-x-0 h-0.5 bg-[#C5B49F]/30 top-0 animate-[bounce_4s_infinite] shadow-[0_0_8px_#C5B49F]" />
+                      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(197,180,159,0.03)_1px,transparent_1px)] bg-[size:100%_8px] animate-pulse" />
+                      <div className="pointer-events-none absolute inset-x-0 h-0.5 bg-[#C5B49F]/30 top-0 animate-[bounce_4s_infinite] shadow-[0_0_8px_#C5B49F]" />
 
-                      <div className="absolute inset-0 flex items-center justify-center opacity-40 z-0 p-6">
+                      <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-40 z-0 p-6">
                         <svg className="w-full h-full text-[#C5B49F]" viewBox="0 0 100 50" fill="none" stroke="currentColor" strokeWidth="0.5">
                           <path d="M20 40 C 20 15, 80 15, 80 40 Z" />
                           <line x1="50" y1="5" x2="50" y2="40" />

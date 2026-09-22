@@ -3,6 +3,13 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   async redirects() {
     return [
+      // The plans/billing surface lives at /dashboard/credits. /dashboard/plans
+      // is the name the rest of the product uses for it, so make both work.
+      {
+        source: '/dashboard/plans',
+        destination: '/dashboard/credits',
+        permanent: false,
+      },
       {
         source: '/versus/invideo',
         destination: '/blog/genbyghost-vs-invideo-ai',

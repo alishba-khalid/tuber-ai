@@ -78,7 +78,7 @@ export default function ExamplesPage() {
               <div key={ex.id} className="bg-[#0A1412] border border-[#122823] hover:border-[#225146] rounded-2xl overflow-hidden transition-all group cursor-pointer shadow-2xs">
                 {/* Thumbnail */}
                 <div className={`h-44 bg-gradient-to-br ${ex.thumbnail_color} flex items-center justify-center relative`}>
-                  <div className="absolute inset-0 bg-black/30" />
+                  <div className="pointer-events-none absolute inset-0 bg-black/30" />
                   <div className="relative z-10 w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
                     <Play className="w-6 h-6 text-[#ECFDF5] fill-white ml-0.5" />
                   </div>

@@ -8,6 +8,7 @@ import Toast from '@/components/Toast';
 import LogoIcon from '@/components/LogoIcon';
 import { hasLegacyCreditsClient } from '@/lib/flags';
 import { getTier } from '@/lib/plans';
+import { LOGIN_ROUTE, withNext } from '@/lib/routes';
 import {
   Sparkles, LayoutDashboard,
   CreditCard, Settings, LogOut, Bell, Search,
@@ -43,7 +44,10 @@ export default function DashboardShell({ children }: { children: React.ReactNode
     if (pathname === '/dashboard/create') {
       router.replace('/create');
     } else {
-      router.push('/auth/login');
+      // Carry the page they were trying to reach (and its query, which is
+      // where ?plan= / ?step= live) so signing in returns them to it.
+      const search = typeof window !== 'undefined' ? window.location.search : '';
+      router.push(withNext(LOGIN_ROUTE, `${pathname}${search}`));
     }
   }, [user, loading, router, pathname]);
 
@@ -287,6 +291,28 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           <div className="px-6 py-2 bg-[#EADFC9]/40 border-b border-[#EADFC9] text-center text-xs text-[#6E6259] font-medium">
             You have <span className="font-bold text-[#8C6D4F]">{credits.toLocaleString()}</span> credits left.
             Credits still work — after that, a subscription takes over.
+          </div>
+        )}
+
+        {/* Zero-credit, no-plan banner. A brand-new account has neither, and
+            every tool in here (Autopilot, Scripts, Voice, Visuals, E-book)
+            hangs off the same gate — so say it once, in the shell, rather
+            than letting each tool fail quietly at submit time. Hidden on the
+            plans page itself, which already leads with the same CTA. */}
+        {!isLegacy && !hasActivePlan && pathname !== '/dashboard/credits' && (
+          <div className="px-6 py-2.5 bg-[#A88E75]/10 border-b border-[#EADFC9] flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-[#6E6259] font-medium">
+            <span>
+              <span className="font-bold text-[#8C6D4F]">Choose a plan to start generating.</span>{' '}
+              Your account has 0 credits and no active plan, so scripts, voice, visuals and e-books
+              can&apos;t run yet.
+            </span>
+            <Link
+              href="/dashboard/create?upgrade=1"
+              className="bg-[#A88E75] text-white hover:bg-[#8C7761] text-[11px] font-bold px-3.5 py-1 rounded-full transition-all shadow-2xs flex items-center gap-1"
+            >
+              See plans
+              <ArrowUpRight className="w-3 h-3" />
+            </Link>
           </div>
         )}
 

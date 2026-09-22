@@ -202,7 +202,7 @@ export default function Features() {
                           <img 
                             src="/roman_forum_doc.jpg" 
                             alt="Mock visual" 
-                            className="absolute inset-0 w-full h-full object-cover opacity-30 z-0" 
+                            className="pointer-events-none absolute inset-0 w-full h-full object-cover opacity-30 z-0" 
                           />
                           <div className="relative z-10 text-[8px] font-mono-label bg-black/60 px-1 py-0.5 rounded border border-[#122823] text-[#C5B49F]">
                             Scene {n * 12}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
@@ -8,14 +8,42 @@ import { auth, isFirebaseConfigured } from '@/lib/firebase';
 import { useAuth } from '@/components/AuthProvider';
 import { Sparkles } from 'lucide-react';
 import LogoIcon from '@/components/LogoIcon';
+import { safeNextPath, withNext, SIGNUP_ROUTE } from '@/lib/routes';
+
+// `?next=` is read straight off window.location rather than via
+// useSearchParams so this page stays statically prerenderable without a
+// Suspense boundary. It is only ever needed inside handlers/effects.
+function readNext(): string {
+  if (typeof window === 'undefined') return '/dashboard';
+  return safeNextPath(new URLSearchParams(window.location.search).get('next'));
+}
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { loginMockUser } = useAuth();
+  const { user, loading: sessionLoading, loginMockUser } = useAuth();
   const router = useRouter();
+
+  // Already signed in and something sent us here with a destination (a plan
+  // pick, a tool they were mid-way through): forward them to it instead of
+  // dropping them on the dashboard and losing it. With no `next` we leave
+  // them on the form rather than bouncing them anywhere.
+  useEffect(() => {
+    if (sessionLoading || !user) return;
+    const raw = new URLSearchParams(window.location.search).get('next');
+    if (raw) router.replace(safeNextPath(raw));
+  }, [user, sessionLoading, router]);
+
+  // Carry `next` across to the signup page so "Sign up" doesn't drop the
+  // plan the user picked. Resolved after mount to keep the markup identical
+  // on server and client.
+  const [signupHref, setSignupHref] = useState(SIGNUP_ROUTE);
+  useEffect(() => {
+    const raw = new URLSearchParams(window.location.search).get('next');
+    if (raw) queueMicrotask(() => setSignupHref(withNext(SIGNUP_ROUTE, safeNextPath(raw))));
+  }, []);
 
   // Mock Google Account selector states
   const [showMockGoogle, setShowMockGoogle] = useState(false);
@@ -32,7 +60,7 @@ export default function LoginPage() {
       } else {
         await loginMockUser(email);
       }
-      router.push('/dashboard');
+      router.push(readNext());
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'Failed to sign in. Please check your credentials.');
@@ -48,7 +76,7 @@ export default function LoginPage() {
       try {
         const provider = new GoogleAuthProvider();
         await signInWithPopup(auth, provider);
-        router.push('/dashboard');
+        router.push(readNext());
       } catch (err: any) {
         console.error(err);
         setError(err.message || 'Google sign-in failed.');
@@ -66,7 +94,7 @@ export default function LoginPage() {
     setShowMockGoogle(false);
     try {
       await loginMockUser(selectedEmail);
-      router.push('/dashboard');
+      router.push(readNext());
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'Google sign-in failed.');
@@ -174,7 +202,7 @@ export default function LoginPage() {
         {/* Footer Link */}
         <div className="text-center mt-6 text-xs text-[#8FAAA6]">
           Don't have an account?{' '}
-          <Link href="/auth/signup" className="text-[#C5B49F] font-semibold hover:underline">
+          <Link href={signupHref} className="text-[#C5B49F] font-semibold hover:underline">
             Sign up
           </Link>
         </div>

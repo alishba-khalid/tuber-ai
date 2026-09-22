@@ -71,11 +71,11 @@ export default function Showcase() {
                 />
                 
                 {/* Visual gradient overlays */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050B0A]/95 via-transparent to-transparent z-10" />
-                <div className="absolute inset-0 bg-black/10 z-0" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#050B0A]/95 via-transparent to-transparent z-10" />
+                <div className="pointer-events-none absolute inset-0 bg-black/10 z-0" />
 
                 {/* Play Button Overlay */}
-                <div className="absolute inset-0 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="pointer-events-none absolute inset-0 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="w-16 h-16 rounded-full bg-[#C5B49F] text-[#030706] flex items-center justify-center shadow-2xl hover:scale-105 transition-transform">
                     <Play className="w-6 h-6 fill-current ml-0.5" />
                   </div>

@@ -61,7 +61,7 @@ export default function EbookSection() {
                     alt="The Fall of Rome Illustrated Book Cover"
                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#050B0A]/95 via-[#050B0A]/30 to-[#050B0A]/10 z-10" />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#050B0A]/95 via-[#050B0A]/30 to-[#050B0A]/10 z-10" />
 
                   <div className="relative h-full flex flex-col justify-between p-6 z-20">
                     <div>

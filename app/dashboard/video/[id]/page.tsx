@@ -149,7 +149,7 @@ export default function VideoDetailPage() {
               alt="Generated Video Preview"
               className="absolute inset-0 w-full h-full object-cover opacity-80"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#050B0A]/95 via-[#050B0A]/20 to-transparent" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#050B0A]/95 via-[#050B0A]/20 to-transparent" />
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-16 h-16 rounded-full bg-[#C5B49F] text-[#030706] flex items-center justify-center shadow-lg hover:scale-105 transition-transform cursor-pointer">
                 <Play className="w-6 h-6 fill-current ml-1" />

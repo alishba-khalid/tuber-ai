@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { adminAuth, adminDb } from '@/lib/firebase-admin';
+import { apiError } from '@/lib/api-errors';
 import { hasLegacyCredits } from '@/lib/flags';
 import { estimatedCreditCost } from '@/lib/generate-gate';
 
@@ -9,8 +10,12 @@ import { estimatedCreditCost } from '@/lib/generate-gate';
 // active subscription with remaining monthly quota. Everything is decided
 // and written inside one Firestore transaction, so a 402 here writes nothing
 // — there is nothing to "refund" because nothing was ever deducted.
+//
+// Both rejections are a 402 with the shared { error, code } shape:
+//   NO_PLAN              -> never subscribed / subscription is not active
+//   INSUFFICIENT_CREDITS -> active plan, but this period's quota is spent
 class GateError extends Error {
-  constructor(public code: 'subscription_required' | 'quota_exceeded') {
+  constructor(public code: 'NO_PLAN' | 'INSUFFICIENT_CREDITS') {
     super(code);
   }
 }
@@ -19,7 +24,7 @@ export async function POST(request: Request) {
   const authHeader = request.headers.get('authorization') || '';
   const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
   if (!token) {
-    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+    return apiError('UNAUTHENTICATED');
   }
 
   let uid: string;
@@ -28,12 +33,12 @@ export async function POST(request: Request) {
     uid = decoded.uid;
   } catch (err) {
     console.error('Generate: invalid ID token', err);
-    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+    return apiError('UNAUTHENTICATED');
   }
 
   const body = await request.json().catch(() => null);
   if (!body || typeof body.topic !== 'string' || !body.settings) {
-    return NextResponse.json({ error: 'invalid_request' }, { status: 400 });
+    return apiError('BAD_REQUEST', 'A topic and generation settings are required.');
   }
   const { topic, script, settings } = body;
   const estimatedCost = estimatedCreditCost(settings.duration || '1 hr');
@@ -60,9 +65,9 @@ export async function POST(request: Request) {
         mode = 'credits';
         tx.set(userRef, { credits: Math.max(0, credits - estimatedCost) }, { merge: true });
       } else if (subscription.status !== 'active') {
-        throw new GateError('subscription_required');
+        throw new GateError('NO_PLAN');
       } else if (quota.videosUsedThisPeriod >= quota.videosLimit) {
-        throw new GateError('quota_exceeded');
+        throw new GateError('INSUFFICIENT_CREDITS');
       } else {
         mode = 'subscription';
         tx.set(
@@ -99,9 +104,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ projectId, project });
   } catch (err: any) {
     if (err instanceof GateError) {
-      return NextResponse.json({ error: err.code }, { status: 402 });
+      return apiError(err.code);
     }
     console.error('Generate error:', err);
-    return NextResponse.json({ error: 'internal_error' }, { status: 500 });
+    return apiError('SERVER_ERROR', 'We could not start that generation. Please try again.');
   }
 }

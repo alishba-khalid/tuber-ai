@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
@@ -8,6 +8,15 @@ import { auth, isFirebaseConfigured } from '@/lib/firebase';
 import { useAuth } from '@/components/AuthProvider';
 import { Sparkles } from 'lucide-react';
 import LogoIcon from '@/components/LogoIcon';
+import { safeNextPath, withNext, LOGIN_ROUTE } from '@/lib/routes';
+
+// `?next=` is read straight off window.location rather than via
+// useSearchParams so this page stays statically prerenderable without a
+// Suspense boundary. It is only ever needed inside handlers/effects.
+function readNext(): string {
+  if (typeof window === 'undefined') return '/dashboard';
+  return safeNextPath(new URLSearchParams(window.location.search).get('next'));
+}
 
 export default function SignupPage() {
   const [email, setEmail] = useState('');
@@ -15,8 +24,25 @@ export default function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signupMockUser } = useAuth();
+  const { user, loading: sessionLoading, signupMockUser } = useAuth();
   const router = useRouter();
+
+  // A logged-in user landing on /auth/signup used to have nowhere to go but
+  // the dashboard, which threw away the plan they had just clicked. Now: if
+  // a `next` came along (e.g. the plans page with ?plan=creator), go there;
+  // otherwise stay put rather than bouncing them to the dashboard.
+  useEffect(() => {
+    if (sessionLoading || !user) return;
+    const raw = new URLSearchParams(window.location.search).get('next');
+    if (raw) router.replace(safeNextPath(raw));
+  }, [user, sessionLoading, router]);
+
+  // Keep `next` attached when switching over to the login page.
+  const [loginHref, setLoginHref] = useState(LOGIN_ROUTE);
+  useEffect(() => {
+    const raw = new URLSearchParams(window.location.search).get('next');
+    if (raw) queueMicrotask(() => setLoginHref(withNext(LOGIN_ROUTE, safeNextPath(raw))));
+  }, []);
 
   // Mock Google Account selector states
   const [showMockGoogle, setShowMockGoogle] = useState(false);
@@ -39,7 +65,7 @@ export default function SignupPage() {
       } else {
         await signupMockUser(email);
       }
-      router.push('/dashboard');
+      router.push(readNext());
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'Failed to create an account.');
@@ -55,7 +81,7 @@ export default function SignupPage() {
       try {
         const provider = new GoogleAuthProvider();
         await signInWithPopup(auth, provider);
-        router.push('/dashboard');
+        router.push(readNext());
       } catch (err: any) {
         console.error(err);
         setError(err.message || 'Google sign-up failed.');
@@ -73,7 +99,7 @@ export default function SignupPage() {
     setShowMockGoogle(false);
     try {
       await signupMockUser(selectedEmail);
-      router.push('/dashboard');
+      router.push(readNext());
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'Google sign-up failed.');
@@ -190,7 +216,7 @@ export default function SignupPage() {
         {/* Footer Link */}
         <div className="text-center mt-6 text-xs text-[#8FAAA6]">
           Already have an account?{' '}
-          <Link href="/auth/login" className="text-[#C5B49F] font-semibold hover:underline">
+          <Link href={loginHref} className="text-[#C5B49F] font-semibold hover:underline">
             Log in
           </Link>
         </div>

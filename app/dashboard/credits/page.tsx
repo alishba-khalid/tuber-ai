@@ -8,6 +8,8 @@ import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { hasLegacyCreditsClient } from '@/lib/flags';
 import { getTier } from '@/lib/plans';
+import type { PaywallMode } from '@/lib/handleApiError';
+import SubscriptionPaywallModal from '@/components/SubscriptionPaywallModal';
 
 export default function CreditsPage() {
   const { user, credits, subscription, quota, isMock } = useAuth();
@@ -15,6 +17,31 @@ export default function CreditsPage() {
   const hasActivePlan = subscription.status === 'active';
   const tier = hasActivePlan ? getTier(subscription.tier || '') : undefined;
   const [transactions, setTransactions] = useState<any[]>([]);
+  const [paywallOpen, setPaywallOpen] = useState(false);
+  // Derived rather than stored, so the headline is still right if the
+  // subscription state resolves a tick after the modal opens.
+  const paywallMode: PaywallMode | null = paywallOpen
+    ? hasActivePlan
+      ? 'upgrade'
+      : 'subscribe'
+    : null;
+
+  // This is the plans page every "see plans" / pricing CTA lands on. Arriving
+  // with ?plan=<id> (from the marketing pricing table, possibly via signup)
+  // or ?upgrade=1 opens the plan picker straight away, so the click the user
+  // made on the homepage actually reaches a working checkout instead of
+  // dead-ending on a billing summary.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (!params.get('plan') && !params.get('upgrade')) return;
+    // Deferred the same way GeneratorForm defers its ?upgrade=1 handler, so
+    // opening the modal isn't a synchronous cascade out of the effect body.
+    queueMicrotask(() => setPaywallOpen(true));
+    params.delete('plan');
+    params.delete('upgrade');
+    const qs = params.toString();
+    window.history.replaceState(null, '', qs ? `/dashboard/credits?${qs}` : '/dashboard/credits');
+  }, []);
 
   // Load transaction history (legacy-only concept — not shown otherwise)
   useEffect(() => {
@@ -117,14 +144,19 @@ export default function CreditsPage() {
         </div>
       ) : !isLegacy ? (
         <div className="bg-[#0A1412] border border-[#122823] rounded-2xl p-6 shadow-2xs text-center">
-          <p className="text-sm text-[#8FAAA6] mb-4">You don&apos;t have an active plan yet.</p>
-          <Link
-            href="/dashboard/create?upgrade=1"
+          <p className="text-base font-bold text-[#ECFDF5] mb-1">Choose a plan to start generating</p>
+          <p className="text-sm text-[#8FAAA6] mb-4">
+            You have 0 credits and no active plan, so scripts, voice, visuals and e-books can&apos;t
+            run yet.
+          </p>
+          <button
+            type="button"
+            onClick={() => setPaywallOpen(true)}
             className="bg-[#C5B49F] text-[#0A1412] hover:bg-[#d8c8b3] text-sm px-6 py-2.5 rounded-full font-bold transition-all inline-flex items-center gap-2 shadow-xs cursor-pointer"
           >
             View plans
             <ArrowRight className="w-4 h-4" />
-          </Link>
+          </button>
         </div>
       ) : null}
 
@@ -153,6 +185,14 @@ export default function CreditsPage() {
             </div>
           )}
         </div>
+      )}
+
+      {paywallMode && (
+        <SubscriptionPaywallModal
+          mode={paywallMode}
+          topic=""
+          onClose={() => setPaywallOpen(false)}
+        />
       )}
 
     </div>

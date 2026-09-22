@@ -91,7 +91,12 @@ export default function Footer() {
 
         {/* Copyright Bar */}
         <div className="pt-8 border-t border-[#122823] flex flex-col sm:flex-row items-center justify-between text-xs text-[#527E72] gap-4">
-          <p>© {new Date().getFullYear()} GenByGhost Inc. All rights reserved.</p>
+          {/* Rendered on the server and again in the browser; if the two sit
+              either side of a New Year boundary (or the viewer's timezone
+              puts them in different years) React would report a hydration
+              mismatch, which aborts hydration for the tree and leaves event
+              handlers unattached. */}
+          <p suppressHydrationWarning>© {new Date().getFullYear()} GenByGhost Inc. All rights reserved.</p>
           <p className="font-mono-label text-[11px] text-[#C5B49F]">THE GHOST CHANNEL AUTOMATOR</p>
         </div>
 

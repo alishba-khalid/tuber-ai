@@ -168,8 +168,9 @@ export default function Hero() {
               With GenByGhost, you can turn a simple idea into a complete YouTube video without doing all the work yourself. Enter the topic you want to create, and GenByGhost takes care of the entire production — from developing the story and writing the script to generating natural narration, creating visuals for every part, and bringing everything together into a polished long-form video. Whether you're creating a 10-minute video, a full documentary, or hours of content, GenByGhost handles the production for you. When your video is ready, you can publish it directly to YouTube and keep creating without spending hours scripting, recording, sourcing visuals, and editing every video yourself.
             </p>
 
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+            {/* Action Buttons — explicitly stacked above the section's
+                decorative blur layers so nothing can sit on top of them. */}
+            <div className="relative z-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
               <Link
                 href={user ? "/dashboard" : "/auth/signup"}
                 className="btn-indigo-pill text-sm px-6 py-4 flex items-center justify-center gap-2 group font-mono-label shadow-[0_0_15px_rgba(197, 180, 159,0.25)] hover:shadow-[0_0_25px_rgba(197, 180, 159,0.45)]"
@@ -256,7 +257,7 @@ export default function Hero() {
                   />
                   
                   {/* WIP Scanner Grid Overlay */}
-                  <div className="absolute inset-0 bg-[linear-gradient(rgba(197,180,159,0.08)_1px,transparent_1px)] bg-[size:100%_8px] animate-pulse" />
+                  <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(197,180,159,0.08)_1px,transparent_1px)] bg-[size:100%_8px] animate-pulse" />
                   <div className="absolute top-2.5 left-2.5 z-20 bg-amber-500/15 border border-amber-500/40 text-amber-500 text-[8px] font-mono-label px-2 py-0.5 rounded-full flex items-center gap-1.5 font-bold animate-pulse">
                     <Loader2 className="w-2.5 h-2.5 animate-spin" />
                     WIP: RENDERING CANVAS ({currentWIPProgress}%)
