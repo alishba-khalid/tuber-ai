@@ -4,16 +4,16 @@ import { useCallback } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { showToast } from '@/lib/toast';
 import { track } from '@/lib/analytics';
-import { LOGIN_ROUTE, PLANS_ROUTE, withNext } from '@/lib/routes';
+import { LOGIN_ROUTE, paywallHref, withNext, type PaymentReason } from '@/lib/routes';
 import type { ApiErrorBody, ApiErrorCode } from '@/lib/api-errors';
 
-// The paywall modal distinguishes "you have never subscribed" from "your
-// plan is out of room this period" — that maps 1:1 onto the two 402 codes.
-export type PaywallMode = 'subscribe' | 'upgrade';
+export type { PaymentReason };
 
-const PAYWALL_MODE_BY_CODE: Partial<Record<ApiErrorCode, PaywallMode>> = {
-  NO_PLAN: 'subscribe',
-  INSUFFICIENT_CREDITS: 'upgrade',
+// "You've never subscribed" vs "your plan is out of room this period" — maps
+// 1:1 onto the two 402 codes, and becomes the ?reason= on the plans page.
+const REASON_BY_CODE: Partial<Record<ApiErrorCode, PaymentReason>> = {
+  NO_PLAN: 'no_plan',
+  INSUFFICIENT_CREDITS: 'insufficient_credits',
 };
 
 // Reads the standard { error, code } body. Tolerates a route that somehow
@@ -44,18 +44,20 @@ export async function readApiError(res: Response): Promise<ApiErrorBody> {
 }
 
 export interface ApiErrorHandlerOptions {
-  // Render a paywall in place instead of navigating away. When omitted the
-  // handler falls back to router.push(PLANS_ROUTE), so a tool that has no
-  // modal of its own still lands the user on the plans page.
-  onPaywall?: (mode: PaywallMode) => void;
+  // Called right before the 402 redirect fires, so the caller can persist
+  // whatever it needs first — e.g. save the filled-in form to localStorage
+  // (see lib/pending-generation.ts) so nothing is lost by navigating away.
+  // A 402 is never shown as an error: no toast, no "something went wrong".
+  onPaymentRequired?: (reason: PaymentReason) => void;
 }
 
 /**
  * The single client-side handler every tool (Autopilot/Create, Scripts,
  * Voice Generation, Visuals, E-book) funnels failed API responses through.
  *
- *   401  -> /auth/login?next=<current path>   (draft + selected plan survive)
- *   402  -> upgrade modal, or /dashboard/credits when no modal is mounted
+ *   401  -> /auth/login?next=<current path>            (form/plan survives)
+ *   402  -> /dashboard/credits?reason=no_plan|insufficient_credits
+ *           (onPaymentRequired runs first, to save any in-progress form)
  *   else -> toast with the server's message
  *
  * Returns the ApiErrorCode so a caller can skip its own error UI.
@@ -63,7 +65,7 @@ export interface ApiErrorHandlerOptions {
 export function useApiErrorHandler(options?: ApiErrorHandlerOptions) {
   const router = useRouter();
   const pathname = usePathname();
-  const onPaywall = options?.onPaywall;
+  const onPaymentRequired = options?.onPaymentRequired;
 
   const handleApiError = useCallback(
     async (input: Response | unknown): Promise<ApiErrorCode> => {
@@ -84,21 +86,18 @@ export function useApiErrorHandler(options?: ApiErrorHandlerOptions) {
         return code;
       }
 
-      const paywallMode = PAYWALL_MODE_BY_CODE[code];
-      if (paywallMode) {
-        track('paywall_shown', { reason: paywallMode });
-        if (onPaywall) {
-          onPaywall(paywallMode);
-        } else {
-          router.push(PLANS_ROUTE);
-        }
+      const reason = REASON_BY_CODE[code];
+      if (reason) {
+        track('paywall_redirect', { reason, path: pathname });
+        onPaymentRequired?.(reason);
+        router.push(paywallHref(reason));
         return code;
       }
 
       showToast(error);
       return code;
     },
-    [router, pathname, onPaywall]
+    [router, pathname, onPaymentRequired]
   );
 
   return { handleApiError };

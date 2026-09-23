@@ -180,7 +180,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
         {/* Bottom Menu */}
         <div className="p-3 border-t border-[#EADFC9] space-y-1">
           <Link
-            href={isLegacy ? '/dashboard/credits' : hasActivePlan ? '/dashboard/credits' : '/dashboard/create?upgrade=1'}
+            href={isLegacy ? '/dashboard/credits' : hasActivePlan ? '/dashboard/credits' : '/dashboard/credits?upgrade=1'}
             className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl transition-all ${
               pathname === '/dashboard/credits'
                 ? 'bg-[#EADFC9] text-[#8C6D4F] font-semibold'
@@ -269,7 +269,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
               </Link>
             ) : (
               <Link
-                href="/dashboard/create?upgrade=1"
+                href="/dashboard/credits?upgrade=1"
                 className="bg-[#A88E75] text-[#fff] text-xs font-bold pl-3.5 pr-3 py-1.5 rounded-full flex items-center gap-1.5 hover:bg-[#8C7761] shadow-2xs transition-all"
               >
                 <span>Upgrade</span>
@@ -294,27 +294,13 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           </div>
         )}
 
-        {/* Zero-credit, no-plan banner. A brand-new account has neither, and
-            every tool in here (Autopilot, Scripts, Voice, Visuals, E-book)
-            hangs off the same gate — so say it once, in the shell, rather
-            than letting each tool fail quietly at submit time. Hidden on the
-            plans page itself, which already leads with the same CTA. */}
-        {!isLegacy && !hasActivePlan && pathname !== '/dashboard/credits' && (
-          <div className="px-6 py-2.5 bg-[#A88E75]/10 border-b border-[#EADFC9] flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-[#6E6259] font-medium">
-            <span>
-              <span className="font-bold text-[#8C6D4F]">Choose a plan to start generating.</span>{' '}
-              Your account has 0 credits and no active plan, so scripts, voice, visuals and e-books
-              can&apos;t run yet.
-            </span>
-            <Link
-              href="/dashboard/create?upgrade=1"
-              className="bg-[#A88E75] text-[#fff] hover:bg-[#8C7761] text-[11px] font-bold px-3.5 py-1 rounded-full transition-all shadow-2xs flex items-center gap-1"
-            >
-              See plans
-              <ArrowUpRight className="w-3 h-3" />
-            </Link>
-          </div>
-        )}
+        {/* No pre-emptive "you need a plan" banner here on purpose: every
+            tool (Autopilot, Scripts, Voice, Visuals, E-book — all the same
+            form on /dashboard/create) is always fully usable regardless of
+            plan/credits. The check happens once, at the moment Generate is
+            clicked — a 402 there saves the filled-in form and redirects to
+            /dashboard/credits with a short explanation, instead of blocking
+            the page up front. See components/generator/GeneratorForm.tsx. */}
 
         {/* Children Render */}
         <main className="flex-1 overflow-auto p-6 bg-[#FAF7F2]">
